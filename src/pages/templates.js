@@ -1,161 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import TemplateCard from "../components/Templates/TemplateCard";
-import { BuildifyLogoWithText } from "../components/Logo/BuildifyLogo";
+import { motion, AnimatePresence } from "framer-motion";
+import { Search, Filter, Star, Crown, Eye, Palette } from "lucide-react";
+import TemplateCard from "../components/SAAS/TemplateCard";
+import { SAAS_TEMPLATES, TEMPLATE_CATEGORIES } from "../lib/saas/templates/templateData";
 
-const Templates = () => {
+const TemplatesPage = () => {
   const router = useRouter();
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState("popular");
+  const [viewMode, setViewMode] = useState("grid");
 
-  const categories = ["All", "Business", "Portfolio", "Blog", "E-commerce"];
-
-  const templates = [
-    {
-      id: 1,
-      title: "Tech Startup",
-      description:
-        "A sleek, modern template for tech startups with services showcase and contact forms.",
-      category: "Business",
-      templatePath: "/templates/tech-startup",
-      features: [
-        "Responsive Design",
-        "Contact Forms",
-        "Service Showcase",
-        "Modern UI",
-      ],
-    },
-    {
-      id: 2,
-      title: "Fashion Boutique",
-      description:
-        "A stylish template for fashion boutiques with product showcase and e-commerce features.",
-      category: "E-commerce",
-      templatePath: "/templates/fashion-boutique",
-      features: [
-        "Product Catalog",
-        "Shopping Cart",
-        "Newsletter Signup",
-        "Social Integration",
-      ],
-    },
-    {
-      id: 3,
-      title: "Personal Blog",
-      description:
-        "A clean, minimalist template for personal blogs with article management.",
-      category: "Blog",
-      templatePath: "/templates/personal-blog",
-      features: [
-        "Blog Posts",
-        "Comments System",
-        "Social Sharing",
-        "Clean Design",
-      ],
-    },
-    {
-      id: 4,
-      title: "Restaurant",
-      description:
-        "A vibrant template for restaurants with menu showcase and reservation system.",
-      category: "Business",
-      templatePath: "/templates/restaurant",
-      features: [
-        "Menu Display",
-        "Online Reservations",
-        "Location Map",
-        "Gallery",
-      ],
-    },
-    {
-      id: 5,
-      title: "Photography Portfolio",
-      description:
-        "An elegant template for photography portfolios with image galleries.",
-      category: "Portfolio",
-      templatePath: "/templates/photography-portfolio",
-      features: [
-        "Image Gallery",
-        "Portfolio Showcase",
-        "Contact Forms",
-        "Responsive",
-      ],
-    },
-    {
-      id: 6,
-      title: "Consulting Firm",
-      description:
-        "A professional template for consulting firms with service details.",
-      category: "Business",
-      templatePath: "/templates/consulting-firm",
-      features: [
-        "Service Pages",
-        "Team Profiles",
-        "Case Studies",
-        "Professional Design",
-      ],
-    },
-    {
-      id: 7,
-      title: "Online Store",
-      description:
-        "A dynamic template for online stores with full e-commerce functionality.",
-      category: "E-commerce",
-      templatePath: "/templates/online-store-new",
-      features: [
-        "Product Catalog",
-        "Shopping Cart",
-        "Payment Integration",
-        "Inventory Management",
-      ],
-    },
-    {
-      id: 8,
-      title: "Travel Agency",
-      description:
-        "An adventurous template for travel agencies with destination showcases.",
-      category: "Business",
-      templatePath: "/templates/travel-agency-new",
-      features: [
-        "Destination Gallery",
-        "Booking Forms",
-        "Travel Packages",
-        "Interactive Maps",
-      ],
-    },
-  ];
-
-  const filteredTemplates = templates.filter((template) => {
-    const matchesCategory =
-      selectedCategory === "All" || template.category === selectedCategory;
-    const matchesSearch =
-      template.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      template.description.toLowerCase().includes(searchQuery.toLowerCase());
+  const filteredTemplates = SAAS_TEMPLATES.filter((template) => {
+    const matchesCategory = selectedCategory === "all" || template.category === selectedCategory;
+    const matchesSearch = 
+      template.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      template.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      template.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+    
     return matchesCategory && matchesSearch;
   });
 
-  const handleCustomizeTemplate = (template) => {
-    // Store the selected template in localStorage for the customize page
-    localStorage.setItem("selectedTemplate", JSON.stringify(template));
-    // Navigate to customize page
-    router.push("/customize");
-  };
+  const sortedTemplates = [...filteredTemplates].sort((a, b) => {
+    switch (sortBy) {
+      case "price-low":
+        return a.price - b.price;
+      case "price-high":
+        return b.price - a.price;
+      case "name":
+        return a.name.localeCompare(b.name);
+      case "popular":
+      default:
+        return a.isPremium ? 1 : -1;
+    }
+  });
 
-  const handlePreviewTemplate = (template) => {
-    // Navigate to the template preview page
-    router.push(template.templatePath);
+  const handleTemplateSelect = (template) => {
+    // Store selected template and navigate to GrapesJS editor
+    localStorage.setItem("selectedTemplate", JSON.stringify(template));
+    router.push(`/editor?template=${template.id}`);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-md shadow-lg border-b border-blue-200/50">
+      <header className="bg-white/80 backdrop-blur-md shadow-lg border-b border-blue-200/50 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <div className="flex items-center">
-              <BuildifyLogoWithText size="medium" />
+              <div className="flex-shrink-0 flex items-center">
+                <div className="w-8 h-8 gradient-primary rounded-lg flex items-center justify-center glow-blue">
+                  <span className="text-white font-bold text-sm">SC</span>
+                </div>
+                <span className="ml-2 text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  Buildify
+                </span>
+              </div>
             </div>
 
             {/* Navigation */}
@@ -173,10 +76,10 @@ const Templates = () => {
                 Templates
               </Link>
               <Link
-                href="/customize"
+                href="/pricing"
                 className="text-gray-500 hover:text-blue-600 hover:bg-blue-50/50 px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 hover:shadow-md"
               >
-                Customize
+                Pricing
               </Link>
               <Link
                 href="/help"
@@ -189,7 +92,7 @@ const Templates = () => {
             {/* User Actions */}
             <div className="flex items-center space-x-4">
               <button className="gradient-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:shadow-lg glow-blue transition-all duration-300 hover:scale-105">
-                New Site
+                Start Building
               </button>
               <div className="w-8 h-8 gradient-secondary rounded-full flex items-center justify-center glow-purple">
                 <span className="text-sm font-medium text-white">👤</span>
@@ -203,90 +106,204 @@ const Templates = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="space-y-8">
           {/* Page Header */}
-          <div className="text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center"
+          >
             <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
-              Choose a template
+              Choose Your Perfect Template
             </h1>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Select a template to start building your website. Each template is
-              fully customizable and ready to launch.
+              Professional templates designed for every business. Customize with our drag-and-drop builder.
             </p>
-          </div>
+          </motion.div>
 
           {/* Search and Filters */}
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="flex flex-col lg:flex-row gap-6 items-center justify-between"
+          >
+            {/* Search */}
             <div className="flex-1 max-w-md">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <span className="text-gray-400">🔍</span>
+                  <Search className="w-5 h-5 text-gray-400" />
                 </div>
                 <input
                   type="text"
-                  placeholder="Search templates"
+                  placeholder="Search templates..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-gray-800 bg-white/80 backdrop-blur-sm shadow-sm"
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-gray-800 bg-white/80 backdrop-blur-sm shadow-sm"
                 />
               </div>
             </div>
 
             {/* Category Filters */}
             <div className="flex items-center space-x-2">
-              {categories.map((category) => (
+              <Filter className="w-5 h-5 text-gray-500" />
+              <div className="flex items-center space-x-2">
                 <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
+                  onClick={() => setSelectedCategory("all")}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                    selectedCategory === category
+                    selectedCategory === "all"
                       ? "gradient-primary text-white shadow-lg glow-blue"
                       : "bg-white/80 backdrop-blur-sm text-gray-600 hover:bg-blue-50/50 border border-gray-300 hover:shadow-md"
                   }`}
                 >
-                  {category}
+                  All
                 </button>
-              ))}
+                {TEMPLATE_CATEGORIES.map((category) => (
+                  <button
+                    key={category.id}
+                    onClick={() => setSelectedCategory(category.id)}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                      selectedCategory === category.id
+                        ? "gradient-primary text-white shadow-lg glow-blue"
+                        : "bg-white/80 backdrop-blur-sm text-gray-600 hover:bg-blue-50/50 border border-gray-300 hover:shadow-md"
+                    }`}
+                  >
+                    {category.icon} {category.name}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
 
-          {/* Template Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-stretch">
-            {filteredTemplates.map((template) => (
-              <TemplateCard
-                key={template.id}
-                template={template}
-                onCustomize={handleCustomizeTemplate}
-              />
-            ))}
-          </div>
+            {/* Sort and View Options */}
+            <div className="flex items-center space-x-4">
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white/80 backdrop-blur-sm"
+              >
+                <option value="popular">Most Popular</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="name">Name A-Z</option>
+              </select>
 
-          {/* Pagination */}
-          <div className="flex justify-center">
-            <nav className="flex items-center space-x-2">
-              <button className="px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
-                ←
+              <div className="flex items-center space-x-1 bg-white/80 backdrop-blur-sm rounded-lg p-1 border border-gray-300">
+                <button
+                  onClick={() => setViewMode("grid")}
+                  className={`p-2 rounded-md transition-colors ${
+                    viewMode === "grid" ? "bg-blue-100 text-blue-600" : "text-gray-500 hover:text-gray-700"
+                  }`}
+                >
+                  <div className="w-4 h-4 grid grid-cols-2 gap-0.5">
+                    <div className="bg-current rounded-sm"></div>
+                    <div className="bg-current rounded-sm"></div>
+                    <div className="bg-current rounded-sm"></div>
+                    <div className="bg-current rounded-sm"></div>
+                  </div>
+                </button>
+                <button
+                  onClick={() => setViewMode("list")}
+                  className={`p-2 rounded-md transition-colors ${
+                    viewMode === "list" ? "bg-blue-100 text-blue-600" : "text-gray-500 hover:text-gray-700"
+                  }`}
+                >
+                  <div className="w-4 h-4 flex flex-col gap-0.5">
+                    <div className="bg-current h-1 rounded-sm"></div>
+                    <div className="bg-current h-1 rounded-sm"></div>
+                    <div className="bg-current h-1 rounded-sm"></div>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Templates Grid */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`${selectedCategory}-${searchQuery}-${sortBy}-${viewMode}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className={`grid gap-6 ${
+                viewMode === "grid"
+                  ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+                  : "grid-cols-1"
+              }`}
+            >
+              {sortedTemplates.map((template, index) => (
+                <motion.div
+                  key={template.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <TemplateCard
+                    template={template}
+                    viewMode={viewMode}
+                    onSelect={handleTemplateSelect}
+                  />
+                </motion.div>
+              ))}
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Empty State */}
+          {sortedTemplates.length === 0 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center py-16"
+            >
+              <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+                <Palette className="w-12 h-12 text-gray-400" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                No templates found
+              </h3>
+              <p className="text-gray-600 mb-6">
+                Try adjusting your search or filter criteria
+              </p>
+              <button
+                onClick={() => {
+                  setSearchQuery("");
+                  setSelectedCategory("all");
+                }}
+                className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Clear Filters
               </button>
-              <button className="px-3 py-2 text-sm font-medium gradient-primary text-white rounded-lg shadow-lg glow-blue">
-                1
-              </button>
-              <button className="px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
-                2
-              </button>
-              <button className="px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
-                3
-              </button>
-              <span className="px-3 py-2 text-sm text-gray-500">...</span>
-              <button className="px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
-                10
-              </button>
-              <button className="px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
-                →
-              </button>
-            </nav>
-          </div>
+            </motion.div>
+          )}
+
+          {/* Stats */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16"
+          >
+            <div className="text-center p-6 bg-white/80 backdrop-blur-sm rounded-lg shadow-sm border border-gray-200">
+              <div className="text-3xl font-bold text-blue-600 mb-2">
+                {SAAS_TEMPLATES.length}+
+              </div>
+              <div className="text-gray-600">Professional Templates</div>
+            </div>
+            <div className="text-center p-6 bg-white/80 backdrop-blur-sm rounded-lg shadow-sm border border-gray-200">
+              <div className="text-3xl font-bold text-purple-600 mb-2">
+                100%
+              </div>
+              <div className="text-gray-600">Customizable</div>
+            </div>
+            <div className="text-center p-6 bg-white/80 backdrop-blur-sm rounded-lg shadow-sm border border-gray-200">
+              <div className="text-3xl font-bold text-green-600 mb-2">
+                24/7
+              </div>
+              <div className="text-gray-600">Support</div>
+            </div>
+          </motion.div>
         </div>
       </main>
     </div>
   );
 };
 
-export default Templates;
+export default TemplatesPage;

@@ -8,7 +8,6 @@ const Products = () => {
 
   const categories = [
     "All",
-    "Templates",
     "Services",
     "Add-ons",
     "Consulting"
@@ -17,8 +16,8 @@ const Products = () => {
   const products = [
     {
       id: 1,
-      name: "Restaurant Template",
-      category: "Templates",
+      name: "Restaurant Website",
+      category: "Services",
       description: "Complete restaurant website with menu, reservations, and online ordering",
       price: 99,
       stock: 50,
@@ -28,8 +27,8 @@ const Products = () => {
     },
     {
       id: 2,
-      name: "Fitness Center Template",
-      category: "Templates",
+      name: "Fitness Center Website",
+      category: "Services",
       description: "Gym website with class schedules, membership signup, and trainer profiles",
       price: 149,
       stock: 30,
@@ -39,8 +38,8 @@ const Products = () => {
     },
     {
       id: 3,
-      name: "Real Estate Template",
-      category: "Templates",
+      name: "Real Estate Website",
+      category: "Services",
       description: "Property listings website with search filters and virtual tours",
       price: 199,
       stock: 25,
@@ -51,7 +50,7 @@ const Products = () => {
     {
       id: 4,
       name: "SaaS Landing Page",
-      category: "Templates",
+      category: "Services",
       description: "Modern SaaS startup landing page with pricing and features",
       price: 129,
       stock: 40,
@@ -145,7 +144,7 @@ const Products = () => {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Products & Services</h1>
-            <p className="mt-2 text-gray-600">Manage your templates, services, and add-ons.</p>
+            <p className="mt-2 text-gray-600">Manage your services and add-ons.</p>
           </div>
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">

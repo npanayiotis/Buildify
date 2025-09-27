@@ -7,7 +7,6 @@ const DashboardLayout = ({ children }) => {
 
   const navigation = [
     { name: "Dashboard", href: "/dashboard", icon: "📊" },
-    { name: "Templates", href: "/templates", icon: "🎨" },
     { name: "Publish", href: "/publish", icon: "🚀" },
     { name: "Help", href: "/help", icon: "❓" },
   ];

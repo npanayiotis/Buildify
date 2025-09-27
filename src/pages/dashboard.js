@@ -56,14 +56,14 @@ const Dashboard = () => {
               Browse Templates
             </Link>
             <Link
-              href="/customize"
-              className="bg-gray-100 text-gray-700 px-6 py-3 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
+              href="/editor?template=custom"
+              className="bg-green-600 text-white px-6 py-3 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors"
             >
-              Customize Site
+              Start Building
             </Link>
             <Link
               href="/publish"
-              className="bg-green-600 text-white px-6 py-3 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors"
+              className="bg-purple-600 text-white px-6 py-3 rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors"
             >
               Publish Site
             </Link>

@@ -21,7 +21,7 @@ const Inquiries = () => {
       email: "jane.cooper@example.com",
       subject: "Question about pricing",
       message:
-        "Hi, I'm interested in your restaurant template. Could you tell me more about the pricing and what's included?",
+        "Hi, I'm interested in your website building service. Could you tell me more about the pricing and what's included?",
       date: "2023-10-27",
       time: "2:30 PM",
       status: "replied",
@@ -45,7 +45,7 @@ const Inquiries = () => {
       email: "esther.howard@example.com",
       subject: "Customization request",
       message:
-        "I love the fitness center template! Is it possible to customize the color scheme to match my brand?",
+        "I love your website building service! Is it possible to customize the design to match my brand?",
       date: "2023-10-25",
       time: "4:45 PM",
       status: "replied",
@@ -55,9 +55,9 @@ const Inquiries = () => {
       id: 4,
       customer: "Jenny Wilson",
       email: "jenny.wilson@example.com",
-      subject: "Feedback on the new template",
+      subject: "Feedback on the new platform",
       message:
-        "The new SaaS template looks amazing! I've already started using it for my startup. Great work!",
+        "The new website building platform looks amazing! I've already started using it for my startup. Great work!",
       date: "2023-10-24",
       time: "9:20 AM",
       status: "archived",
@@ -81,7 +81,7 @@ const Inquiries = () => {
       email: "sarah.johnson@example.com",
       subject: "Feature request",
       message:
-        "Would it be possible to add a blog section to the restaurant template? I'd like to share recipes and news.",
+        "Would it be possible to add a blog section to my website? I'd like to share recipes and news.",
       date: "2023-10-22",
       time: "1:30 PM",
       status: "pending",
