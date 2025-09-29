@@ -30,8 +30,8 @@ export const WEBSITES = [
           "Thoughts, stories, and insights from my journey. Join me as I share experiences, lessons learned, and discoveries along the way.",
         buttonText: "Read Latest Posts",
         buttonSecondary: "Subscribe",
-        backgroundImage:
-          "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        backgroundImage: "/blog_hero.jpg",
+        overlay: "rgba(0, 0, 0, 0.4)",
       },
       about: {
         title: "About Me",
@@ -168,6 +168,82 @@ export const WEBSITES = [
         admin: "Content management",
         responsive: "Mobile-friendly design",
         seo: "SEO optimized",
+      },
+      testimonials: [
+        {
+          name: "Sarah Johnson",
+          role: "Reader",
+          content:
+            "Your blog has been a constant source of inspiration. The way you share personal experiences while providing practical insights is truly remarkable.",
+          avatar:
+            "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+          rating: 5,
+        },
+        {
+          name: "Michael Chen",
+          role: "Fellow Blogger",
+          content:
+            "I've been following your journey for over a year now. Your writing style and the depth of your content have helped me grow both personally and professionally.",
+          avatar:
+            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+          rating: 5,
+        },
+        {
+          name: "Emily Rodriguez",
+          role: "Subscriber",
+          content:
+            "Every post you publish adds value to my day. Thank you for sharing your wisdom and making complex topics so accessible.",
+          avatar:
+            "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+          rating: 5,
+        },
+      ],
+      featuredCategories: [
+        {
+          name: "Lifestyle",
+          description: "Tips for living a more intentional and fulfilling life",
+          postCount: 15,
+          color: "bg-pink-500",
+          icon: "🌱",
+        },
+        {
+          name: "Travel",
+          description: "Adventures, destinations, and travel insights",
+          postCount: 12,
+          color: "bg-blue-500",
+          icon: "✈️",
+        },
+        {
+          name: "Personal Growth",
+          description: "Self-improvement and development strategies",
+          postCount: 18,
+          color: "bg-green-500",
+          icon: "🌱",
+        },
+        {
+          name: "Technology",
+          description: "Digital tools and tech insights for modern living",
+          postCount: 8,
+          color: "bg-purple-500",
+          icon: "💻",
+        },
+      ],
+      footer: {
+        description:
+          "Sharing thoughts, stories, and insights to inspire and connect with readers around the world.",
+        quickLinks: [
+          { name: "About", url: "/about" },
+          { name: "Blog", url: "/blog" },
+          { name: "Categories", url: "/categories" },
+          { name: "Contact", url: "/contact" },
+        ],
+        socialLinks: {
+          twitter: "https://twitter.com/username",
+          instagram: "https://instagram.com/username",
+          linkedin: "https://linkedin.com/in/username",
+          youtube: "https://youtube.com/username",
+        },
+        copyright: "© 2024 My Blog. All rights reserved.",
       },
     },
   },

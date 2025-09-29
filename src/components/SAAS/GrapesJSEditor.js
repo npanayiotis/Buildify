@@ -158,57 +158,148 @@ const GrapesJSEditor = ({
 
           <!-- About Content -->
           <section class="py-20 bg-white">
-            <div class="max-w-4xl mx-auto px-4">
-              <div class="text-center mb-16">
-                <div class="w-32 h-32 mx-auto mb-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full"></div>
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">${
-                  fullWebsite?.about?.title || "About Me"
-                }</h2>
-                <p class="text-xl text-gray-600 leading-relaxed">${
-                  fullWebsite?.about?.content ||
-                  "I'm a passionate writer, traveler, and lifelong learner. Through this blog, I share my experiences, insights, and the lessons I've learned along my journey."
-                }</p>
-              </div>
-
-              <!-- Interests -->
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-                ${
-                  (fullWebsite?.about?.interests &&
-                    fullWebsite.about.interests
-                      .map(
-                        (interest, index) => `
-                  <div class="text-center p-6 bg-gray-50 rounded-2xl">
-                    <div class="text-4xl mb-4">${
-                      ["✈️", "📸", "🍳", "📚", "💻"][index] || "⭐"
-                    }</div>
-                    <h3 class="text-lg font-semibold text-gray-900">${interest}</h3>
+            <div class="max-w-6xl mx-auto px-4">
+              <!-- Main About Section -->
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20">
+                <div>
+                  <div class="w-40 h-40 mx-auto mb-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center">
+                    <span class="text-6xl text-white">👋</span>
                   </div>
-                `
-                      )
-                      .join("")) ||
-                  ""
-                }
+                  <h2 class="text-4xl font-bold text-gray-900 mb-6 text-center lg:text-left">${
+                    fullWebsite?.about?.title || "About Me"
+                  }</h2>
+                  <p class="text-xl text-gray-600 leading-relaxed mb-8">${
+                    fullWebsite?.about?.content ||
+                    "I'm a passionate writer, traveler, and lifelong learner. Through this blog, I share my experiences, insights, and the lessons I've learned along my journey."
+                  }</p>
+                  
+                  <!-- Experience & Stats -->
+                  <div class="grid grid-cols-2 gap-6 mb-8">
+                    <div class="bg-blue-50 p-6 rounded-xl text-center">
+                      <div class="text-3xl font-bold text-blue-600 mb-2">${
+                        fullWebsite?.about?.experience || "5+ Years"
+                      }</div>
+                      <div class="text-gray-600">Writing Experience</div>
+                    </div>
+                    <div class="bg-purple-50 p-6 rounded-xl text-center">
+                      <div class="text-3xl font-bold text-purple-600 mb-2">50+</div>
+                      <div class="text-gray-600">Articles Published</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="space-y-8">
+                  <!-- Interests -->
+                  <div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6">My Interests</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                      ${
+                        (fullWebsite?.about?.interests &&
+                          fullWebsite.about.interests
+                            .map(
+                              (interest, index) => `
+                        <div class="flex items-center p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                          <div class="text-2xl mr-3">${
+                            ["✈️", "📸", "🍳", "📚", "💻"][index] || "⭐"
+                          }</div>
+                          <span class="font-medium text-gray-900">${interest}</span>
+                        </div>
+                      `
+                            )
+                            .join("")) ||
+                        ""
+                      }
+                    </div>
+                  </div>
+
+                  <!-- Social Links -->
+                  <div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6">Connect With Me</h3>
+                    <div class="flex space-x-4">
+                      ${
+                        fullWebsite?.about?.socialLinks?.twitter
+                          ? `<a href="${fullWebsite.about.socialLinks.twitter}" class="p-3 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition-colors">Twitter</a>`
+                          : ""
+                      }
+                      ${
+                        fullWebsite?.about?.socialLinks?.instagram
+                          ? `<a href="${fullWebsite.about.socialLinks.instagram}" class="p-3 bg-pink-100 text-pink-600 rounded-lg hover:bg-pink-200 transition-colors">Instagram</a>`
+                          : ""
+                      }
+                      ${
+                        fullWebsite?.about?.socialLinks?.linkedin
+                          ? `<a href="${fullWebsite.about.socialLinks.linkedin}" class="p-3 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition-colors">LinkedIn</a>`
+                          : ""
+                      }
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <!-- Experience & Social -->
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-gray-50 rounded-2xl p-8">
-                  <h3 class="text-2xl font-bold text-gray-900 mb-4">Experience</h3>
-                  <p class="text-gray-600 mb-4">${
-                    fullWebsite?.about?.experience || "5+ Years Writing"
-                  }</p>
-                  <p class="text-gray-600">${
-                    fullWebsite?.about?.socialLinks
-                      ? "Connect with me on social media"
-                      : "Follow my journey"
-                  }</p>
+              <!-- Journey Timeline -->
+              <div class="mb-20">
+                <h3 class="text-3xl font-bold text-gray-900 mb-12 text-center">My Journey</h3>
+                <div class="relative">
+                  <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-blue-500 to-purple-500"></div>
+                  
+                  <div class="space-y-12">
+                    <div class="flex items-center">
+                      <div class="w-1/2 pr-8 text-right">
+                        <div class="bg-white p-6 rounded-xl shadow-lg">
+                          <h4 class="text-xl font-bold text-gray-900 mb-2">Started Blogging</h4>
+                          <p class="text-gray-600">Began sharing my thoughts and experiences online</p>
+                          <span class="text-sm text-blue-600 font-medium">2021</span>
+                        </div>
+                      </div>
+                      <div class="w-8 h-8 bg-blue-500 rounded-full border-4 border-white shadow-lg"></div>
+                      <div class="w-1/2 pl-8"></div>
+                    </div>
+                    
+                    <div class="flex items-center">
+                      <div class="w-1/2 pr-8"></div>
+                      <div class="w-8 h-8 bg-purple-500 rounded-full border-4 border-white shadow-lg"></div>
+                      <div class="w-1/2 pl-8">
+                        <div class="bg-white p-6 rounded-xl shadow-lg">
+                          <h4 class="text-xl font-bold text-gray-900 mb-2">First 1000 Readers</h4>
+                          <p class="text-gray-600">Reached my first milestone of engaged readers</p>
+                          <span class="text-sm text-purple-600 font-medium">2022</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="flex items-center">
+                      <div class="w-1/2 pr-8 text-right">
+                        <div class="bg-white p-6 rounded-xl shadow-lg">
+                          <h4 class="text-xl font-bold text-gray-900 mb-2">Published First Book</h4>
+                          <p class="text-gray-600">Compiled my best articles into a comprehensive guide</p>
+                          <span class="text-sm text-green-600 font-medium">2023</span>
+                        </div>
+                      </div>
+                      <div class="w-8 h-8 bg-green-500 rounded-full border-4 border-white shadow-lg"></div>
+                      <div class="w-1/2 pl-8"></div>
+                    </div>
+                  </div>
                 </div>
-                <div class="bg-gray-50 rounded-2xl p-8">
-                  <h3 class="text-2xl font-bold text-gray-900 mb-4">Connect</h3>
-                  <div class="flex space-x-4">
-                    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">Twitter</button>
-                    <button class="bg-pink-600 text-white px-4 py-2 rounded-lg hover:bg-pink-700 transition-colors">Instagram</button>
-                    <button class="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors">LinkedIn</button>
+              </div>
+
+              <!-- Values & Mission -->
+              <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-12 rounded-2xl">
+                <h3 class="text-3xl font-bold text-gray-900 mb-8 text-center">My Mission</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  <div class="text-center">
+                    <div class="text-4xl mb-4">💡</div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">Inspire</h4>
+                    <p class="text-gray-600">Share insights that spark creativity and personal growth</p>
+                  </div>
+                  <div class="text-center">
+                    <div class="text-4xl mb-4">🤝</div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">Connect</h4>
+                    <p class="text-gray-600">Build a community of like-minded individuals</p>
+                  </div>
+                  <div class="text-center">
+                    <div class="text-4xl mb-4">🌱</div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">Grow</h4>
+                    <p class="text-gray-600">Learn and evolve together through shared experiences</p>
                   </div>
                 </div>
               </div>
@@ -269,6 +360,170 @@ const GrapesJSEditor = ({
                       .join("")) ||
                   ""
                 }
+              </div>
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
+    if (pagePath === "archive") {
+      return `
+        <div class="min-h-screen bg-gray-50">
+          <!-- Navigation -->
+          <nav class="bg-white shadow-sm sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="flex justify-between items-center py-4">
+                <button data-nav="home" class="text-2xl font-bold text-gray-900">My Blog</button>
+                <div class="hidden md:flex space-x-8">
+                  <button data-nav="home" class="text-gray-500 hover:text-gray-900">Home</button>
+                  <button data-nav="about" class="text-gray-500 hover:text-gray-900">About</button>
+                  <button data-nav="blog" class="text-gray-500 hover:text-gray-900">Blog</button>
+                  <button data-nav="categories" class="text-gray-500 hover:text-gray-900">Categories</button>
+                  <button data-nav="archive" class="text-gray-900 font-medium">Archive</button>
+                  <button data-nav="contact" class="text-gray-500 hover:text-gray-900">Contact</button>
+                </div>
+              </div>
+            </div>
+          </nav>
+
+          <!-- Archive Header -->
+          <section class="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-20">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <h1 class="text-4xl md:text-6xl font-bold mb-6">Blog Archive</h1>
+              <p class="text-xl md:text-2xl mb-8 opacity-90">Browse all posts organized by date and category</p>
+            </div>
+          </section>
+
+          <!-- Archive Content -->
+          <section class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4">
+              <!-- Year Navigation -->
+              <div class="mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-8">Browse by Year</h2>
+                <div class="flex flex-wrap gap-4">
+                  <button class="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors">2024</button>
+                  <button class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-semibold hover:bg-gray-200 transition-colors">2023</button>
+                  <button class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-semibold hover:bg-gray-200 transition-colors">2022</button>
+                  <button class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-semibold hover:bg-gray-200 transition-colors">2021</button>
+                </div>
+              </div>
+
+              <!-- Monthly Archive -->
+              <div class="mb-12">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6">2024 Archive</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div class="bg-gray-50 p-6 rounded-lg hover:shadow-md transition-shadow">
+                    <h4 class="text-lg font-semibold text-gray-900 mb-2">December 2024</h4>
+                    <p class="text-gray-600 mb-3">3 posts</p>
+                    <div class="space-y-2">
+                      <div class="text-sm text-gray-700">• The Art of Slow Living</div>
+                      <div class="text-sm text-gray-700">• Digital Minimalism</div>
+                      <div class="text-sm text-gray-700">• Creative Photography Tips</div>
+                    </div>
+                  </div>
+                  <div class="bg-gray-50 p-6 rounded-lg hover:shadow-md transition-shadow">
+                    <h4 class="text-lg font-semibold text-gray-900 mb-2">November 2024</h4>
+                    <p class="text-gray-600 mb-3">5 posts</p>
+                    <div class="space-y-2">
+                      <div class="text-sm text-gray-700">• Mindful Morning Routines</div>
+                      <div class="text-sm text-gray-700">• Sustainable Living Tips</div>
+                      <div class="text-sm text-gray-700">• Remote Work Productivity</div>
+                    </div>
+                  </div>
+                  <div class="bg-gray-50 p-6 rounded-lg hover:shadow-md transition-shadow">
+                    <h4 class="text-lg font-semibold text-gray-900 mb-2">October 2024</h4>
+                    <p class="text-gray-600 mb-3">4 posts</p>
+                    <div class="space-y-2">
+                      <div class="text-sm text-gray-700">• Autumn Wellness Guide</div>
+                      <div class="text-sm text-gray-700">• Home Organization</div>
+                      <div class="text-sm text-gray-700">• Creative Writing Tips</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Category Archive -->
+              <div class="mb-12">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6">Browse by Category</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  ${
+                    (fullWebsite?.featuredCategories &&
+                      fullWebsite.featuredCategories
+                        .map(
+                          (category, index) => `
+                    <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200">
+                      <div class="flex items-center mb-4">
+                        <div class="text-2xl mr-3">${category.icon}</div>
+                        <div>
+                          <h4 class="text-lg font-semibold text-gray-900">${category.name}</h4>
+                          <p class="text-sm text-gray-600">${category.postCount} posts</p>
+                        </div>
+                      </div>
+                      <p class="text-gray-600 text-sm mb-4">${category.description}</p>
+                      <button class="text-blue-600 hover:text-blue-800 font-medium text-sm">View all posts →</button>
+                    </div>
+                    `
+                        )
+                        .join("")) ||
+                    ""
+                  }
+                </div>
+              </div>
+
+              <!-- Popular Posts -->
+              <div class="mb-12">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6">Most Popular Posts</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  ${
+                    (fullWebsite?.posts &&
+                      fullWebsite.posts
+                        .slice(0, 6)
+                        .map(
+                          (post, index) => `
+                    <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                      <div class="flex items-center mb-3">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                          ${post.category}
+                        </span>
+                        <span class="ml-3 text-gray-500 text-sm">${post.readTime}</span>
+                      </div>
+                      <h4 class="text-lg font-semibold text-gray-900 mb-2">${post.title}</h4>
+                      <p class="text-gray-600 text-sm mb-3">${post.excerpt}</p>
+                      <div class="flex items-center justify-between">
+                        <span class="text-gray-500 text-sm">${post.date}</span>
+                        <button class="text-blue-600 hover:text-blue-800 font-medium text-sm">Read more →</button>
+                      </div>
+                    </div>
+                    `
+                        )
+                        .join("")) ||
+                    ""
+                  }
+                </div>
+              </div>
+
+              <!-- Archive Stats -->
+              <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-8 rounded-2xl">
+                <h3 class="text-2xl font-bold mb-6">Archive Statistics</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                  <div class="text-center">
+                    <div class="text-3xl font-bold mb-2">50+</div>
+                    <div class="text-blue-200">Total Posts</div>
+                  </div>
+                  <div class="text-center">
+                    <div class="text-3xl font-bold mb-2">6</div>
+                    <div class="text-blue-200">Categories</div>
+                  </div>
+                  <div class="text-center">
+                    <div class="text-3xl font-bold mb-2">3</div>
+                    <div class="text-blue-200">Years Active</div>
+                  </div>
+                  <div class="text-center">
+                    <div class="text-3xl font-bold mb-2">25K+</div>
+                    <div class="text-blue-200">Monthly Readers</div>
+                  </div>
+                </div>
               </div>
             </div>
           </section>
@@ -480,22 +735,26 @@ const GrapesJSEditor = ({
           </nav>
 
           <!-- Hero Section -->
-          <section class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20">
+          <section class="relative min-h-screen flex items-center justify-center text-white" style="background: linear-gradient(${
+            fullWebsite?.hero?.overlay || "rgba(0, 0, 0, 0.4)"
+          }, ${fullWebsite?.hero?.overlay || "rgba(0, 0, 0, 0.4)"}), url('${
+        fullWebsite?.hero?.backgroundImage || "/blog_hero.jpg"
+      }'); background-size: cover; background-position: center;">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-              <h1 class="text-4xl md:text-6xl font-bold mb-6">
+              <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight">
                 ${fullWebsite?.hero?.title || "Welcome to My Blog"}
               </h1>
-              <p class="text-xl md:text-2xl mb-8 opacity-90">
+              <p class="text-xl md:text-2xl mb-12 opacity-95 max-w-3xl mx-auto leading-relaxed">
                 ${
                   fullWebsite?.hero?.subtitle ||
                   "Thoughts, stories, and insights from my journey"
                 }
               </p>
-              <div class="flex gap-4 justify-center flex-wrap">
-                <button class="bg-red-500 hover:bg-red-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-colors">
+              <div class="flex gap-6 justify-center flex-wrap">
+                <button class="bg-red-500 hover:bg-red-600 text-white px-10 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
                   ${fullWebsite?.hero?.buttonText || "Read Latest Posts"}
                 </button>
-                <button class="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4 rounded-full text-lg font-semibold transition-colors">
+                <button class="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-10 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105">
                   ${fullWebsite?.hero?.buttonSecondary || "Subscribe"}
                 </button>
               </div>
@@ -707,6 +966,82 @@ const GrapesJSEditor = ({
             </div>
           </section>
 
+          <!-- Testimonials Section -->
+          <section class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4">
+              <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">What Readers Say</h2>
+                <p class="text-xl text-gray-600">Hear from our amazing community</p>
+              </div>
+              
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                ${
+                  (fullWebsite?.testimonials &&
+                    fullWebsite.testimonials
+                      .map(
+                        (testimonial, index) => `
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                  <div class="flex items-center mb-4">
+                    <img
+                      src="${testimonial.avatar}"
+                      alt="${testimonial.name}"
+                      class="w-12 h-12 rounded-full mr-4"
+                    />
+                    <div>
+                      <h4 class="font-semibold text-gray-900">${
+                        testimonial.name
+                      }</h4>
+                      <p class="text-sm text-gray-600">${testimonial.role}</p>
+                    </div>
+                  </div>
+                  <p class="text-gray-700 italic mb-4">"${
+                    testimonial.content
+                  }"</p>
+                  <div class="flex text-yellow-400">
+                    ${"★".repeat(testimonial.rating)}
+                  </div>
+                </div>
+                `
+                      )
+                      .join("")) ||
+                  ""
+                }
+              </div>
+            </div>
+          </section>
+
+          <!-- Featured Categories Section -->
+          <section class="py-20 bg-gray-50">
+            <div class="max-w-6xl mx-auto px-4">
+              <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Explore Categories</h2>
+                <p class="text-xl text-gray-600">Discover content by topic</p>
+              </div>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                ${
+                  (fullWebsite?.featuredCategories &&
+                    fullWebsite.featuredCategories
+                      .map(
+                        (category, index) => `
+                <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 cursor-pointer">
+                  <div class="text-4xl mb-4">${category.icon}</div>
+                  <h3 class="text-xl font-bold text-gray-900 mb-2">${category.name}</h3>
+                  <p class="text-gray-600 mb-4">${category.description}</p>
+                  <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-500">${category.postCount} posts</span>
+                    <div class="w-3 h-3 rounded-full ${category.color}"></div>
+                  </div>
+                </div>
+                `
+                      )
+                      .join("")) ||
+                  ""
+                }
+              </div>
+            </div>
+          </section>
+
           <!-- Footer -->
           <footer class="bg-gray-800 text-white py-12">
             <div class="max-w-6xl mx-auto px-4">
@@ -714,32 +1049,30 @@ const GrapesJSEditor = ({
                 <div>
                   <h3 class="text-xl font-bold mb-4">My Blog</h3>
                   <p class="text-gray-400">
-                    Sharing thoughts, stories, and insights from my journey.
+                    ${
+                      fullWebsite?.footer?.description ||
+                      "Sharing thoughts, stories, and insights from my journey."
+                    }
                   </p>
                 </div>
                 <div>
                   <h4 class="font-semibold mb-4">Quick Links</h4>
                   <ul class="space-y-2">
-                    <li>
-                      <a href="/blog/home" class="text-gray-400 hover:text-white transition-colors">
-                        Home
-                      </a>
-                    </li>
-                    <li>
-                      <a href="/blog/about" class="text-gray-400 hover:text-white transition-colors">
-                        About
-                      </a>
-                    </li>
-                    <li>
-                      <a href="/blog/posts" class="text-gray-400 hover:text-white transition-colors">
-                        Blog
-                      </a>
-                    </li>
-                    <li>
-                      <a href="/blog/contact" class="text-gray-400 hover:text-white transition-colors">
-                        Contact
-                      </a>
-                    </li>
+                    ${
+                      (fullWebsite?.footer?.quickLinks &&
+                        fullWebsite.footer.quickLinks
+                          .map(
+                            (link) => `
+                      <li>
+                        <a href="${link.url}" class="text-gray-400 hover:text-white transition-colors">
+                          ${link.name}
+                        </a>
+                      </li>
+                    `
+                          )
+                          .join("")) ||
+                      ""
+                    }
                   </ul>
                 </div>
                 <div>
@@ -766,21 +1099,35 @@ const GrapesJSEditor = ({
                 <div>
                   <h4 class="font-semibold mb-4">Connect</h4>
                   <div class="flex space-x-4">
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                      Twitter
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                      Instagram
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                      LinkedIn
-                    </a>
+                    ${
+                      fullWebsite?.footer?.socialLinks?.twitter
+                        ? `<a href="${fullWebsite.footer.socialLinks.twitter}" class="text-gray-400 hover:text-white transition-colors">Twitter</a>`
+                        : ""
+                    }
+                    ${
+                      fullWebsite?.footer?.socialLinks?.instagram
+                        ? `<a href="${fullWebsite.footer.socialLinks.instagram}" class="text-gray-400 hover:text-white transition-colors">Instagram</a>`
+                        : ""
+                    }
+                    ${
+                      fullWebsite?.footer?.socialLinks?.linkedin
+                        ? `<a href="${fullWebsite.footer.socialLinks.linkedin}" class="text-gray-400 hover:text-white transition-colors">LinkedIn</a>`
+                        : ""
+                    }
+                    ${
+                      fullWebsite?.footer?.socialLinks?.youtube
+                        ? `<a href="${fullWebsite.footer.socialLinks.youtube}" class="text-gray-400 hover:text-white transition-colors">YouTube</a>`
+                        : ""
+                    }
                   </div>
                 </div>
               </div>
               <div class="border-t border-gray-700 mt-8 pt-8 text-center">
                 <p class="text-gray-400">
-                  © 2024 My Blog. All rights reserved.
+                  ${
+                    fullWebsite?.footer?.copyright ||
+                    "© 2024 My Blog. All rights reserved."
+                  }
                 </p>
               </div>
             </div>
