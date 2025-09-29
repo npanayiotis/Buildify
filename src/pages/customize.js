@@ -43,10 +43,15 @@ const CustomizePage = () => {
     const { website: queryWebsiteId, preview } = router.query;
 
     console.log("Processing query params:", { queryWebsiteId, preview });
+    console.log(
+      "Available websites:",
+      WEBSITES.map((w) => ({ id: w.id, name: w.name }))
+    );
 
     if (queryWebsiteId && queryWebsiteId !== "custom") {
       const website = WEBSITES.find((w) => w.id === queryWebsiteId);
       console.log("Found website:", website);
+      console.log("Website name:", website?.name);
 
       if (website) {
         setSelectedWebsite(website);

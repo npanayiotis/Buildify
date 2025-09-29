@@ -42,6 +42,9 @@ const TemplatesPage = () => {
 
   const handleWebsiteSelect = (website) => {
     // Navigate to customize page with website selection
+    console.log("Navigating to customize page with website:", website);
+    console.log("Website ID:", website.id);
+    console.log("Website name:", website.name);
     router.push(`/customize?website=${website.id}`);
   };
 

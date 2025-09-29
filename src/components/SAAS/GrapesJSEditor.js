@@ -25,6 +25,7 @@ const GrapesJSEditor = ({
   const [isInitializing, setIsInitializing] = useState(false);
   const [contentModified, setContentModified] = useState(false);
   const contentInitialized = useRef(false);
+  const [currentPage, setCurrentPage] = useState("home");
 
   // Check if ref is ready
   useEffect(() => {
@@ -38,6 +39,340 @@ const GrapesJSEditor = ({
   const generateWebsiteHTML = useCallback((website) => {
     console.log("🎨 Generating HTML for:", website.name);
 
+    const { fullWebsite } = website;
+
+    // Use the same structure as WebsitePreview for blog websites
+    if (website.category === "blog") {
+      return `
+        <div class="min-h-screen bg-gray-50">
+          <!-- Navigation -->
+          <nav class="bg-white shadow-sm sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="flex justify-between items-center py-4">
+                <a href="/blog/home" class="text-2xl font-bold text-gray-900">My Blog</a>
+                <div class="hidden md:flex space-x-8">
+                  <a href="/blog/home" class="text-gray-900 font-medium">Home</a>
+                  <a href="/blog/about" class="text-gray-500 hover:text-gray-900">About</a>
+                  <a href="/blog/posts" class="text-gray-500 hover:text-gray-900">Blog</a>
+                  <a href="/blog/categories" class="text-gray-500 hover:text-gray-900">Categories</a>
+                  <a href="/blog/archive" class="text-gray-500 hover:text-gray-900">Archive</a>
+                  <a href="/blog/contact" class="text-gray-500 hover:text-gray-900">Contact</a>
+                </div>
+              </div>
+            </div>
+          </nav>
+
+          <!-- Hero Section -->
+          <section class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                ${fullWebsite?.hero?.title || "Welcome to My Blog"}
+              </h1>
+              <p class="text-xl md:text-2xl mb-8 opacity-90">
+                ${
+                  fullWebsite?.hero?.subtitle ||
+                  "Thoughts, stories, and insights from my journey"
+                }
+              </p>
+              <div class="flex gap-4 justify-center flex-wrap">
+                <button class="bg-red-500 hover:bg-red-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-colors">
+                  ${fullWebsite?.hero?.buttonText || "Read Latest Posts"}
+                </button>
+                <button class="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4 rounded-full text-lg font-semibold transition-colors">
+                  ${fullWebsite?.hero?.buttonSecondary || "Subscribe"}
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Featured Post Section -->
+          <section class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4">
+              <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">
+                  Featured Post
+                </h2>
+                <p class="text-xl text-gray-600">
+                  Our most popular and engaging content
+                </p>
+              </div>
+
+              ${
+                fullWebsite?.posts && fullWebsite.posts.length > 0
+                  ? `
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden max-w-4xl mx-auto">
+                  <div class="md:flex">
+                    <div class="md:w-1/2">
+                      <img
+                        src="${fullWebsite.posts[0].image}"
+                        alt="${fullWebsite.posts[0].title}"
+                        class="w-full h-64 md:h-full object-cover"
+                      />
+                    </div>
+                    <div class="md:w-1/2 p-8">
+                      <div class="flex items-center mb-4">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                          ${fullWebsite.posts[0].category}
+                        </span>
+                        <span class="ml-4 text-gray-500 text-sm">
+                          ${fullWebsite.posts[0].readTime}
+                        </span>
+                        <span class="ml-4 text-gray-500 text-sm">
+                          ${fullWebsite.posts[0].date}
+                        </span>
+                      </div>
+                      <h3 class="text-2xl font-bold text-gray-900 mb-4">
+                        ${fullWebsite.posts[0].title}
+                      </h3>
+                      <p class="text-gray-600 mb-6 leading-relaxed">
+                        ${fullWebsite.posts[0].excerpt}
+                      </p>
+                      <button class="text-blue-600 font-semibold hover:text-blue-800 transition-colors">
+                        Read More →
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              `
+                  : ""
+              }
+            </div>
+          </section>
+
+          <!-- Recent Posts Section -->
+          <section class="py-20 bg-gray-50">
+            <div class="max-w-6xl mx-auto px-4">
+              <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">
+                  Latest Posts
+                </h2>
+                <p class="text-xl text-gray-600">
+                  Stay updated with our latest content
+                </p>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                ${
+                  (fullWebsite?.posts &&
+                    fullWebsite.posts
+                      .slice(1, 4)
+                      .map(
+                        (post, index) => `
+                  <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                    <img
+                      src="${post.image}"
+                      alt="${post.title}"
+                      class="w-full h-48 object-cover"
+                    />
+                    <div class="p-6">
+                      <div class="flex items-center mb-3">
+                        <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">
+                          ${post.category}
+                        </span>
+                        <span class="ml-4 text-gray-500 text-sm">
+                          ${post.readTime}
+                        </span>
+                      </div>
+                      <h3 class="text-xl font-bold text-gray-900 mb-3">
+                        ${post.title}
+                      </h3>
+                      <p class="text-gray-600 mb-4 leading-relaxed">
+                        ${post.excerpt}
+                      </p>
+                      <button class="text-blue-600 font-semibold hover:text-blue-800 transition-colors">
+                        Read More →
+                      </button>
+                    </div>
+                  </div>
+                `
+                      )
+                      .join("")) ||
+                  ""
+                }
+              </div>
+            </div>
+          </section>
+
+          <!-- Categories Section -->
+          <section class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4">
+              <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">
+                  Explore by Category
+                </h2>
+                <p class="text-xl text-gray-600">
+                  Find content that interests you
+                </p>
+              </div>
+
+              <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                ${
+                  (fullWebsite?.categories &&
+                    fullWebsite.categories
+                      .map(
+                        (category, index) => `
+                  <div class="bg-gray-50 rounded-2xl p-6 text-center hover:bg-gray-100 transition-colors cursor-pointer">
+                    <div class="text-3xl mb-3">📝</div>
+                    <h3 class="font-semibold text-gray-900 mb-2">
+                      ${category}
+                    </h3>
+                    <p class="text-sm text-gray-500">
+                      ${Math.floor(Math.random() * 20) + 5} posts
+                    </p>
+                  </div>
+                `
+                      )
+                      .join("")) ||
+                  ""
+                }
+              </div>
+            </div>
+          </section>
+
+          <!-- Stats Section -->
+          <section class="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+            <div class="max-w-6xl mx-auto px-4">
+              <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">Blog Statistics</h2>
+                <p class="text-xl opacity-90">Our journey in numbers</p>
+              </div>
+
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                ${
+                  (fullWebsite?.stats &&
+                    fullWebsite.stats
+                      .map(
+                        (stat, index) => `
+                  <div class="text-center">
+                    <div class="text-4xl font-bold mb-2">${stat.number}</div>
+                    <div class="text-lg opacity-90">${stat.label}</div>
+                  </div>
+                `
+                      )
+                      .join("")) ||
+                  ""
+                }
+              </div>
+            </div>
+          </section>
+
+          <!-- Newsletter Section -->
+          <section class="py-20 bg-gray-50">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+              <h2 class="text-4xl font-bold text-gray-900 mb-4">
+                ${fullWebsite?.newsletter?.title || "Stay Updated"}
+              </h2>
+              <p class="text-xl text-gray-600 mb-8">
+                ${
+                  fullWebsite?.newsletter?.description ||
+                  "Get notified when I publish new posts. No spam, just quality content delivered to your inbox."
+                }
+              </p>
+              <div class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+                <input
+                  type="email"
+                  placeholder="${
+                    fullWebsite?.newsletter?.placeholder ||
+                    "Enter your email address"
+                  }"
+                  class="flex-1 px-6 py-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+                <button class="bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                  Subscribe
+                </button>
+              </div>
+              <p class="text-sm text-gray-500 mt-4">
+                Join ${
+                  fullWebsite?.newsletter?.subscribers || "2,500+"
+                } subscribers
+                who get our latest posts
+              </p>
+            </div>
+          </section>
+
+          <!-- Footer -->
+          <footer class="bg-gray-800 text-white py-12">
+            <div class="max-w-6xl mx-auto px-4">
+              <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                  <h3 class="text-xl font-bold mb-4">My Blog</h3>
+                  <p class="text-gray-400">
+                    Sharing thoughts, stories, and insights from my journey.
+                  </p>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Quick Links</h4>
+                  <ul class="space-y-2">
+                    <li>
+                      <a href="/blog/home" class="text-gray-400 hover:text-white transition-colors">
+                        Home
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/blog/about" class="text-gray-400 hover:text-white transition-colors">
+                        About
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/blog/posts" class="text-gray-400 hover:text-white transition-colors">
+                        Blog
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/blog/contact" class="text-gray-400 hover:text-white transition-colors">
+                        Contact
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Categories</h4>
+                  <ul class="space-y-2">
+                    ${
+                      (fullWebsite?.categories &&
+                        fullWebsite.categories
+                          .slice(0, 4)
+                          .map(
+                            (category) => `
+                      <li>
+                        <a href="/blog/categories" class="text-gray-400 hover:text-white transition-colors">
+                          ${category}
+                        </a>
+                      </li>
+                    `
+                          )
+                          .join("")) ||
+                      ""
+                    }
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Connect</h4>
+                  <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                      Twitter
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                      Instagram
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                      LinkedIn
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-400">
+                  © 2024 My Blog. All rights reserved.
+                </p>
+              </div>
+            </div>
+          </footer>
+        </div>
+      `;
+    }
+
+    // Fallback for other website types
     const content = website.fullWebsite || website.components || {};
 
     return `
@@ -186,10 +521,137 @@ const GrapesJSEditor = ({
 
   const generateWebsiteCSS = useCallback(() => {
     return `
-      * { box-sizing: border-box; }
-      body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; line-height: 1.6; }
       .website-container { width: 100%; }
       .gjs-selected { outline: 3px solid #3b82f6 !important; }
+      
+      /* Tailwind-like utility classes for blog layout */
+      .min-h-screen { min-height: 100vh; }
+      .bg-gray-50 { background-color: #f9fafb; }
+      .bg-white { background-color: white; }
+      .bg-gray-900 { background-color: #111827; }
+      .bg-blue-100 { background-color: #dbeafe; }
+      .bg-blue-600 { background-color: #2563eb; }
+      .bg-blue-700 { background-color: #1d4ed8; }
+      .bg-purple-700 { background-color: #7c3aed; }
+      .bg-gray-100 { background-color: #f3f4f6; }
+      .bg-gradient-to-r { background-image: linear-gradient(to right, var(--tw-gradient-stops)); }
+      .from-blue-600 { --tw-gradient-from: #2563eb; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(37, 99, 235, 0)); }
+      .to-purple-700 { --tw-gradient-to: #7c3aed; }
+      .from-blue-400 { --tw-gradient-from: #60a5fa; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(96, 165, 250, 0)); }
+      .to-purple-500 { --tw-gradient-to: #8b5cf6; }
+      
+      .text-white { color: white; }
+      .text-gray-900 { color: #111827; }
+      .text-gray-600 { color: #4b5563; }
+      .text-gray-500 { color: #6b7280; }
+      .text-gray-400 { color: #9ca3af; }
+      .text-blue-600 { color: #2563eb; }
+      .text-blue-700 { color: #1d4ed8; }
+      .text-blue-100 { color: #dbeafe; }
+      
+      .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+      .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+      .text-5xl { font-size: 3rem; line-height: 1; }
+      .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+      .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+      .text-base { font-size: 1rem; line-height: 1.5rem; }
+      .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+      
+      .font-bold { font-weight: 700; }
+      .font-semibold { font-weight: 600; }
+      .font-medium { font-weight: 500; }
+      
+      .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+      .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+      .py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+      .py-20 { padding-top: 5rem; padding-bottom: 5rem; }
+      .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+      .px-4 { padding-left: 1rem; padding-right: 1rem; }
+      .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .px-8 { padding-left: 2rem; padding-right: 2rem; }
+      .p-6 { padding: 1.5rem; }
+      
+      .mb-2 { margin-bottom: 0.5rem; }
+      .mb-4 { margin-bottom: 1rem; }
+      .mb-6 { margin-bottom: 1.5rem; }
+      .mb-8 { margin-bottom: 2rem; }
+      .mb-12 { margin-bottom: 3rem; }
+      .mb-16 { margin-bottom: 4rem; }
+      .mx-auto { margin-left: auto; margin-right: auto; }
+      
+      .max-w-4xl { max-width: 56rem; }
+      .max-w-6xl { max-width: 72rem; }
+      .max-w-7xl { max-width: 80rem; }
+      .max-w-3xl { max-width: 48rem; }
+      
+      .text-center { text-align: center; }
+      
+      .flex { display: flex; }
+      .grid { display: grid; }
+      .hidden { display: none; }
+      .inline-flex { display: inline-flex; }
+      
+      .flex-col { flex-direction: column; }
+      .items-center { align-items: center; }
+      .justify-center { justify-content: center; }
+      .justify-between { justify-content: space-between; }
+      
+      .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+      .gap-4 { gap: 1rem; }
+      .gap-8 { gap: 2rem; }
+      .space-x-6 > :not([hidden]) ~ :not([hidden]) { margin-left: 1.5rem; }
+      .space-x-8 > :not([hidden]) ~ :not([hidden]) { margin-left: 2rem; }
+      .space-y-2 > :not([hidden]) ~ :not([hidden]) { margin-top: 0.5rem; }
+      .space-y-4 > :not([hidden]) ~ :not([hidden]) { margin-top: 1rem; }
+      
+      .w-16 { width: 4rem; }
+      .h-16 { height: 4rem; }
+      .h-48 { height: 12rem; }
+      .w-full { width: 100%; }
+      
+      .rounded-lg { border-radius: 0.5rem; }
+      .rounded-md { border-radius: 0.375rem; }
+      .rounded-full { border-radius: 9999px; }
+      
+      .border { border-width: 1px; }
+      .border-2 { border-width: 2px; }
+      .border-transparent { border-color: transparent; }
+      .border-white { border-color: white; }
+      .border-gray-300 { border-color: #d1d5db; }
+      
+      .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+      .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+      .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+      
+      .sticky { position: sticky; }
+      .relative { position: relative; }
+      .top-0 { top: 0px; }
+      .z-50 { z-index: 50; }
+      
+      .overflow-hidden { overflow: hidden; }
+      
+      .hover\\:bg-gray-50:hover { background-color: #f9fafb; }
+      .hover\\:bg-blue-700:hover { background-color: #1d4ed8; }
+      .hover\\:text-gray-900:hover { color: #111827; }
+      .hover\\:text-blue-700:hover { color: #1d4ed8; }
+      .hover\\:text-white:hover { color: white; }
+      .hover\\:shadow-lg:hover { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+      
+      .transition-shadow { transition-property: box-shadow; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+      
+      @media (min-width: 768px) {
+        .md\\:flex { display: flex; }
+        .md\\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .sm\\:flex-row { flex-direction: row; }
+        .sm\\:px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+      }
+      
+      @media (min-width: 1024px) {
+        .lg\\:px-8 { padding-left: 2rem; padding-right: 2rem; }
+        .lg\\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      }
     `;
   }, []);
 
@@ -1054,6 +1516,13 @@ const GrapesJSEditor = ({
                       }
                     }}
                     onClick={(e) => {
+                      // Handle navigation clicks - prevent default for all links
+                      if (e.target.tagName === "A" || e.target.closest("a")) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return;
+                      }
+
                       // Remove previous selections
                       document.querySelectorAll(".editable").forEach((el) => {
                         el.classList.remove("selected");
