@@ -25,6 +25,8 @@ const GrapesJSEditor = ({
   const [isInitializing, setIsInitializing] = useState(false);
   const [contentModified, setContentModified] = useState(false);
   const [modifiedPage, setModifiedPage] = useState(null);
+  const isApplyingChanges = useRef(false);
+  const lastContainerUpdate = useRef(0);
   const [pageNavigated, setPageNavigated] = useState(false);
   const contentInitialized = useRef(false);
   const [currentPage, setCurrentPage] = useState("home");
@@ -1716,6 +1718,9 @@ const GrapesJSEditor = ({
   const handleUpdateContent = useCallback(
     (field, value, isModified = false) => {
       if (isModified) {
+        // Set flag to prevent content regeneration during apply
+        isApplyingChanges.current = true;
+
         setContentModified(true);
         setModifiedPage(currentPage);
         console.log(
@@ -1736,6 +1741,10 @@ const GrapesJSEditor = ({
             selectedElement.element.parentNode.offsetHeight; // Trigger reflow
             selectedElement.element.parentNode.style.display = "";
           }
+        } else if (field === "remove") {
+          // Element was removed, clear the selected element
+          console.log("🗑️ Element removed from DOM");
+          setSelectedElement(null);
         }
       }
 
@@ -1745,6 +1754,13 @@ const GrapesJSEditor = ({
           selectedElement.set("content", value);
           editor.render();
         }
+      }
+
+      // Reset the flag after a short delay to allow for any pending operations
+      if (isModified) {
+        setTimeout(() => {
+          isApplyingChanges.current = false;
+        }, 100);
       }
     },
     [editor, selectedElement, currentPage]
@@ -1797,16 +1813,16 @@ const GrapesJSEditor = ({
               Setting up your website builder...
             </p>
             {currentTemplate && (
-              <div className="text-sm text-gray-500 bg-gray-50 rounded-lg px-4 py-2 mb-2">
+              <div className="text-sm text-gray-700 bg-gray-50 rounded-lg px-4 py-2 mb-2">
                 Loading: {currentTemplate.name}
               </div>
             )}
-            <div className="text-xs text-gray-400 bg-gray-50 rounded-lg px-4 py-2 mb-2">
+            <div className="text-xs text-gray-600 bg-gray-50 rounded-lg px-4 py-2 mb-2">
               Ref Ready: {refReady ? "✅" : "⏳"} | Editor:{" "}
               {editor ? "✅" : "⏳"} | Initializing:{" "}
               {isInitializing ? "⏳" : "✅"}
             </div>
-            <div className="text-xs text-gray-400 mt-2">
+            <div className="text-xs text-gray-600 mt-2">
               This may take a few moments...
             </div>
           </>
@@ -1952,6 +1968,24 @@ const GrapesJSEditor = ({
                           );
                           return;
                         }
+
+                        // Additional check: if we're currently applying changes, don't regenerate
+                        if (isApplyingChanges.current) {
+                          console.log(
+                            "🚫 Skipping content regeneration - currently applying user changes"
+                          );
+                          return;
+                        }
+
+                        // Debounce mechanism: prevent too frequent updates
+                        const now = Date.now();
+                        if (now - lastContainerUpdate.current < 100) {
+                          console.log(
+                            "🚫 Skipping content regeneration - too frequent updates"
+                          );
+                          return;
+                        }
+                        lastContainerUpdate.current = now;
 
                         // Debug log to understand the logic flow
                         console.log("🔍 Content rendering logic:", {

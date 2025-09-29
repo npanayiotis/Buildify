@@ -9,16 +9,6 @@ const CustomizationPanel = ({
   editor,
 }) => {
   const [activeTab, setActiveTab] = useState("colors");
-  const [selectedComponent, setSelectedComponent] = useState(null);
-
-  // Update selected component when element changes
-  useEffect(() => {
-    if (selectedElement) {
-      setSelectedComponent(selectedElement);
-    } else {
-      setSelectedComponent(null);
-    }
-  }, [selectedElement]);
 
   const tabs = [
     { id: "colors", label: "Colors", icon: Palette },
@@ -32,12 +22,56 @@ const CustomizationPanel = ({
     <div className="w-80 bg-white border-l border-gray-200 flex flex-col h-full">
       {/* Header */}
       <div className="p-4 border-b border-gray-200">
-        <h3 className="font-semibold text-gray-900">Customize</h3>
-        <p className="text-xs text-gray-500 mt-1">
-          {selectedComponent
-            ? `Edit ${selectedComponent.tagName?.toLowerCase() || "element"}`
-            : "Click an element to customize"}
-        </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="font-semibold text-gray-900">Customize</h3>
+            <p className="text-xs text-gray-700 mt-1">
+              {selectedElement
+                ? `Edit ${selectedElement.tagName?.toLowerCase() || "element"}`
+                : "Click an element to customize"}
+            </p>
+          </div>
+          {selectedElement && (
+            <button
+              onClick={() => {
+                const confirmed = window.confirm(
+                  `Are you sure you want to remove this ${
+                    selectedElement.tagName?.toLowerCase() || "element"
+                  }? This action cannot be undone.`
+                );
+
+                if (confirmed) {
+                  // Remove the element from the DOM
+                  selectedElement.element.remove();
+
+                  // Mark content as modified to prevent HTML regeneration
+                  if (onUpdateContent) {
+                    onUpdateContent("remove", null, true);
+                  }
+
+                  console.log("Element removed:", selectedElement.tagName);
+                  alert("Element removed successfully!");
+                }
+              }}
+              className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
+              title="Remove element"
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                />
+              </svg>
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Tabs */}
@@ -63,9 +97,9 @@ const CustomizationPanel = ({
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto">
-        {!selectedComponent && (
+        {!selectedElement && (
           <div className="flex items-center justify-center h-full p-8 text-center">
-            <div className="text-gray-400">
+            <div className="text-gray-600">
               <Settings className="w-16 h-16 mx-auto mb-3 opacity-30" />
               <p className="text-sm">
                 Click any element on the canvas to start customizing
@@ -74,33 +108,33 @@ const CustomizationPanel = ({
           </div>
         )}
 
-        {selectedComponent && activeTab === "colors" && (
+        {selectedElement && activeTab === "colors" && (
           <ColorCustomization
-            component={selectedComponent}
+            component={selectedElement}
             onUpdateStyle={onUpdateStyle}
           />
         )}
-        {selectedComponent && activeTab === "typography" && (
+        {selectedElement && activeTab === "typography" && (
           <TypographyCustomization
-            component={selectedComponent}
+            component={selectedElement}
             onUpdateStyle={onUpdateStyle}
           />
         )}
-        {selectedComponent && activeTab === "content" && (
+        {selectedElement && activeTab === "content" && (
           <ContentCustomization
-            component={selectedComponent}
+            component={selectedElement}
             onUpdateContent={onUpdateContent}
           />
         )}
-        {selectedComponent && activeTab === "media" && (
+        {selectedElement && activeTab === "media" && (
           <MediaCustomization
-            component={selectedComponent}
+            component={selectedElement}
             onUpdateStyle={onUpdateStyle}
           />
         )}
-        {selectedComponent && activeTab === "layout" && (
+        {selectedElement && activeTab === "layout" && (
           <LayoutCustomization
-            component={selectedComponent}
+            component={selectedElement}
             onUpdateStyle={onUpdateStyle}
           />
         )}
@@ -189,7 +223,7 @@ const ColorCustomization = ({ component, onUpdateStyle }) => {
             onChange={(e) =>
               handleColorChange("backgroundColor", e.target.value)
             }
-            className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm"
+            className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm text-gray-900"
             placeholder="#ffffff"
           />
         </div>
@@ -210,7 +244,7 @@ const ColorCustomization = ({ component, onUpdateStyle }) => {
             type="text"
             value={colors.color}
             onChange={(e) => handleColorChange("color", e.target.value)}
-            className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm"
+            className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm text-gray-900"
             placeholder="#1f2937"
           />
         </div>
@@ -231,7 +265,7 @@ const ColorCustomization = ({ component, onUpdateStyle }) => {
             type="text"
             value={colors.borderColor}
             onChange={(e) => handleColorChange("borderColor", e.target.value)}
-            className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm"
+            className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm text-gray-900"
             placeholder="#e5e7eb"
           />
         </div>
@@ -467,11 +501,20 @@ const ContentCustomization = ({ component, onUpdateContent }) => {
 
   const handleApplyChanges = () => {
     if (component && component.element) {
+      // Apply changes immediately to DOM
       component.element.textContent = content;
+
       // Mark content as modified to prevent HTML regeneration
       if (onUpdateContent) {
         onUpdateContent("text", content, true); // Pass true to indicate content was modified
       }
+
+      // Force a visual update to ensure changes are immediately visible
+      component.element.style.transform = "scale(1.02)";
+      setTimeout(() => {
+        component.element.style.transform = "scale(1)";
+      }, 150);
+
       console.log("Changes applied:", content);
     }
   };
@@ -487,7 +530,7 @@ const ContentCustomization = ({ component, onUpdateContent }) => {
           onChange={(e) => setContent(e.target.value)}
           placeholder="Enter text content..."
           rows={6}
-          className="w-full px-3 py-2 border border-gray-300 rounded text-sm resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
       </div>
 
@@ -506,14 +549,19 @@ const ContentCustomization = ({ component, onUpdateContent }) => {
 
       {component && (
         <div className="mt-4 p-3 bg-gray-50 rounded text-xs">
-          <div>
-            <strong>Element:</strong> {component.tagName}
+          <div className="text-gray-800">
+            <strong className="text-gray-900">Element:</strong>{" "}
+            <span className="text-gray-700">{component.tagName}</span>
           </div>
-          <div>
-            <strong>Class:</strong> {component.className || "none"}
+          <div className="text-gray-800">
+            <strong className="text-gray-900">Class:</strong>{" "}
+            <span className="text-gray-700">
+              {component.className || "none"}
+            </span>
           </div>
-          <div>
-            <strong>ID:</strong> {component.id || "none"}
+          <div className="text-gray-800">
+            <strong className="text-gray-900">ID:</strong>{" "}
+            <span className="text-gray-700">{component.id || "none"}</span>
           </div>
         </div>
       )}
@@ -582,7 +630,7 @@ const MediaCustomization = ({ component, onUpdateStyle }) => {
           value={imageUrl}
           onChange={(e) => handleUrlChange(e.target.value)}
           placeholder="https://example.com/image.jpg"
-          className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
       </div>
 
@@ -591,7 +639,7 @@ const MediaCustomization = ({ component, onUpdateStyle }) => {
           <div className="w-full border-t border-gray-300"></div>
         </div>
         <div className="relative flex justify-center text-sm">
-          <span className="px-2 bg-white text-gray-500">or</span>
+          <span className="px-2 bg-white text-gray-700">or</span>
         </div>
       </div>
 
@@ -602,11 +650,11 @@ const MediaCustomization = ({ component, onUpdateStyle }) => {
         <div className="flex items-center justify-center w-full">
           <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
             <div className="flex flex-col items-center justify-center pt-5 pb-6">
-              <Upload className="w-8 h-8 mb-2 text-gray-400" />
-              <p className="mb-2 text-sm text-gray-500">
+              <Upload className="w-8 h-8 mb-2 text-gray-600" />
+              <p className="mb-2 text-sm text-gray-700">
                 <span className="font-semibold">Click to upload</span>
               </p>
-              <p className="text-xs text-gray-500">PNG, JPG or GIF</p>
+              <p className="text-xs text-gray-700">PNG, JPG or GIF</p>
             </div>
             <input
               type="file"
@@ -648,15 +696,15 @@ const LayoutCustomization = ({ component, onUpdateStyle }) => {
   });
 
   useEffect(() => {
-    if (component) {
-      const styles = component.getStyle();
+    if (component && component.element) {
+      const computedStyle = window.getComputedStyle(component.element);
       setLayout({
-        padding: styles.padding || "20px",
-        margin: styles.margin || "0px",
-        borderRadius: styles["border-radius"] || styles.borderRadius || "0px",
-        width: styles.width || "auto",
-        height: styles.height || "auto",
-        display: styles.display || "block",
+        padding: computedStyle.padding || "20px",
+        margin: computedStyle.margin || "0px",
+        borderRadius: computedStyle.borderRadius || "0px",
+        width: computedStyle.width || "auto",
+        height: computedStyle.height || "auto",
+        display: computedStyle.display || "block",
       });
     }
   }, [component]);
@@ -679,7 +727,7 @@ const LayoutCustomization = ({ component, onUpdateStyle }) => {
           value={layout.padding}
           onChange={(e) => handleChange("padding", e.target.value)}
           placeholder="20px or 10px 20px"
-          className="w-full px-3 py-2 border border-gray-300 rounded text-sm"
+          className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900"
         />
       </div>
 
@@ -692,7 +740,7 @@ const LayoutCustomization = ({ component, onUpdateStyle }) => {
           value={layout.margin}
           onChange={(e) => handleChange("margin", e.target.value)}
           placeholder="0px or 10px auto"
-          className="w-full px-3 py-2 border border-gray-300 rounded text-sm"
+          className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900"
         />
       </div>
 
