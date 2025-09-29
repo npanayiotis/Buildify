@@ -89,7 +89,7 @@ export default function Reservations() {
             Reservation Confirmed!
           </h1>
           <p className="text-gray-600 mb-8">
-            We've received your reservation request. You'll receive a
+            We&#39;ve received your reservation request. You&#39;ll receive a
             confirmation email shortly.
           </p>
           <div className="space-y-4">

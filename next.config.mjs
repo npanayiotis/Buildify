@@ -41,6 +41,9 @@ const nextConfig = {
     formats: ["image/webp", "image/avif"],
   },
 
+  // Build output
+  output: "standalone",
+
   // Compression
   compress: true,
 };

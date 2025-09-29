@@ -22,29 +22,41 @@ import { WEBSITES } from "../lib/saas/websites/websiteData";
 
 const CustomizePage = () => {
   const router = useRouter();
-  const { website: websiteId } = router.query;
   const [selectedWebsite, setSelectedWebsite] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showWebsiteSelector, setShowWebsiteSelector] = useState(false);
-  const [customizationStep, setCustomizationStep] = useState("select"); // select, preview, customize
+  const [customizationStep, setCustomizationStep] = useState("select");
   const [showPreview, setShowPreview] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Handle mounting to avoid SSR/hydration issues
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
-    console.log("Customize page - websiteId:", websiteId);
-    const { preview } = router.query;
+    // Only run on client-side after router is ready
+    if (!mounted || !router.isReady) {
+      return;
+    }
 
-    if (websiteId && websiteId !== "custom") {
-      const website = WEBSITES.find((w) => w.id === websiteId);
+    const { website: queryWebsiteId, preview } = router.query;
+
+    console.log("Processing query params:", { queryWebsiteId, preview });
+
+    if (queryWebsiteId && queryWebsiteId !== "custom") {
+      const website = WEBSITES.find((w) => w.id === queryWebsiteId);
       console.log("Found website:", website);
+
       if (website) {
         setSelectedWebsite(website);
-        // If preview=true, go directly to preview mode
-        setCustomizationStep(preview === "true" ? "preview" : "preview");
-        console.log("Website set:", website.name);
+        setCustomizationStep(preview === "true" ? "preview" : "customize");
+        setIsLoading(false);
       } else {
-        console.error("Website not found for ID:", websiteId);
+        console.error("Website not found for ID:", queryWebsiteId);
+        setIsLoading(false);
       }
-    } else if (websiteId === "custom") {
+    } else if (queryWebsiteId === "custom") {
       setSelectedWebsite({
         id: "custom",
         name: "Custom Website",
@@ -53,9 +65,12 @@ const CustomizePage = () => {
         isCustom: true,
       });
       setCustomizationStep("customize");
+      setIsLoading(false);
+    } else {
+      setCustomizationStep("select");
+      setIsLoading(false);
     }
-    setIsLoading(false);
-  }, [websiteId, router.query]);
+  }, [mounted, router.isReady, router.query]);
 
   const handleSave = (pageData) => {
     console.log("Page saved:", pageData);
@@ -102,11 +117,11 @@ const CustomizePage = () => {
           <p className="text-gray-600 mb-4">
             Setting up your website builder...
           </p>
-          <div className="text-sm text-gray-500">
-            {selectedWebsite
-              ? `Loading ${selectedWebsite.name} website`
-              : "Initializing customization tools"}
-          </div>
+          {selectedWebsite && (
+            <div className="text-sm text-gray-500">
+              Loading {selectedWebsite.name}
+            </div>
+          )}
         </div>
       </div>
     );
@@ -224,11 +239,11 @@ const CustomizePage = () => {
               >
                 {/* Preview Image */}
                 <div className="h-64 bg-gray-100 relative">
-                  <Image
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
                     src={website.preview}
                     alt={website.name}
-                    fill
-                    className="object-cover"
+                    className="w-full h-full object-cover"
                   />
                   {website.isPremium && (
                     <div className="absolute top-4 left-4">
@@ -574,11 +589,11 @@ const WebsiteSelectorModal = ({ onClose, onSelect, currentWebsite }) => {
               >
                 {/* Preview Image */}
                 <div className="h-48 bg-gray-100 relative">
-                  <Image
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
                     src={website.preview}
                     alt={website.name}
-                    fill
-                    className="object-cover"
+                    className="w-full h-full object-cover"
                   />
                   {website.isPremium && (
                     <div className="absolute top-3 left-3">

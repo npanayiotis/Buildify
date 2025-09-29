@@ -101,7 +101,7 @@ export default function BlogContact() {
             Message Sent!
           </h1>
           <p className="text-gray-600 mb-8">
-            Thank you for reaching out. I'll get back to you within 24-48 hours.
+            Thank you for reaching out. I&#39;ll get back to you within 24-48 hours.
           </p>
           <div className="space-y-4">
             <Link
@@ -197,7 +197,7 @@ export default function BlogContact() {
               Get In Touch
             </h1>
             <p className="text-xl md:text-2xl mb-8 opacity-90">
-              I'd love to hear from you. Let's start a conversation.
+              I&#39;d love to hear from you. Let&#39;s start a conversation.
             </p>
           </div>
         </section>
@@ -377,7 +377,7 @@ export default function BlogContact() {
                       Do you accept guest posts?
                     </h3>
                     <p className="text-gray-600 text-sm">
-                      Yes! I'm always open to quality guest content. Please
+                      Yes! I&#39;m always open to quality guest content. Please
                       reach out with your ideas.
                     </p>
                   </div>

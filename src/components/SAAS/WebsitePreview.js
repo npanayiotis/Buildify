@@ -500,7 +500,7 @@ const WebsitePreview = ({ website }) => {
                   </div>
                 </div>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  "{testimonial.content}"
+                  &quot;{testimonial.content}&quot;
                 </p>
                 <div className="flex text-yellow-400">
                   {[...Array(testimonial.rating)].map((_, i) => (

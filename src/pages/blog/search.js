@@ -177,7 +177,7 @@ export default function BlogSearch() {
             <div>
               <div className="flex items-center justify-between mb-8">
                 <h2 className="text-2xl font-bold text-gray-900">
-                  Search Results for "{query}"
+                  Search Results for &quot;{query}&quot;
                 </h2>
                 <span className="text-gray-600">
                   {results.blog.length} result

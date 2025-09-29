@@ -75,7 +75,7 @@ export default function Newsletter() {
             Successfully Subscribed!
           </h1>
           <p className="text-gray-600 mb-8">
-            Thank you for subscribing to our newsletter. You'll receive our
+            Thank you for subscribing to our newsletter. You&#39;ll receive our
             latest posts and updates.
           </p>
           <div className="space-y-4">
@@ -256,7 +256,7 @@ export default function Newsletter() {
               {/* Benefits */}
               <div className="bg-blue-50 p-6 rounded-lg">
                 <h3 className="text-lg font-medium text-gray-900 mb-4">
-                  What you'll get:
+                  What you&#39;ll get:
                 </h3>
                 <ul className="space-y-2 text-sm text-gray-600">
                   <li className="flex items-center">

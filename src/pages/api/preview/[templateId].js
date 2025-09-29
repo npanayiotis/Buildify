@@ -8,81 +8,394 @@ export default function handler(req, res) {
 
   // Template-specific preview data
   const templatePreviews = {
-    'personal-blog': {
-      title: 'Personal Blog',
-      category: 'blog',
-      color: '#667eea',
-      bgColor: '#ffffff',
+    "personal-blog": {
+      title: "Personal Blog",
+      category: "blog",
+      color: "#667eea",
+      bgColor: "#ffffff",
       content: [
-        { type: 'hero', text: 'Welcome to My Blog', color: '#ffffff', bgColor: '#667eea' },
-        { type: 'post', text: 'The Art of Slow Living', color: '#2d3748', bgColor: '#f8f9fa' },
-        { type: 'post', text: 'Lessons from Travel', color: '#2d3748', bgColor: '#f8f9fa' },
-        { type: 'post', text: 'Building Better Habits', color: '#2d3748', bgColor: '#f8f9fa' }
-      ]
+        {
+          type: "hero",
+          text: "Welcome to My Blog",
+          color: "#ffffff",
+          bgColor: "#667eea",
+        },
+        {
+          type: "post",
+          text: "The Art of Slow Living",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "post",
+          text: "Lessons from Travel",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "post",
+          text: "Building Better Habits",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+      ],
     },
-    'modern-startup': {
-      title: 'Modern Startup',
-      category: 'saas',
-      color: '#667eea',
-      bgColor: '#ffffff',
+    "professional-blog-website": {
+      title: "Professional Blog",
+      category: "blog",
+      color: "#3B82F6",
+      bgColor: "#ffffff",
       content: [
-        { type: 'hero', text: 'Build Something Amazing', color: '#ffffff', bgColor: '#667eea' },
-        { type: 'feature', text: 'Lightning Fast', color: '#2d3748', bgColor: '#f8f9fa' },
-        { type: 'feature', text: 'Beautiful Design', color: '#2d3748', bgColor: '#f8f9fa' },
-        { type: 'feature', text: 'Easy to Use', color: '#2d3748', bgColor: '#f8f9fa' }
-      ]
+        {
+          type: "hero",
+          text: "Welcome to My Blog",
+          color: "#ffffff",
+          bgColor: "#3B82F6",
+        },
+        {
+          type: "post",
+          text: "Thoughts on Writing",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "post",
+          text: "Creative Process",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "post",
+          text: "Life Lessons",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+      ],
     },
-    'creative-portfolio': {
-      title: 'Creative Portfolio',
-      category: 'portfolio',
-      color: '#8b5cf6',
-      bgColor: '#ffffff',
+    "elegant-restaurant-website": {
+      title: "Elegant Restaurant",
+      category: "restaurant",
+      color: "#DC2626",
+      bgColor: "#ffffff",
       content: [
-        { type: 'hero', text: 'Creative Portfolio', color: '#ffffff', bgColor: '#8b5cf6' },
-        { type: 'project', text: 'Project 1', color: '#2d3748', bgColor: '#f8f9fa' },
-        { type: 'project', text: 'Project 2', color: '#2d3748', bgColor: '#f8f9fa' },
-        { type: 'project', text: 'Project 3', color: '#2d3748', bgColor: '#f8f9fa' }
-      ]
+        {
+          type: "hero",
+          text: "Fine Dining Experience",
+          color: "#ffffff",
+          bgColor: "#DC2626",
+        },
+        {
+          type: "menu",
+          text: "Signature Dishes",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "menu",
+          text: "Wine Selection",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "menu",
+          text: "Desserts",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+      ],
     },
-    'ecommerce-fashion': {
-      title: 'Fashion Store',
-      category: 'ecommerce',
-      color: '#ec4899',
-      bgColor: '#ffffff',
+    "fitness-gym-website": {
+      title: "Fitness Gym",
+      category: "gym",
+      color: "#10B981",
+      bgColor: "#ffffff",
       content: [
-        { type: 'hero', text: 'Fashion Store', color: '#ffffff', bgColor: '#ec4899' },
-        { type: 'product', text: 'Product 1', color: '#2d3748', bgColor: '#f8f9fa' },
-        { type: 'product', text: 'Product 2', color: '#2d3748', bgColor: '#f8f9fa' },
-        { type: 'product', text: 'Product 3', color: '#2d3748', bgColor: '#f8f9fa' }
-      ]
+        {
+          type: "hero",
+          text: "Transform Your Body",
+          color: "#ffffff",
+          bgColor: "#10B981",
+        },
+        {
+          type: "service",
+          text: "Personal Training",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "service",
+          text: "Group Classes",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "service",
+          text: "Nutrition Plans",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+      ],
     },
-    'restaurant-menu': {
-      title: 'Restaurant Menu',
-      category: 'restaurant',
-      color: '#dc2626',
-      bgColor: '#ffffff',
+    "professional-blog-website-enhanced": {
+      title: "Professional Blog Enhanced",
+      category: "blog",
+      color: "#3B82F6",
+      bgColor: "#ffffff",
       content: [
-        { type: 'hero', text: 'Delicious Food', color: '#ffffff', bgColor: '#dc2626' },
-        { type: 'menu', text: 'Appetizers', color: '#2d3748', bgColor: '#f8f9fa' },
-        { type: 'menu', text: 'Main Course', color: '#2d3748', bgColor: '#f8f9fa' },
-        { type: 'menu', text: 'Desserts', color: '#2d3748', bgColor: '#f8f9fa' }
-      ]
+        {
+          type: "hero",
+          text: "Welcome to My Blog",
+          color: "#ffffff",
+          bgColor: "#3B82F6",
+        },
+        {
+          type: "post",
+          text: "Advanced Writing Tips",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "post",
+          text: "Content Strategy",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "post",
+          text: "SEO Best Practices",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+      ],
     },
-    'business-corporate': {
-      title: 'Business Corporate',
-      category: 'business',
-      color: '#1e40af',
-      bgColor: '#ffffff',
+    "elegant-restaurant-website-enhanced": {
+      title: "Elegant Restaurant Enhanced",
+      category: "restaurant",
+      color: "#DC2626",
+      bgColor: "#ffffff",
       content: [
-        { type: 'hero', text: 'Professional Business', color: '#ffffff', bgColor: '#1e40af' },
-        { type: 'service', text: 'Our Services', color: '#2d3748', bgColor: '#f8f9fa' },
-        { type: 'service', text: 'About Us', color: '#2d3748', bgColor: '#f8f9fa' },
-        { type: 'service', text: 'Contact', color: '#2d3748', bgColor: '#f8f9fa' }
-      ]
-    }
+        {
+          type: "hero",
+          text: "Premium Dining Experience",
+          color: "#ffffff",
+          bgColor: "#DC2626",
+        },
+        {
+          type: "menu",
+          text: "Chef's Specials",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "menu",
+          text: "Wine Pairing",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "menu",
+          text: "Seasonal Menu",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+      ],
+    },
+    "fitness-gym-website-enhanced": {
+      title: "Fitness Gym Enhanced",
+      category: "gym",
+      color: "#10B981",
+      bgColor: "#ffffff",
+      content: [
+        {
+          type: "hero",
+          text: "Elite Fitness Experience",
+          color: "#ffffff",
+          bgColor: "#10B981",
+        },
+        {
+          type: "service",
+          text: "Premium Training",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "service",
+          text: "Recovery Services",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "service",
+          text: "Nutrition Coaching",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+      ],
+    },
+    "modern-startup": {
+      title: "Modern Startup",
+      category: "saas",
+      color: "#667eea",
+      bgColor: "#ffffff",
+      content: [
+        {
+          type: "hero",
+          text: "Build Something Amazing",
+          color: "#ffffff",
+          bgColor: "#667eea",
+        },
+        {
+          type: "feature",
+          text: "Lightning Fast",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "feature",
+          text: "Beautiful Design",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "feature",
+          text: "Easy to Use",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+      ],
+    },
+    "creative-portfolio": {
+      title: "Creative Portfolio",
+      category: "portfolio",
+      color: "#8b5cf6",
+      bgColor: "#ffffff",
+      content: [
+        {
+          type: "hero",
+          text: "Creative Portfolio",
+          color: "#ffffff",
+          bgColor: "#8b5cf6",
+        },
+        {
+          type: "project",
+          text: "Project 1",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "project",
+          text: "Project 2",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "project",
+          text: "Project 3",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+      ],
+    },
+    "ecommerce-fashion": {
+      title: "Fashion Store",
+      category: "ecommerce",
+      color: "#ec4899",
+      bgColor: "#ffffff",
+      content: [
+        {
+          type: "hero",
+          text: "Fashion Store",
+          color: "#ffffff",
+          bgColor: "#ec4899",
+        },
+        {
+          type: "product",
+          text: "Product 1",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "product",
+          text: "Product 2",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "product",
+          text: "Product 3",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+      ],
+    },
+    "restaurant-menu": {
+      title: "Restaurant Menu",
+      category: "restaurant",
+      color: "#dc2626",
+      bgColor: "#ffffff",
+      content: [
+        {
+          type: "hero",
+          text: "Delicious Food",
+          color: "#ffffff",
+          bgColor: "#dc2626",
+        },
+        {
+          type: "menu",
+          text: "Appetizers",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "menu",
+          text: "Main Course",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "menu",
+          text: "Desserts",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+      ],
+    },
+    "business-corporate": {
+      title: "Business Corporate",
+      category: "business",
+      color: "#1e40af",
+      bgColor: "#ffffff",
+      content: [
+        {
+          type: "hero",
+          text: "Professional Business",
+          color: "#ffffff",
+          bgColor: "#1e40af",
+        },
+        {
+          type: "service",
+          text: "Our Services",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "service",
+          text: "About Us",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+        {
+          type: "service",
+          text: "Contact",
+          color: "#2d3748",
+          bgColor: "#f8f9fa",
+        },
+      ],
+    },
   };
 
-  const template = templatePreviews[templateId] || templatePreviews['personal-blog'];
+  const template =
+    templatePreviews[templateId] || templatePreviews["personal-blog"];
 
   // Generate SVG preview
   const svg = `
@@ -127,7 +440,7 @@ export default function handler(req, res) {
     </svg>
   `;
 
-  res.setHeader('Content-Type', 'image/svg+xml');
-  res.setHeader('Cache-Control', 'public, max-age=31536000');
+  res.setHeader("Content-Type", "image/svg+xml");
+  res.setHeader("Cache-Control", "public, max-age=31536000");
   res.status(200).send(svg);
 }
