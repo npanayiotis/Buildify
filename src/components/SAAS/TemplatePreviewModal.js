@@ -204,47 +204,63 @@ const TemplatePreviewModal = ({ isOpen, onClose, template }) => {
 
       case "blog":
         return `
-          <div style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.6; color: #333;">
+          <div style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #2d3748; background: #ffffff;">
             <!-- Hero Section -->
-            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 80px 20px; text-align: center; color: white;">
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 80px 20px; text-align: center; color: white; position: relative;">
               <div style="max-width: 1200px; margin: 0 auto;">
-                <h1 style="font-size: 3rem; font-weight: bold; margin-bottom: 1rem;">${
-                  content.hero.title
+                <h1 style="font-size: 3.5rem; font-weight: bold; margin-bottom: 1.5rem; line-height: 1.2;">${
+                  content.hero?.title || "Welcome to My Blog"
                 }</h1>
-                <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">${
-                  content.hero.subtitle
+                <p style="font-size: 1.3rem; margin-bottom: 2.5rem; opacity: 0.95; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6;">${
+                  content.hero?.subtitle ||
+                  "Thoughts, stories, and insights from my journey"
                 }</p>
-                <button style="background: #ff6b6b; color: white; border: none; padding: 15px 30px; font-size: 1.1rem; border-radius: 8px; cursor: pointer;">${
-                  content.hero.buttonText
+                <button style="background: #ff6b6b; color: white; border: none; padding: 18px 35px; font-size: 1.1rem; border-radius: 50px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);">${
+                  content.hero?.buttonText || "Read Latest Post"
                 }</button>
               </div>
             </div>
-
+            
             <!-- Blog Posts Section -->
-            <div style="padding: 80px 20px; background: #f8f9fa;">
+            <div style="padding: 100px 20px; background: #ffffff;">
               <div style="max-width: 1200px; margin: 0 auto;">
-                <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 3rem; color: #333;">Latest Posts</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <h2 style="text-align: center; font-size: 2.8rem; margin-bottom: 4rem; color: #2d3748; font-weight: 700;">Latest Posts</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 3rem;">
                   ${
                     content.posts
                       ?.slice(0, 3)
                       .map(
                         (post) => `
-                    <article style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                      <div style="height: 150px; background: linear-gradient(45deg, #ff9a9e, #fecfef);"></div>
-                      <div style="padding: 1.5rem;">
-                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem; font-size: 0.8rem; color: #666;">
-                          <span style="background: #f8f9fa; padding: 0.25rem 0.75rem; border-radius: 12px;">${post.category}</span>
-                          <span>${post.date}</span>
+                    <article style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
+                      <div style="height: 220px; background: url('${post.image}') center/cover; position: relative;">
+                        <div style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.9); padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; color: #4a5568;">${post.category}</div>
+                      </div>
+                      <div style="padding: 2rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; font-size: 0.85rem; color: #718096;">
+                          <span style="font-weight: 500;">${post.date}</span>
+                          <span style="background: #f7fafc; padding: 0.3rem 0.8rem; border-radius: 12px;">${post.readTime}</span>
                         </div>
-                        <h3 style="font-size: 1.3rem; margin-bottom: 1rem; color: #333;">${post.title}</h3>
-                        <p style="color: #666; line-height: 1.5; font-size: 0.9rem;">${post.excerpt}</p>
+                        <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: #2d3748; font-weight: 700; line-height: 1.3;">${post.title}</h3>
+                        <p style="color: #4a5568; line-height: 1.7; font-size: 0.95rem; margin-bottom: 1.5rem;">${post.excerpt}</p>
+                        <a href="#" style="color: #667eea; text-decoration: none; font-weight: 600; font-size: 0.9rem;">Read More →</a>
                       </div>
                     </article>
                   `
                       )
                       .join("") || ""
                   }
+                </div>
+              </div>
+            </div>
+            
+            <!-- Newsletter Section -->
+            <div style="padding: 80px 20px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+              <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <h2 style="font-size: 2.2rem; margin-bottom: 1rem; color: #2d3748; font-weight: 700;">Stay Updated</h2>
+                <p style="font-size: 1.1rem; color: #4a5568; margin-bottom: 2.5rem; line-height: 1.6;">Get notified when I publish new posts. No spam, just quality content delivered to your inbox.</p>
+                <div style="display: flex; gap: 1rem; max-width: 400px; margin: 0 auto;">
+                  <input type="email" placeholder="Enter your email address" style="flex: 1; padding: 15px 20px; border: 2px solid #e2e8f0; border-radius: 50px; font-size: 1rem; outline: none; transition: border-color 0.3s ease;">
+                  <button style="background: #667eea; color: white; border: none; padding: 15px 30px; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">Subscribe</button>
                 </div>
               </div>
             </div>
@@ -312,7 +328,7 @@ const TemplatePreviewModal = ({ isOpen, onClose, template }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black bg-opacity-75 z-[9999] flex items-center justify-center"
+          className="fixed inset-0 bg-black bg-opacity-75 z-[99999] flex items-center justify-center"
           onClick={onClose}
         >
           <motion.div
@@ -329,7 +345,9 @@ const TemplatePreviewModal = ({ isOpen, onClose, template }) => {
                   <h2 className="text-3xl font-bold text-gray-900">
                     {template.name} - Live Preview
                   </h2>
-                  <p className="text-gray-600 mt-1 text-lg">{template.description}</p>
+                  <p className="text-gray-600 mt-1 text-lg">
+                    {template.description}
+                  </p>
                 </div>
 
                 {/* Device Selector */}
@@ -397,7 +415,8 @@ const TemplatePreviewModal = ({ isOpen, onClose, template }) => {
             <div className="p-6 border-t border-gray-200 bg-white shadow-sm">
               <div className="flex items-center justify-between">
                 <div className="text-base text-gray-600">
-                  <span className="font-medium">Live Preview Mode</span> - This is exactly how your website will look to visitors
+                  <span className="font-medium">Live Preview Mode</span> - This
+                  is exactly how your website will look to visitors
                 </div>
                 <div className="flex space-x-4">
                   <button

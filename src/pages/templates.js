@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Filter, Star, Crown, Eye, Palette } from "lucide-react";
-import TemplateCard from "../components/SAAS/TemplateCard";
-import { SAAS_TEMPLATES, TEMPLATE_CATEGORIES } from "../lib/saas/templates/templateData";
+import WebsiteCard from "../components/SAAS/WebsiteCard";
+import { WEBSITES, WEBSITE_CATEGORIES } from "../lib/saas/websites/websiteData";
 
 const TemplatesPage = () => {
   const router = useRouter();
@@ -13,17 +13,20 @@ const TemplatesPage = () => {
   const [sortBy, setSortBy] = useState("popular");
   const [viewMode, setViewMode] = useState("grid");
 
-  const filteredTemplates = SAAS_TEMPLATES.filter((template) => {
-    const matchesCategory = selectedCategory === "all" || template.category === selectedCategory;
-    const matchesSearch = 
-      template.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      template.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      template.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-    
+  const filteredWebsites = WEBSITES.filter((website) => {
+    const matchesCategory =
+      selectedCategory === "all" || website.category === selectedCategory;
+    const matchesSearch =
+      website.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      website.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      website.tags.some((tag) =>
+        tag.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+
     return matchesCategory && matchesSearch;
   });
 
-  const sortedTemplates = [...filteredTemplates].sort((a, b) => {
+  const sortedWebsites = [...filteredWebsites].sort((a, b) => {
     switch (sortBy) {
       case "price-low":
         return a.price - b.price;
@@ -37,10 +40,14 @@ const TemplatesPage = () => {
     }
   });
 
-  const handleTemplateSelect = (template) => {
-    // Store selected template and navigate to GrapesJS editor
-    localStorage.setItem("selectedTemplate", JSON.stringify(template));
-    router.push(`/editor?template=${template.id}`);
+  const handleWebsiteSelect = (website) => {
+    // Navigate to customize page with website selection
+    router.push(`/customize?website=${website.id}`);
+  };
+
+  const handleWebsitePreview = (website) => {
+    // Open preview in new tab
+    window.open(`/customize?website=${website.id}&preview=true`, "_blank");
   };
 
   return (
@@ -112,10 +119,11 @@ const TemplatesPage = () => {
             className="text-center"
           >
             <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
-              Choose Your Perfect Template
+              Choose Your Perfect Website
             </h1>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Professional templates designed for every business. Customize with our drag-and-drop builder.
+              Professional websites designed for every business. Preview and
+              customize with our drag-and-drop builder.
             </p>
           </motion.div>
 
@@ -134,7 +142,7 @@ const TemplatesPage = () => {
                 </div>
                 <input
                   type="text"
-                  placeholder="Search templates..."
+                  placeholder="Search websites..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-gray-800 bg-white/80 backdrop-blur-sm shadow-sm"
@@ -156,7 +164,7 @@ const TemplatesPage = () => {
                 >
                   All
                 </button>
-                {TEMPLATE_CATEGORIES.map((category) => (
+                {WEBSITE_CATEGORIES.map((category) => (
                   <button
                     key={category.id}
                     onClick={() => setSelectedCategory(category.id)}
@@ -189,7 +197,9 @@ const TemplatesPage = () => {
                 <button
                   onClick={() => setViewMode("grid")}
                   className={`p-2 rounded-md transition-colors ${
-                    viewMode === "grid" ? "bg-blue-100 text-blue-600" : "text-gray-500 hover:text-gray-700"
+                    viewMode === "grid"
+                      ? "bg-blue-100 text-blue-600"
+                      : "text-gray-500 hover:text-gray-700"
                   }`}
                 >
                   <div className="w-4 h-4 grid grid-cols-2 gap-0.5">
@@ -202,7 +212,9 @@ const TemplatesPage = () => {
                 <button
                   onClick={() => setViewMode("list")}
                   className={`p-2 rounded-md transition-colors ${
-                    viewMode === "list" ? "bg-blue-100 text-blue-600" : "text-gray-500 hover:text-gray-700"
+                    viewMode === "list"
+                      ? "bg-blue-100 text-blue-600"
+                      : "text-gray-500 hover:text-gray-700"
                   }`}
                 >
                   <div className="w-4 h-4 flex flex-col gap-0.5">
@@ -215,7 +227,7 @@ const TemplatesPage = () => {
             </div>
           </motion.div>
 
-          {/* Templates Grid */}
+          {/* Websites Grid */}
           <AnimatePresence mode="wait">
             <motion.div
               key={`${selectedCategory}-${searchQuery}-${sortBy}-${viewMode}`}
@@ -229,17 +241,18 @@ const TemplatesPage = () => {
                   : "grid-cols-1"
               }`}
             >
-              {sortedTemplates.map((template, index) => (
+              {sortedWebsites.map((website, index) => (
                 <motion.div
-                  key={template.id}
+                  key={website.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <TemplateCard
-                    template={template}
+                  <WebsiteCard
+                    website={website}
                     viewMode={viewMode}
-                    onSelect={handleTemplateSelect}
+                    onSelect={handleWebsiteSelect}
+                    onPreview={handleWebsitePreview}
                   />
                 </motion.div>
               ))}
@@ -247,7 +260,7 @@ const TemplatesPage = () => {
           </AnimatePresence>
 
           {/* Empty State */}
-          {sortedTemplates.length === 0 && (
+          {sortedWebsites.length === 0 && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -257,7 +270,7 @@ const TemplatesPage = () => {
                 <Palette className="w-12 h-12 text-gray-400" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                No templates found
+                No websites found
               </h3>
               <p className="text-gray-600 mb-6">
                 Try adjusting your search or filter criteria
@@ -283,9 +296,9 @@ const TemplatesPage = () => {
           >
             <div className="text-center p-6 bg-white/80 backdrop-blur-sm rounded-lg shadow-sm border border-gray-200">
               <div className="text-3xl font-bold text-blue-600 mb-2">
-                {SAAS_TEMPLATES.length}+
+                {WEBSITES.length}+
               </div>
-              <div className="text-gray-600">Professional Templates</div>
+              <div className="text-gray-600">Professional Websites</div>
             </div>
             <div className="text-center p-6 bg-white/80 backdrop-blur-sm rounded-lg shadow-sm border border-gray-200">
               <div className="text-3xl font-bold text-purple-600 mb-2">
@@ -294,9 +307,7 @@ const TemplatesPage = () => {
               <div className="text-gray-600">Customizable</div>
             </div>
             <div className="text-center p-6 bg-white/80 backdrop-blur-sm rounded-lg shadow-sm border border-gray-200">
-              <div className="text-3xl font-bold text-green-600 mb-2">
-                24/7
-              </div>
+              <div className="text-3xl font-bold text-green-600 mb-2">24/7</div>
               <div className="text-gray-600">Support</div>
             </div>
           </motion.div>

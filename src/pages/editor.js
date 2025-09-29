@@ -2,7 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, Save, Eye, Download, Settings } from "lucide-react";
+import {
+  ArrowLeft,
+  Save,
+  Eye,
+  Download,
+  Settings,
+  Palette,
+} from "lucide-react";
 import GrapesJSEditor from "../components/SAAS/GrapesJSEditor";
 import { SAAS_TEMPLATES } from "../lib/saas/templates/templateData";
 
@@ -14,10 +21,15 @@ const EditorPage = () => {
   const [showTemplateSelector, setShowTemplateSelector] = useState(false);
 
   useEffect(() => {
+    console.log("Editor page - templateId:", templateId);
     if (templateId && templateId !== "custom") {
       const template = SAAS_TEMPLATES.find((t) => t.id === templateId);
+      console.log("Found template:", template);
       if (template) {
         setSelectedTemplate(template);
+        console.log("Template set:", template.name);
+      } else {
+        console.error("Template not found for ID:", templateId);
       }
     } else if (templateId === "custom") {
       setSelectedTemplate({

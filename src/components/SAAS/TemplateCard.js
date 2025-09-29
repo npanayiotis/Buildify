@@ -66,6 +66,17 @@ const TemplateCard = ({ template, viewMode, onSelect }) => {
                 </div>
               </div>
             )}
+            {/* Preview Button - Always Visible */}
+            <div className="absolute top-3 right-3">
+              <button
+                onClick={handlePreview}
+                className="bg-white/90 backdrop-blur-sm text-gray-900 px-3 py-2 rounded-lg text-xs font-medium flex items-center gap-1 hover:bg-white hover:shadow-lg transition-all duration-300 opacity-90 hover:opacity-100"
+              >
+                <Eye className="w-3 h-3" />
+                Preview
+              </button>
+            </div>
+
             <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
               <button
                 onClick={handlePreview}
@@ -169,6 +180,17 @@ const TemplateCard = ({ template, viewMode, onSelect }) => {
           </div>
         )}
 
+        {/* Preview Button - Always Visible */}
+        <div className="absolute top-3 right-3">
+          <button
+            onClick={handlePreview}
+            className="bg-white/90 backdrop-blur-sm text-gray-900 px-3 py-2 rounded-lg text-xs font-medium flex items-center gap-1 hover:bg-white hover:shadow-lg transition-all duration-300 opacity-90 hover:opacity-100"
+          >
+            <Eye className="w-3 h-3" />
+            Preview
+          </button>
+        </div>
+
         {/* Hover Overlay */}
         <div
           className={`absolute inset-0 bg-black transition-all duration-300 ${
@@ -181,13 +203,6 @@ const TemplateCard = ({ template, viewMode, onSelect }) => {
             }`}
           >
             <div className="flex gap-2">
-              <button
-                onClick={handlePreview}
-                className="bg-white text-gray-900 px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-gray-50 transition-colors"
-              >
-                <Eye className="w-4 h-4" />
-                Preview
-              </button>
               <button
                 onClick={handleSelect}
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-blue-700 transition-colors"

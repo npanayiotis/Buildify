@@ -1,0 +1,205 @@
+import React from "react";
+import { motion } from "framer-motion";
+import { Eye, Settings, Star, Crown, ExternalLink } from "lucide-react";
+import Image from "next/image";
+
+const WebsiteCard = ({ website, viewMode, onSelect, onPreview }) => {
+  const handlePreview = (e) => {
+    e.stopPropagation();
+    onPreview(website);
+  };
+
+  const handleCustomize = (e) => {
+    e.stopPropagation();
+    onSelect(website);
+  };
+
+  if (viewMode === "list") {
+    return (
+      <motion.div
+        whileHover={{ y: -2 }}
+        className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200/50 overflow-hidden hover:shadow-xl transition-all duration-300"
+      >
+        <div className="flex">
+          {/* Image */}
+          <div className="relative w-64 h-48 flex-shrink-0">
+            <Image
+              src={website.preview || "/api/preview/placeholder"}
+              alt={website.name}
+              fill
+              className="object-cover"
+            />
+            {website.isPremium && (
+              <div className="absolute top-3 right-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                <Crown className="w-3 h-3" />
+                Premium
+              </div>
+            )}
+          </div>
+
+          {/* Content */}
+          <div className="flex-1 p-6">
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <h3 className="text-xl font-bold text-gray-800 mb-2">
+                  {website.name}
+                </h3>
+                <p className="text-gray-600 mb-3">{website.description}</p>
+                <div className="flex items-center gap-4 text-sm text-gray-500">
+                  <span className="flex items-center gap-1">
+                    <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    4.9
+                  </span>
+                  <span>{website.category}</span>
+                  <span className="font-semibold text-green-600">
+                    {website.price === 0 ? "Free" : `$${website.price}`}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Features */}
+            <div className="flex flex-wrap gap-2 mb-4">
+              {website.features.slice(0, 4).map((feature, index) => (
+                <span
+                  key={index}
+                  className="bg-blue-50 text-blue-700 px-2 py-1 rounded-full text-xs font-medium"
+                >
+                  {feature}
+                </span>
+              ))}
+              {website.features.length > 4 && (
+                <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs font-medium">
+                  +{website.features.length - 4} more
+                </span>
+              )}
+            </div>
+
+            {/* Actions */}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handlePreview}
+                className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
+              >
+                <Eye className="w-4 h-4" />
+                Preview
+                <ExternalLink className="w-3 h-3" />
+              </button>
+              <button
+                onClick={handleCustomize}
+                className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+              >
+                <Settings className="w-4 h-4" />
+                Customize
+              </button>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+
+  return (
+    <motion.div
+      whileHover={{ y: -4 }}
+      className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200/50 overflow-hidden hover:shadow-xl transition-all duration-300 group"
+    >
+      {/* Image */}
+      <div className="relative h-48 overflow-hidden">
+        <Image
+          src={website.preview || "/api/preview/placeholder"}
+          alt={website.name}
+          fill
+          className="object-cover group-hover:scale-105 transition-transform duration-300"
+        />
+        {website.isPremium && (
+          <div className="absolute top-3 right-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+            <Crown className="w-3 h-3" />
+            Premium
+          </div>
+        )}
+
+        {/* Overlay on hover */}
+        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+          <button
+            onClick={handlePreview}
+            className="flex items-center gap-2 px-4 py-2 bg-white/90 text-gray-800 rounded-lg hover:bg-white transition-colors text-sm font-medium"
+          >
+            <Eye className="w-4 h-4" />
+            Preview
+            <ExternalLink className="w-3 h-3" />
+          </button>
+          <button
+            onClick={handleCustomize}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+          >
+            <Settings className="w-4 h-4" />
+            Customize
+          </button>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-6">
+        <div className="flex items-start justify-between mb-3">
+          <h3 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
+            {website.name}
+          </h3>
+          <span className="text-sm font-semibold text-green-600">
+            {website.price === 0 ? "Free" : `$${website.price}`}
+          </span>
+        </div>
+
+        <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+          {website.description}
+        </p>
+
+        {/* Features */}
+        <div className="flex flex-wrap gap-1 mb-4">
+          {website.features.slice(0, 3).map((feature, index) => (
+            <span
+              key={index}
+              className="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs font-medium"
+            >
+              {feature}
+            </span>
+          ))}
+          {website.features.length > 3 && (
+            <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs font-medium">
+              +{website.features.length - 3}
+            </span>
+          )}
+        </div>
+
+        {/* Stats */}
+        <div className="flex items-center justify-between text-xs text-gray-500 mb-4">
+          <span className="flex items-center gap-1">
+            <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+            4.9
+          </span>
+          <span className="capitalize">{website.category}</span>
+        </div>
+
+        {/* Actions */}
+        <div className="flex gap-2">
+          <button
+            onClick={handlePreview}
+            className="flex-1 flex items-center justify-center gap-2 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
+          >
+            <Eye className="w-4 h-4" />
+            Preview
+          </button>
+          <button
+            onClick={handleCustomize}
+            className="flex-1 flex items-center justify-center gap-2 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+          >
+            <Settings className="w-4 h-4" />
+            Customize
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+export default WebsiteCard;

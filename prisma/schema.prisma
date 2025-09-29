@@ -17,6 +17,8 @@ enum TemplateCategory {
   ECOMMERCE
   BLOG
   SAAS
+  RESTAURANT
+  GYM
 }
 
 // Core SaaS Models
@@ -65,6 +67,23 @@ model Tenant {
   productCategories        ProductCategory[]
   carts                    Cart[]
   orders                   Order[]
+  
+  // Blog website data
+  blogCategories           BlogCategory[]
+  blogTags                 BlogTag[]
+  newsletterSubscribers    NewsletterSubscriber[]
+  
+  // Restaurant website data
+  restaurantMenus          RestaurantMenu[]
+  reservations             Reservation[]
+  restaurantReviews        RestaurantReview[]
+  
+  // Gym website data
+  gymPrograms              GymProgram[]
+  gymTrainers              GymTrainer[]
+  membershipPlans          MembershipPlan[]
+  gymMembers               GymMember[]
+  gymReviews               GymReview[]
 
   @@map("tenants")
 }
@@ -258,12 +277,18 @@ model BlogPost {
   title       String
   slug        String   @unique
   content     String
+  excerpt     String?  // Short description for previews
   imageUrl    String?
   authorId    String
   author      User     @relation(fields: [authorId], references: [id])
   isPublished Boolean  @default(false)
   category    String?
   tags        String[]
+  readTime    Int?     // Estimated read time in minutes
+  viewCount   Int      @default(0)
+  isFeatured  Boolean  @default(false)
+  seoTitle    String?  // SEO meta title
+  seoDescription String? // SEO meta description
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -324,3 +349,266 @@ model Subscription {
 
   @@map("subscriptions")
 }
+
+// ===========================================
+// BLOG WEBSITE MODELS
+// ===========================================
+
+model BlogCategory {
+  id          String   @id @default(cuid())
+  tenantId    String
+  name        String
+  slug        String
+  description String?
+  color       String?  // Hex color for category
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  posts       BlogPost[]
+
+  @@map("blog_categories")
+}
+
+model BlogTag {
+  id        String   @id @default(cuid())
+  tenantId  String
+  name      String
+  slug      String
+  color     String?  // Hex color for tag
+  createdAt DateTime @default(now())
+
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  posts     BlogPost[]
+
+  @@map("blog_tags")
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  tenantId  String
+  email     String
+  name      String?
+  isActive  Boolean  @default(true)
+  source    String?  // Where they subscribed from
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, email])
+  @@map("newsletter_subscribers")
+}
+
+// ===========================================
+// RESTAURANT WEBSITE MODELS
+// ===========================================
+
+model RestaurantMenu {
+  id          String   @id @default(cuid())
+  tenantId    String
+  name        String
+  description String?
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  items       MenuItem[]
+
+  @@map("restaurant_menus")
+}
+
+model MenuItem {
+  id          String   @id @default(cuid())
+  tenantId    String
+  menuId      String
+  name        String
+  description String
+  price       Float
+  imageUrl    String?
+  category    String?  // Appetizer, Main Course, Dessert, etc.
+  isPopular   Boolean  @default(false)
+  isAvailable Boolean  @default(true)
+  allergens   String[] // JSON array of allergens
+  ingredients String[] // JSON array of ingredients
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  menu        RestaurantMenu @relation(fields: [menuId], references: [id], onDelete: Cascade)
+
+  @@map("menu_items")
+}
+
+model Reservation {
+  id          String   @id @default(cuid())
+  tenantId    String
+  name        String
+  email       String
+  phone       String
+  date        DateTime
+  time        String   // Time slot
+  partySize   Int
+  specialRequests String?
+  status      ReservationStatus @default(PENDING)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@map("reservations")
+}
+
+model RestaurantReview {
+  id        String   @id @default(cuid())
+  tenantId  String
+  name      String
+  email     String?
+  rating    Int      // 1-5 stars
+  title     String?
+  content   String
+  isApproved Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@map("restaurant_reviews")
+}
+
+// ===========================================
+// GYM WEBSITE MODELS
+// ===========================================
+
+model GymProgram {
+  id          String   @id @default(cuid())
+  tenantId    String
+  name        String
+  description String
+  price       Float
+  duration    String   // 30 minutes, 60 minutes, etc.
+  icon        String?  // Icon emoji or URL
+  features    String[] // JSON array of features
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@map("gym_programs")
+}
+
+model GymTrainer {
+  id            String   @id @default(cuid())
+  tenantId      String
+  name          String
+  role          String   // Head Trainer, Fitness Coach, etc.
+  bio           String
+  imageUrl      String?
+  specialties   String[] // JSON array of specialties
+  certifications String[] // JSON array of certifications
+  experience    String?  // Years of experience
+  isActive      Boolean  @default(true)
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  tenant        Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@map("gym_trainers")
+}
+
+model MembershipPlan {
+  id          String   @id @default(cuid())
+  tenantId    String
+  name        String
+  price       Float
+  period      String   // month, year
+  features    String[] // JSON array of features
+  isPopular   Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@map("membership_plans")
+}
+
+model GymMember {
+  id          String   @id @default(cuid())
+  tenantId    String
+  name        String
+  email       String
+  phone       String?
+  planId      String?
+  plan        MembershipPlan? @relation(fields: [planId], references: [id])
+  joinDate    DateTime @default(now())
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@map("gym_members")
+}
+
+model GymReview {
+  id        String   @id @default(cuid())
+  tenantId  String
+  name      String
+  email     String?
+  rating    Int      // 1-5 stars
+  title     String?
+  content   String
+  isApproved Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@map("gym_reviews")
+}
+
+// ===========================================
+// ENUMS
+// ===========================================
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  NO_SHOW
+}
+
+// ===========================================
+// UPDATE EXISTING MODELS WITH NEW RELATIONSHIPS
+// ===========================================
+
+// Update Tenant model to include new relationships
+// (This would be added to the existing Tenant model)
+// blogCategories        BlogCategory[]
+// blogTags             BlogTag[]
+// newsletterSubscribers NewsletterSubscriber[]
+// restaurantMenus      RestaurantMenu[]
+// reservations         Reservation[]
+// restaurantReviews    RestaurantReview[]
+// gymPrograms          GymProgram[]
+// gymTrainers          GymTrainer[]
+// membershipPlans      MembershipPlan[]
+// gymMembers           GymMember[]
+// gymReviews           GymReview[]
+
+// Update BlogPost model to include category and tags
+// (This would be added to the existing BlogPost model)
+// categoryId String?
+// category   BlogCategory? @relation(fields: [categoryId], references: [id])
+// tags       BlogTag[]

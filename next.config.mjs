@@ -37,7 +37,7 @@ const nextConfig = {
 
   // Image optimization
   images: {
-    domains: [],
+    domains: ["images.unsplash.com", "via.placeholder.com", "picsum.photos"],
     formats: ["image/webp", "image/avif"],
   },
 

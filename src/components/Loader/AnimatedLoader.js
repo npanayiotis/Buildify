@@ -9,7 +9,6 @@ import {
   Float,
   Text3D,
   Center,
-  Environment,
   Stars,
   Effects,
 } from "@react-three/drei";
@@ -290,7 +289,7 @@ const AnimatedLoader = memo(() => {
             fade
           />
 
-          <Environment preset="night" />
+          {/* <Environment preset="night" /> */}
 
           <FloatingElements />
           <CentralLogo />
