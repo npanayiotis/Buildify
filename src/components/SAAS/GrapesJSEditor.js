@@ -26,6 +26,8 @@ const GrapesJSEditor = ({
   const [contentModified, setContentModified] = useState(false);
   const contentInitialized = useRef(false);
   const [currentPage, setCurrentPage] = useState("home");
+  const [pageContent, setPageContent] = useState(null);
+  const [loadingPage, setLoadingPage] = useState(false);
 
   // Check if ref is ready
   useEffect(() => {
@@ -34,6 +36,122 @@ const GrapesJSEditor = ({
       setRefReady(true);
     }
   }, []);
+
+  // Function to fetch real page content from actual routes
+  const fetchPageContent = useCallback(
+    async (pagePath) => {
+      if (!currentTemplate) return;
+
+      setLoadingPage(true);
+      try {
+        console.log(`🔄 Fetching real page content for: ${pagePath}`);
+
+        // Map page paths to actual Next.js routes
+        const pageRoutes = {
+          home: "/blog/home",
+          about: "/blog/about",
+          blog: "/blog/posts",
+          categories: "/blog/categories",
+          archive: "/blog/archive",
+          contact: "/blog/contact",
+        };
+
+        const route = pageRoutes[pagePath] || "/blog/home";
+
+        if (pagePath === "home") {
+          // Use the default home page content
+          setPageContent(null);
+          setCurrentPage("home");
+          console.log(`✅ Using home page content`);
+        } else {
+          // Fetch the actual page content from the real route
+          const response = await fetch(route);
+          if (response.ok) {
+            const htmlContent = await response.text();
+
+            // Extract body content from full HTML document
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlContent, "text/html");
+            const bodyContent = doc.body ? doc.body.innerHTML : htmlContent;
+
+            // Process the content to add navigation attributes and fix links
+            const processedContent = bodyContent
+              .replace(/href="\/blog\/home"/g, 'data-nav="home" href="#"')
+              .replace(/href="\/blog\/about"/g, 'data-nav="about" href="#"')
+              .replace(/href="\/blog\/posts"/g, 'data-nav="blog" href="#"')
+              .replace(
+                /href="\/blog\/categories"/g,
+                'data-nav="categories" href="#"'
+              )
+              .replace(/href="\/blog\/archive"/g, 'data-nav="archive" href="#"')
+              .replace(/href="\/blog\/contact"/g, 'data-nav="contact" href="#"')
+              .replace(
+                /<a([^>]*?)href="([^"]*?)"([^>]*?)>/g,
+                '<a$1data-nav="$2" href="#"$3>'
+              );
+
+            // Wrap the content in a container div with proper styling
+            const wrappedContent = `
+              <div class="min-h-screen bg-gray-50">
+                <style>
+                  /* Ensure proper styling for fetched content */
+                  .min-h-screen { min-height: 100vh; }
+                  .bg-gray-50 { background-color: #f9fafb; }
+                  
+                  /* Navigation link styles */
+                  a[data-nav] {
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                  }
+                  
+                  a[data-nav]:hover {
+                    opacity: 0.8;
+                  }
+                  
+                  a[data-nav].active {
+                    background: #3b82f6;
+                    color: white;
+                    padding: 0.25rem 0.5rem;
+                    border-radius: 4px;
+                  }
+                </style>
+                
+                <!-- Page Content -->
+                <div class="page-content">
+                  ${processedContent}
+                </div>
+              </div>
+            `;
+
+            setPageContent(wrappedContent);
+            setCurrentPage(pagePath);
+            console.log(`✅ Real page content loaded for: ${pagePath}`);
+          } else {
+            console.error(`❌ Failed to fetch real page: ${pagePath}`);
+            // Fallback to home page content
+            setPageContent(null);
+            setCurrentPage("home");
+          }
+        }
+      } catch (error) {
+        console.error(`❌ Error fetching real page content:`, error);
+        setPageContent(null);
+        setCurrentPage("home");
+      } finally {
+        setLoadingPage(false);
+      }
+    },
+    [currentTemplate]
+  );
+
+  // Handle page content changes
+  useEffect(() => {
+    if (pageContent !== null) {
+      console.log("🔄 Page content changed, updating display");
+      // Force content update when pageContent changes
+      contentInitialized.current = false;
+    }
+  }, [pageContent]);
 
   // Generate website HTML
   const generateWebsiteHTML = useCallback((website) => {
@@ -49,14 +167,14 @@ const GrapesJSEditor = ({
           <nav class="bg-white shadow-sm sticky top-0 z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div class="flex justify-between items-center py-4">
-                <a href="/blog/home" class="text-2xl font-bold text-gray-900">My Blog</a>
+                <button data-nav="home" class="text-2xl font-bold text-gray-900">My Blog</button>
                 <div class="hidden md:flex space-x-8">
-                  <a href="/blog/home" class="text-gray-900 font-medium">Home</a>
-                  <a href="/blog/about" class="text-gray-500 hover:text-gray-900">About</a>
-                  <a href="/blog/posts" class="text-gray-500 hover:text-gray-900">Blog</a>
-                  <a href="/blog/categories" class="text-gray-500 hover:text-gray-900">Categories</a>
-                  <a href="/blog/archive" class="text-gray-500 hover:text-gray-900">Archive</a>
-                  <a href="/blog/contact" class="text-gray-500 hover:text-gray-900">Contact</a>
+                  <button data-nav="home" class="text-gray-900 font-medium">Home</button>
+                  <button data-nav="about" class="text-gray-500 hover:text-gray-900">About</button>
+                  <button data-nav="blog" class="text-gray-500 hover:text-gray-900">Blog</button>
+                  <button data-nav="categories" class="text-gray-500 hover:text-gray-900">Categories</button>
+                  <button data-nav="archive" class="text-gray-500 hover:text-gray-900">Archive</button>
+                  <button data-nav="contact" class="text-gray-500 hover:text-gray-900">Contact</button>
                 </div>
               </div>
             </div>
@@ -368,6 +486,7 @@ const GrapesJSEditor = ({
               </div>
             </div>
           </footer>
+          
         </div>
       `;
     }
@@ -1488,11 +1607,36 @@ const GrapesJSEditor = ({
                   <div
                     ref={(containerRef) => {
                       if (containerRef && currentTemplate) {
-                        // Only set content if not already initialized and not modified
-                        if (!contentInitialized.current && !contentModified) {
-                          console.log("🔄 Setting initial HTML content");
-                          containerRef.innerHTML =
-                            generateWebsiteHTML(currentTemplate);
+                        // Show loading state
+                        if (loadingPage) {
+                          containerRef.innerHTML = `
+                            <div style="display: flex; justify-content: center; align-items: center; height: 400px; background: #f8f9fa;">
+                              <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; border: 4px solid #e3e3e3; border-top: 4px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
+                                <p style="color: #666; font-size: 16px;">Loading page...</p>
+                              </div>
+                            </div>
+                            <style>
+                              @keyframes spin {
+                                0% { transform: rotate(0deg); }
+                                100% { transform: rotate(360deg); }
+                              }
+                            </style>
+                          `;
+                          return;
+                        }
+
+                        // Show fetched page content or default home page
+                        const contentToShow =
+                          pageContent || generateWebsiteHTML(currentTemplate);
+
+                        // Always update content when pageContent changes or when not initialized
+                        if (
+                          pageContent !== null ||
+                          !contentInitialized.current
+                        ) {
+                          console.log("🔄 Setting HTML content");
+                          containerRef.innerHTML = contentToShow;
                           contentInitialized.current = true;
 
                           // Add editable classes to all interactive elements
@@ -1503,12 +1647,46 @@ const GrapesJSEditor = ({
                             textElements.forEach((element) => {
                               element.classList.add("editable");
                             });
+
+                            // Add navigation event listeners for both buttons and links
+                            const navElements =
+                              containerRef.querySelectorAll("[data-nav]");
+                            navElements.forEach((element) => {
+                              element.addEventListener("click", (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                const page = element.getAttribute("data-nav");
+                                console.log("🔄 Navigation clicked:", page);
+                                fetchPageContent(page);
+                              });
+                            });
+
+                            // Update active navigation state
+                            const currentPageElement =
+                              containerRef.querySelector(
+                                `[data-nav="${currentPage}"]`
+                              );
+                            if (currentPageElement) {
+                              // Remove active class from all navigation elements
+                              navElements.forEach((el) => {
+                                el.classList.remove("active");
+                                el.classList.add("text-gray-500");
+                                el.classList.remove("text-gray-900");
+                              });
+
+                              // Add active class to current page element
+                              currentPageElement.classList.add("active");
+                              currentPageElement.classList.remove(
+                                "text-gray-500"
+                              );
+                              currentPageElement.classList.add("text-gray-900");
+                            }
                           }, 100);
-                        } else if (contentModified) {
+                        } else if (contentModified && pageContent === null) {
                           console.log(
-                            "🚫 Skipping HTML regeneration - content modified"
+                            "🚫 Skipping HTML regeneration - content modified (home page)"
                           );
-                        } else if (contentInitialized.current) {
+                        } else {
                           console.log(
                             "🚫 Skipping HTML regeneration - already initialized"
                           );
@@ -1516,8 +1694,12 @@ const GrapesJSEditor = ({
                       }
                     }}
                     onClick={(e) => {
-                      // Handle navigation clicks - prevent default for all links
-                      if (e.target.tagName === "A" || e.target.closest("a")) {
+                      // Handle navigation clicks - prevent default for all links and navigation buttons
+                      if (
+                        e.target.tagName === "A" ||
+                        e.target.closest("a") ||
+                        e.target.hasAttribute("data-nav")
+                      ) {
                         e.preventDefault();
                         e.stopPropagation();
                         return;
