@@ -23,6 +23,8 @@ const GrapesJSEditor = ({
   const [loadError, setLoadError] = useState(null);
   const [refReady, setRefReady] = useState(false);
   const [isInitializing, setIsInitializing] = useState(false);
+  const [contentModified, setContentModified] = useState(false);
+  const contentInitialized = useRef(false);
 
   // Check if ref is ready
   useEffect(() => {
@@ -40,46 +42,144 @@ const GrapesJSEditor = ({
 
     return `
       <div class="website-container">
-        <section class="hero" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 80px 20px; text-align: center; color: white; min-height: 400px;">
+        <!-- Navigation -->
+        <nav style="background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100;">
+          <div style="max-width: 1200px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;">
+            <div style="font-size: 1.5rem; font-weight: bold; color: #2d3748;">${
+              website.name
+            }</div>
+            <div style="display: flex; gap: 2rem;">
+              <a href="#home" style="text-decoration: none; color: #4a5568; font-weight: 500;">Home</a>
+              <a href="#about" style="text-decoration: none; color: #4a5568; font-weight: 500;">About</a>
+              <a href="#blog" style="text-decoration: none; color: #4a5568; font-weight: 500;">Blog</a>
+              <a href="#contact" style="text-decoration: none; color: #4a5568; font-weight: 500;">Contact</a>
+            </div>
+          </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section id="home" class="hero" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 80px 20px; text-align: center; color: white; min-height: 500px;">
           <div style="max-width: 1200px; margin: 0 auto;">
-            <h1 style="font-size: 3rem; font-weight: bold; margin-bottom: 1.5rem;">${
-              content.hero?.title || website.name || "Welcome"
+            <h1 style="font-size: 3.5rem; font-weight: bold; margin-bottom: 1.5rem;">${
+              content.hero?.title || "Welcome to My Blog"
             }</h1>
-            <p style="font-size: 1.25rem; margin-bottom: 2rem; opacity: 0.95;">${
+            <p style="font-size: 1.25rem; margin-bottom: 2rem; opacity: 0.95; max-width: 600px; margin-left: auto; margin-right: auto;">${
               content.hero?.subtitle ||
-              website.description ||
-              "Customize this website"
+              "Thoughts, stories, and insights from my journey. Join me as I share experiences, lessons learned, and discoveries along the way."
             }</p>
-            <button style="background: #ff6b6b; color: white; border: none; padding: 15px 30px; font-size: 1.1rem; border-radius: 50px; cursor: pointer;">Get Started</button>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+              <button style="background: #ff6b6b; color: white; border: none; padding: 15px 30px; font-size: 1.1rem; border-radius: 50px; cursor: pointer;">Read Latest Posts</button>
+              <button style="background: transparent; color: white; border: 2px solid white; padding: 15px 30px; font-size: 1.1rem; border-radius: 50px; cursor: pointer;">Subscribe</button>
+            </div>
           </div>
         </section>
         
-        <section style="padding: 60px 20px; background: #f8f9fa;">
+        <!-- About Section -->
+        <section id="about" style="padding: 80px 20px; background: #f8f9fa;">
           <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
-            <h2 style="font-size: 2rem; margin-bottom: 1.5rem; color: #2d3748;">About</h2>
-            <p style="font-size: 1.1rem; color: #4a5568; max-width: 800px; margin: 0 auto;">Customize this section with your content.</p>
-          </div>
-        </section>
-
-        <section style="padding: 60px 20px;">
-          <div style="max-width: 1200px; margin: 0 auto;">
-            <h2 style="font-size: 2rem; margin-bottom: 2rem; color: #2d3748; text-align: center;">Features</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
-              <div style="padding: 2rem; background: #f8f9fa; border-radius: 8px;">
-                <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Feature 1</h3>
-                <p style="color: #4a5568;">Description here</p>
+            <h2 style="font-size: 2.5rem; margin-bottom: 2rem; color: #2d3748;">About Me</h2>
+            <p style="font-size: 1.1rem; color: #4a5568; max-width: 800px; margin: 0 auto 2rem;">${
+              content.about?.content ||
+              "I'm a passionate writer, traveler, and lifelong learner. Through this blog, I share my experiences, insights, and the lessons I've learned along my journey."
+            }</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 3rem;">
+              <div style="padding: 2rem; background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <h3 style="font-size: 1.25rem; margin-bottom: 1rem; color: #2d3748;">Travel</h3>
+                <p style="color: #4a5568;">Exploring new places and cultures</p>
               </div>
-              <div style="padding: 2rem; background: #f8f9fa; border-radius: 8px;">
-                <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Feature 2</h3>
-                <p style="color: #4a5568;">Description here</p>
+              <div style="padding: 2rem; background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <h3 style="font-size: 1.25rem; margin-bottom: 1rem; color: #2d3748;">Photography</h3>
+                <p style="color: #4a5568;">Capturing moments and memories</p>
               </div>
-              <div style="padding: 2rem; background: #f8f9fa; border-radius: 8px;">
-                <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Feature 3</h3>
-                <p style="color: #4a5568;">Description here</p>
+              <div style="padding: 2rem; background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <h3 style="font-size: 1.25rem; margin-bottom: 1rem; color: #2d3748;">Writing</h3>
+                <p style="color: #4a5568;">Sharing stories and insights</p>
               </div>
             </div>
           </div>
         </section>
+
+        <!-- Blog Section -->
+        <section id="blog" style="padding: 80px 20px; background: white;">
+          <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 3rem; color: #2d3748; text-align: center;">Latest Posts</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;">
+              <article style="background: #f8f9fa; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <div style="height: 200px; background: linear-gradient(45deg, #667eea, #764ba2);"></div>
+                <div style="padding: 1.5rem;">
+                  <h3 style="font-size: 1.25rem; margin-bottom: 1rem; color: #2d3748;">My Journey Through Europe</h3>
+                  <p style="color: #4a5568; margin-bottom: 1rem;">Discovering hidden gems and local cultures across different European cities...</p>
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color: #667eea; font-size: 0.9rem;">Travel</span>
+                    <span style="color: #4a5568; font-size: 0.9rem;">Dec 15, 2023</span>
+                  </div>
+                </div>
+              </article>
+              <article style="background: #f8f9fa; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <div style="height: 200px; background: linear-gradient(45deg, #ff6b6b, #ffa500);"></div>
+                <div style="padding: 1.5rem;">
+                  <h3 style="font-size: 1.25rem; margin-bottom: 1rem; color: #2d3748;">The Art of Mindful Living</h3>
+                  <p style="color: #4a5568; margin-bottom: 1rem;">How practicing mindfulness has transformed my daily routine and perspective...</p>
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color: #667eea; font-size: 0.9rem;">Lifestyle</span>
+                    <span style="color: #4a5568; font-size: 0.9rem;">Dec 10, 2023</span>
+                  </div>
+                </div>
+              </article>
+              <article style="background: #f8f9fa; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <div style="height: 200px; background: linear-gradient(45deg, #4ecdc4, #44a08d);"></div>
+                <div style="padding: 1.5rem;">
+                  <h3 style="font-size: 1.25rem; margin-bottom: 1rem; color: #2d3748;">Photography Tips for Beginners</h3>
+                  <p style="color: #4a5568; margin-bottom: 1rem;">Essential techniques and equipment recommendations for starting your photography journey...</p>
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color: #667eea; font-size: 0.9rem;">Photography</span>
+                    <span style="color: #4a5568; font-size: 0.9rem;">Dec 5, 2023</span>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" style="padding: 80px 20px; background: #f8f9fa;">
+          <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 2rem; color: #2d3748;">Get In Touch</h2>
+            <p style="font-size: 1.1rem; color: #4a5568; margin-bottom: 3rem;">I'd love to hear from you! Send me a message and I'll respond as soon as possible.</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem;">
+              <div>
+                <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: #2d3748;">Contact Information</h3>
+                <div style="text-align: left;">
+                  <p style="color: #4a5568; margin-bottom: 0.5rem;">📧 hello@myblog.com</p>
+                  <p style="color: #4a5568; margin-bottom: 0.5rem;">📱 +1 (555) 123-4567</p>
+                  <p style="color: #4a5568; margin-bottom: 0.5rem;">📍 New York, NY</p>
+              </div>
+              </div>
+              <div>
+                <form style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                  <input type="text" placeholder="Your Name" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem; border: 1px solid #e2e8f0; border-radius: 4px;">
+                  <input type="email" placeholder="Your Email" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem; border: 1px solid #e2e8f0; border-radius: 4px;">
+                  <textarea placeholder="Your Message" rows="4" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem; border: 1px solid #e2e8f0; border-radius: 4px; resize: vertical;"></textarea>
+                  <button type="submit" style="background: #667eea; color: white; border: none; padding: 0.75rem 2rem; border-radius: 4px; cursor: pointer; width: 100%;">Send Message</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Footer -->
+        <footer style="background: #2d3748; color: white; padding: 2rem; text-align: center;">
+          <div style="max-width: 1200px; margin: 0 auto;">
+            <p style="margin-bottom: 1rem;">© 2023 ${
+              website.name
+            }. All rights reserved.</p>
+            <div style="display: flex; justify-content: center; gap: 1rem;">
+              <a href="#" style="color: white; text-decoration: none;">Twitter</a>
+              <a href="#" style="color: white; text-decoration: none;">Instagram</a>
+              <a href="#" style="color: white; text-decoration: none;">LinkedIn</a>
+            </div>
+          </div>
+        </footer>
       </div>
     `;
   }, []);
@@ -138,35 +238,12 @@ const GrapesJSEditor = ({
         console.log("✅ Generated CSS (", css.length, "chars)");
         console.log("🔍 HTML content preview:", html.substring(0, 200) + "...");
 
-        // Enhanced approach - use multiple methods to ensure content loads
+        // Simple approach - just use setComponents
         console.log("📝 Setting components...");
 
         try {
-          // Method 1: Use setComponents
-          if (typeof editorInstance.setComponents === "function") {
-            editorInstance.setComponents(html);
-            console.log("✅ Components set via setComponents");
-          } else {
-            console.warn("⚠️ setComponents method not available");
-          }
-
-          // Method 2: Try setHtml if available
-          if (typeof editorInstance.setHtml === "function") {
-            editorInstance.setHtml(html);
-            console.log("✅ HTML set via setHtml");
-          }
-
-          // Method 3: Try direct canvas manipulation
-          const canvas = editorInstance.Canvas?.getFrameEl?.();
-          if (canvas && canvas.contentDocument) {
-            const iframeDoc = canvas.contentDocument;
-            const iframeBody = iframeDoc.body;
-
-            if (iframeBody) {
-              iframeBody.innerHTML = html;
-              console.log("✅ Content set directly to iframe");
-            }
-          }
+          editorInstance.setComponents(html);
+          console.log("✅ Components set");
         } catch (error) {
           console.error("❌ Error setting components:", error);
         }
@@ -386,6 +463,32 @@ const GrapesJSEditor = ({
         }, 100);
 
         console.log("✅ Website loaded successfully!");
+
+        // Force iframe content update as fallback
+        setTimeout(() => {
+          const canvas = editorInstance.Canvas?.getFrameEl?.();
+          if (canvas && canvas.contentDocument) {
+            const iframeDoc = canvas.contentDocument;
+            const iframeBody = iframeDoc.body;
+
+            if (iframeBody && iframeBody.innerHTML.length < 100) {
+              console.log("🔄 Canvas appears empty, forcing content...");
+              iframeBody.innerHTML = html;
+
+              // Add CSS
+              let styleEl = iframeDoc.querySelector("style#gjs-css");
+              if (!styleEl) {
+                styleEl = iframeDoc.createElement("style");
+                styleEl.id = "gjs-css";
+                iframeDoc.head.appendChild(styleEl);
+              }
+              styleEl.textContent = css;
+
+              console.log("✅ Content forced to iframe");
+            }
+          }
+        }, 500);
+
         setIsLoading(false);
         setLoadError(null);
       } catch (error) {
@@ -414,8 +517,10 @@ const GrapesJSEditor = ({
       return;
     }
 
-    console.log("🚀 Initializing GrapesJS NOW!");
-    setIsInitializing(true);
+    console.log("🚀 Skipping GrapesJS - using simple HTML preview");
+    setIsInitializing(false);
+    setIsLoading(false);
+    return;
 
     const timeout = setTimeout(() => {
       console.warn("⏰ Loading timeout!");
@@ -731,7 +836,14 @@ const GrapesJSEditor = ({
   );
 
   const handleUpdateContent = useCallback(
-    (field, value) => {
+    (field, value, isModified = false) => {
+      if (isModified) {
+        setContentModified(true);
+        console.log(
+          "📝 Content marked as modified - preventing HTML regeneration"
+        );
+      }
+
       if (!editor || !selectedElement) return;
       if (field === "text") {
         selectedElement.set("content", value);
@@ -856,7 +968,138 @@ const GrapesJSEditor = ({
             <div
               ref={editorRef}
               style={{ height: "calc(100vh - 160px)", minHeight: "600px" }}
-            ></div>
+            >
+              {/* Interactive website preview */}
+              {currentTemplate && (
+                <div
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    border: "none",
+                    overflow: "auto",
+                    position: "relative",
+                  }}
+                >
+                  <style>{`
+                    ${generateWebsiteCSS()}
+                    
+                    /* Interactive styles */
+                    .editable {
+                      cursor: pointer;
+                      transition: all 0.2s ease;
+                      position: relative;
+                    }
+                    
+                    .editable:hover {
+                      outline: 2px solid #667eea;
+                      outline-offset: 2px;
+                    }
+                    
+                    .editable.selected {
+                      outline: 3px solid #ff6b6b;
+                      outline-offset: 2px;
+                    }
+                    
+                    .editable::after {
+                      content: '✏️';
+                      position: absolute;
+                      top: -10px;
+                      right: -10px;
+                      background: #667eea;
+                      color: white;
+                      border-radius: 50%;
+                      width: 20px;
+                      height: 20px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      font-size: 10px;
+                      opacity: 0;
+                      transition: opacity 0.2s ease;
+                    }
+                    
+                    .editable:hover::after {
+                      opacity: 1;
+                    }
+                  `}</style>
+
+                  <div
+                    ref={(containerRef) => {
+                      if (containerRef && currentTemplate) {
+                        // Only set content if not already initialized and not modified
+                        if (!contentInitialized.current && !contentModified) {
+                          console.log("🔄 Setting initial HTML content");
+                          containerRef.innerHTML =
+                            generateWebsiteHTML(currentTemplate);
+                          contentInitialized.current = true;
+
+                          // Add editable classes to all interactive elements
+                          setTimeout(() => {
+                            const textElements = containerRef.querySelectorAll(
+                              "h1, h2, h3, h4, h5, h6, p, span, a, button, div"
+                            );
+                            textElements.forEach((element) => {
+                              element.classList.add("editable");
+                            });
+                          }, 100);
+                        } else if (contentModified) {
+                          console.log(
+                            "🚫 Skipping HTML regeneration - content modified"
+                          );
+                        } else if (contentInitialized.current) {
+                          console.log(
+                            "🚫 Skipping HTML regeneration - already initialized"
+                          );
+                        }
+                      }
+                    }}
+                    onClick={(e) => {
+                      // Remove previous selections
+                      document.querySelectorAll(".editable").forEach((el) => {
+                        el.classList.remove("selected");
+                      });
+
+                      // Find the clicked element
+                      const target = e.target;
+                      if (target) {
+                        target.classList.add("selected");
+                        setSelectedElement({
+                          tagName: target.tagName,
+                          textContent: target.textContent,
+                          className: target.className,
+                          id: target.id,
+                          style: target.style.cssText,
+                          element: target,
+                        });
+                        console.log("Element selected:", target);
+                      }
+                    }}
+                  />
+                </div>
+              )}
+
+              {/* Debug info */}
+              {process.env.NODE_ENV === "development" && (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "10px",
+                    left: "10px",
+                    background: "rgba(0,0,0,0.8)",
+                    color: "white",
+                    padding: "10px",
+                    fontSize: "12px",
+                    zIndex: 1000,
+                    borderRadius: "4px",
+                  }}
+                >
+                  <div>Editor: {editor ? "✅" : "❌"}</div>
+                  <div>Loading: {isLoading ? "⏳" : "✅"}</div>
+                  <div>Template: {currentTemplate?.name || "None"}</div>
+                  <div>Mode: Simple HTML Preview</div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 

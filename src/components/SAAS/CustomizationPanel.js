@@ -12,13 +12,12 @@ const CustomizationPanel = ({
 
   // Update selected component when element changes
   useEffect(() => {
-    if (editor && selectedElement) {
-      const component = editor.getSelected();
-      setSelectedComponent(component);
+    if (selectedElement) {
+      setSelectedComponent(selectedElement);
     } else {
       setSelectedComponent(null);
     }
-  }, [editor, selectedElement]);
+  }, [selectedElement]);
 
   const tabs = [
     { id: "colors", label: "Colors", icon: Palette },
@@ -35,7 +34,7 @@ const CustomizationPanel = ({
         <h3 className="font-semibold text-gray-900">Customize</h3>
         <p className="text-xs text-gray-500 mt-1">
           {selectedComponent
-            ? "Edit selected element"
+            ? `Edit ${selectedComponent.tagName?.toLowerCase() || "element"}`
             : "Click an element to customize"}
         </p>
       </div>
@@ -119,19 +118,31 @@ const ColorCustomization = ({ component, onUpdateStyle }) => {
 
   // Load current styles when component changes
   useEffect(() => {
-    if (component) {
-      const styles = component.getStyle();
+    if (component && component.element) {
+      const computedStyle = window.getComputedStyle(component.element);
       setColors({
-        backgroundColor:
-          styles["background-color"] || styles.backgroundColor || "#ffffff",
-        color: styles.color || "#1f2937",
-        borderColor: styles["border-color"] || styles.borderColor || "#e5e7eb",
+        backgroundColor: computedStyle.backgroundColor || "#ffffff",
+        color: computedStyle.color || "#1f2937",
+        borderColor: computedStyle.borderColor || "#e5e7eb",
       });
     }
   }, [component]);
 
   const handleColorChange = (property, value) => {
     setColors((prev) => ({ ...prev, [property]: value }));
+
+    // Apply the style directly to the element
+    if (component && component.element) {
+      const styleMap = {
+        backgroundColor: "background-color",
+        color: "color",
+        borderColor: "border-color",
+      };
+
+      const cssProperty = styleMap[property] || property;
+      component.element.style[cssProperty] = value;
+    }
+
     if (onUpdateStyle) {
       onUpdateStyle(property, value);
     }
@@ -139,6 +150,9 @@ const ColorCustomization = ({ component, onUpdateStyle }) => {
 
   return (
     <div className="p-4 space-y-4">
+      <div className="text-xs text-green-600 mb-2">
+        ✓ Changes apply instantly - no reload needed
+      </div>
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Background Color
@@ -246,14 +260,14 @@ const TypographyCustomization = ({ component, onUpdateStyle }) => {
   });
 
   useEffect(() => {
-    if (component) {
-      const styles = component.getStyle();
+    if (component && component.element) {
+      const computedStyle = window.getComputedStyle(component.element);
       setTypography({
-        fontFamily: styles["font-family"] || styles.fontFamily || "Inter",
-        fontSize: styles["font-size"] || styles.fontSize || "16px",
-        fontWeight: styles["font-weight"] || styles.fontWeight || "400",
-        lineHeight: styles["line-height"] || styles.lineHeight || "1.5",
-        textAlign: styles["text-align"] || styles.textAlign || "left",
+        fontFamily: computedStyle.fontFamily || "Inter",
+        fontSize: computedStyle.fontSize || "16px",
+        fontWeight: computedStyle.fontWeight || "400",
+        lineHeight: computedStyle.lineHeight || "1.5",
+        textAlign: computedStyle.textAlign || "left",
       });
     }
   }, [component]);
@@ -286,6 +300,21 @@ const TypographyCustomization = ({ component, onUpdateStyle }) => {
 
   const handleChange = (property, value) => {
     setTypography((prev) => ({ ...prev, [property]: value }));
+
+    // Apply the style directly to the element
+    if (component && component.element) {
+      const styleMap = {
+        fontFamily: "font-family",
+        fontSize: "font-size",
+        fontWeight: "font-weight",
+        lineHeight: "line-height",
+        textAlign: "text-align",
+      };
+
+      const cssProperty = styleMap[property] || property;
+      component.element.style[cssProperty] = value;
+    }
+
     if (onUpdateStyle) {
       onUpdateStyle(property, value);
     }
@@ -293,6 +322,9 @@ const TypographyCustomization = ({ component, onUpdateStyle }) => {
 
   return (
     <div className="p-4 space-y-4">
+      <div className="text-xs text-green-600 mb-2">
+        ✓ Typography changes apply instantly
+      </div>
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Font Family
@@ -399,16 +431,21 @@ const ContentCustomization = ({ component, onUpdateContent }) => {
 
   useEffect(() => {
     if (component) {
-      const currentContent = component.get("content") || "";
+      const currentContent = component.textContent || "";
       setContent(currentContent);
     }
   }, [component]);
 
   const handleContentChange = (value) => {
     setContent(value);
-    if (onUpdateContent) {
-      onUpdateContent("text", value);
+    if (component && component.element) {
+      component.element.textContent = value;
+      // Mark content as modified to prevent HTML regeneration
+      if (onUpdateContent) {
+        onUpdateContent("text", value, true); // Pass true to indicate content was modified
+      }
     }
+    console.log("Content changed:", value);
   };
 
   return (
@@ -419,7 +456,7 @@ const ContentCustomization = ({ component, onUpdateContent }) => {
         </label>
         <textarea
           value={content}
-          onChange={(e) => handleContentChange(e.target.value)}
+          onChange={(e) => setContent(e.target.value)}
           placeholder="Enter text content..."
           rows={6}
           className="w-full px-3 py-2 border border-gray-300 rounded text-sm resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -432,6 +469,26 @@ const ContentCustomization = ({ component, onUpdateContent }) => {
       >
         Apply Changes
       </button>
+
+      {component && (
+        <div className="mt-2 text-xs text-green-600 text-center">
+          ✓ Changes applied instantly
+        </div>
+      )}
+
+      {component && (
+        <div className="mt-4 p-3 bg-gray-50 rounded text-xs">
+          <div>
+            <strong>Element:</strong> {component.tagName}
+          </div>
+          <div>
+            <strong>Class:</strong> {component.className || "none"}
+          </div>
+          <div>
+            <strong>ID:</strong> {component.id || "none"}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -441,10 +498,9 @@ const MediaCustomization = ({ component, onUpdateStyle }) => {
   const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
-    if (component) {
-      const styles = component.getStyle();
-      const bgImage =
-        styles["background-image"] || styles.backgroundImage || "";
+    if (component && component.element) {
+      const computedStyle = window.getComputedStyle(component.element);
+      const bgImage = computedStyle.backgroundImage || "";
       const url = bgImage.replace(/url\(['"]?(.+?)['"]?\)/, "$1");
       setImageUrl(url);
     }
@@ -457,6 +513,12 @@ const MediaCustomization = ({ component, onUpdateStyle }) => {
       reader.onload = (event) => {
         const result = event.target?.result;
         setImageUrl(result);
+
+        // Apply the style directly to the element
+        if (component && component.element && result) {
+          component.element.style.backgroundImage = `url(${result})`;
+        }
+
         if (onUpdateStyle) {
           onUpdateStyle("backgroundImage", `url(${result})`);
         }
@@ -467,6 +529,12 @@ const MediaCustomization = ({ component, onUpdateStyle }) => {
 
   const handleUrlChange = (url) => {
     setImageUrl(url);
+
+    // Apply the style directly to the element
+    if (component && component.element && url) {
+      component.element.style.backgroundImage = `url(${url})`;
+    }
+
     if (onUpdateStyle && url) {
       onUpdateStyle("backgroundImage", `url(${url})`);
     }
@@ -474,6 +542,9 @@ const MediaCustomization = ({ component, onUpdateStyle }) => {
 
   return (
     <div className="p-4 space-y-4">
+      <div className="text-xs text-green-600 mb-2">
+        ✓ Media changes apply instantly
+      </div>
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Image URL
