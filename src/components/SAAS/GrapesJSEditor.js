@@ -24,6 +24,8 @@ const GrapesJSEditor = ({
   const [refReady, setRefReady] = useState(false);
   const [isInitializing, setIsInitializing] = useState(false);
   const [contentModified, setContentModified] = useState(false);
+  const [modifiedPage, setModifiedPage] = useState(null);
+  const [pageNavigated, setPageNavigated] = useState(false);
   const contentInitialized = useRef(false);
   const [currentPage, setCurrentPage] = useState("home");
   const [pageContent, setPageContent] = useState(null);
@@ -37,26 +39,355 @@ const GrapesJSEditor = ({
     }
   }, []);
 
-  // Function to fetch real page content from actual routes
+  // Generate template-based content for different pages
+  const generatePageTemplateContent = useCallback((pagePath, website) => {
+    const { fullWebsite } = website;
+
+    if (pagePath === "blog") {
+      return `
+        <div class="min-h-screen bg-gray-50">
+          <!-- Navigation -->
+          <nav class="bg-white shadow-sm sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="flex justify-between items-center py-4">
+                <button data-nav="home" class="text-2xl font-bold text-gray-900">My Blog</button>
+                <div class="hidden md:flex space-x-8">
+                  <button data-nav="home" class="text-gray-500 hover:text-gray-900">Home</button>
+                  <button data-nav="about" class="text-gray-500 hover:text-gray-900">About</button>
+                  <button data-nav="blog" class="text-gray-900 font-medium">Blog</button>
+                  <button data-nav="categories" class="text-gray-500 hover:text-gray-900">Categories</button>
+                  <button data-nav="archive" class="text-gray-500 hover:text-gray-900">Archive</button>
+                  <button data-nav="contact" class="text-gray-500 hover:text-gray-900">Contact</button>
+                </div>
+              </div>
+            </div>
+          </nav>
+
+          <!-- Blog Header -->
+          <section class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <h1 class="text-4xl md:text-6xl font-bold mb-6">Latest Posts</h1>
+              <p class="text-xl md:text-2xl mb-8 opacity-90">Discover insights, stories, and ideas that inspire</p>
+            </div>
+          </section>
+
+          <!-- Search and Filters -->
+          <section class="py-12 bg-white">
+            <div class="max-w-6xl mx-auto px-4">
+              <div class="flex flex-col md:flex-row gap-4 mb-8">
+                <div class="flex-1">
+                  <input
+                    type="text"
+                    placeholder="Search posts..."
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+                <div class="flex gap-2 flex-wrap">
+                  <button class="px-4 py-2 rounded-full text-sm font-medium transition-colors bg-blue-600 text-white">All</button>
+                  <button class="px-4 py-2 rounded-full text-sm font-medium transition-colors bg-gray-100 text-gray-700 hover:bg-gray-200">Lifestyle</button>
+                  <button class="px-4 py-2 rounded-full text-sm font-medium transition-colors bg-gray-100 text-gray-700 hover:bg-gray-200">Travel</button>
+                  <button class="px-4 py-2 rounded-full text-sm font-medium transition-colors bg-gray-100 text-gray-700 hover:bg-gray-200">Technology</button>
+                  <button class="px-4 py-2 rounded-full text-sm font-medium transition-colors bg-gray-100 text-gray-700 hover:bg-gray-200">Personal Growth</button>
+                  <button class="px-4 py-2 rounded-full text-sm font-medium transition-colors bg-gray-100 text-gray-700 hover:bg-gray-200">Wellness</button>
+                </div>
+              </div>
+
+              <!-- Blog Posts Grid -->
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                ${
+                  (fullWebsite?.posts &&
+                    fullWebsite.posts
+                      .map(
+                        (post, index) => `
+                  <article class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                    <div class="h-48 bg-gradient-to-br from-blue-400 to-purple-500"></div>
+                    <div class="p-6">
+                      <div class="flex items-center mb-3">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">${post.category}</span>
+                        <span class="ml-4 text-gray-500 text-sm">${post.readTime}</span>
+                      </div>
+                      <h3 class="text-xl font-bold text-gray-900 mb-3">${post.title}</h3>
+                      <p class="text-gray-600 mb-4 leading-relaxed">${post.excerpt}</p>
+                      <div class="flex items-center justify-between">
+                        <span class="text-gray-500 text-sm">${post.date}</span>
+                        <button class="text-blue-600 font-semibold hover:text-blue-800 transition-colors">Read More →</button>
+                      </div>
+                    </div>
+                  </article>
+                `
+                      )
+                      .join("")) ||
+                  ""
+                }
+              </div>
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
+    if (pagePath === "about") {
+      return `
+        <div class="min-h-screen bg-gray-50">
+          <!-- Navigation -->
+          <nav class="bg-white shadow-sm sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="flex justify-between items-center py-4">
+                <button data-nav="home" class="text-2xl font-bold text-gray-900">My Blog</button>
+                <div class="hidden md:flex space-x-8">
+                  <button data-nav="home" class="text-gray-500 hover:text-gray-900">Home</button>
+                  <button data-nav="about" class="text-gray-900 font-medium">About</button>
+                  <button data-nav="blog" class="text-gray-500 hover:text-gray-900">Blog</button>
+                  <button data-nav="categories" class="text-gray-500 hover:text-gray-900">Categories</button>
+                  <button data-nav="archive" class="text-gray-500 hover:text-gray-900">Archive</button>
+                  <button data-nav="contact" class="text-gray-500 hover:text-gray-900">Contact</button>
+                </div>
+              </div>
+            </div>
+          </nav>
+
+          <!-- About Header -->
+          <section class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <h1 class="text-4xl md:text-6xl font-bold mb-6">About Me</h1>
+              <p class="text-xl md:text-2xl mb-8 opacity-90">Get to know the person behind the blog</p>
+            </div>
+          </section>
+
+          <!-- About Content -->
+          <section class="py-20 bg-white">
+            <div class="max-w-4xl mx-auto px-4">
+              <div class="text-center mb-16">
+                <div class="w-32 h-32 mx-auto mb-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full"></div>
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">${
+                  fullWebsite?.about?.title || "About Me"
+                }</h2>
+                <p class="text-xl text-gray-600 leading-relaxed">${
+                  fullWebsite?.about?.content ||
+                  "I'm a passionate writer, traveler, and lifelong learner. Through this blog, I share my experiences, insights, and the lessons I've learned along my journey."
+                }</p>
+              </div>
+
+              <!-- Interests -->
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                ${
+                  (fullWebsite?.about?.interests &&
+                    fullWebsite.about.interests
+                      .map(
+                        (interest, index) => `
+                  <div class="text-center p-6 bg-gray-50 rounded-2xl">
+                    <div class="text-4xl mb-4">${
+                      ["✈️", "📸", "🍳", "📚", "💻"][index] || "⭐"
+                    }</div>
+                    <h3 class="text-lg font-semibold text-gray-900">${interest}</h3>
+                  </div>
+                `
+                      )
+                      .join("")) ||
+                  ""
+                }
+              </div>
+
+              <!-- Experience & Social -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gray-50 rounded-2xl p-8">
+                  <h3 class="text-2xl font-bold text-gray-900 mb-4">Experience</h3>
+                  <p class="text-gray-600 mb-4">${
+                    fullWebsite?.about?.experience || "5+ Years Writing"
+                  }</p>
+                  <p class="text-gray-600">${
+                    fullWebsite?.about?.socialLinks
+                      ? "Connect with me on social media"
+                      : "Follow my journey"
+                  }</p>
+                </div>
+                <div class="bg-gray-50 rounded-2xl p-8">
+                  <h3 class="text-2xl font-bold text-gray-900 mb-4">Connect</h3>
+                  <div class="flex space-x-4">
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">Twitter</button>
+                    <button class="bg-pink-600 text-white px-4 py-2 rounded-lg hover:bg-pink-700 transition-colors">Instagram</button>
+                    <button class="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors">LinkedIn</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
+    if (pagePath === "categories") {
+      return `
+        <div class="min-h-screen bg-gray-50">
+          <!-- Navigation -->
+          <nav class="bg-white shadow-sm sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="flex justify-between items-center py-4">
+                <button data-nav="home" class="text-2xl font-bold text-gray-900">My Blog</button>
+                <div class="hidden md:flex space-x-8">
+                  <button data-nav="home" class="text-gray-500 hover:text-gray-900">Home</button>
+                  <button data-nav="about" class="text-gray-500 hover:text-gray-900">About</button>
+                  <button data-nav="blog" class="text-gray-500 hover:text-gray-900">Blog</button>
+                  <button data-nav="categories" class="text-gray-900 font-medium">Categories</button>
+                  <button data-nav="archive" class="text-gray-500 hover:text-gray-900">Archive</button>
+                  <button data-nav="contact" class="text-gray-500 hover:text-gray-900">Contact</button>
+                </div>
+              </div>
+            </div>
+          </nav>
+
+          <!-- Categories Header -->
+          <section class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <h1 class="text-4xl md:text-6xl font-bold mb-6">Categories</h1>
+              <p class="text-xl md:text-2xl mb-8 opacity-90">Explore content by topic</p>
+            </div>
+          </section>
+
+          <!-- Categories Grid -->
+          <section class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4">
+              <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                ${
+                  (fullWebsite?.categories &&
+                    fullWebsite.categories
+                      .map(
+                        (category, index) => `
+                  <div class="bg-gray-50 rounded-2xl p-6 text-center hover:bg-gray-100 transition-colors cursor-pointer">
+                    <div class="text-3xl mb-3">${
+                      ["📝", "✈️", "🧘", "💻", "📸", "🎨"][index] || "📝"
+                    }</div>
+                    <h3 class="font-semibold text-gray-900 mb-2">${category}</h3>
+                    <p class="text-sm text-gray-500">${
+                      Math.floor(Math.random() * 20) + 5
+                    } posts</p>
+                  </div>
+                `
+                      )
+                      .join("")) ||
+                  ""
+                }
+              </div>
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
+    if (pagePath === "contact") {
+      return `
+        <div class="min-h-screen bg-gray-50">
+          <!-- Navigation -->
+          <nav class="bg-white shadow-sm sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="flex justify-between items-center py-4">
+                <button data-nav="home" class="text-2xl font-bold text-gray-900">My Blog</button>
+                <div class="hidden md:flex space-x-8">
+                  <button data-nav="home" class="text-gray-500 hover:text-gray-900">Home</button>
+                  <button data-nav="about" class="text-gray-500 hover:text-gray-900">About</button>
+                  <button data-nav="blog" class="text-gray-500 hover:text-gray-900">Blog</button>
+                  <button data-nav="categories" class="text-gray-500 hover:text-gray-900">Categories</button>
+                  <button data-nav="archive" class="text-gray-500 hover:text-gray-900">Archive</button>
+                  <button data-nav="contact" class="text-gray-900 font-medium">Contact</button>
+                </div>
+              </div>
+            </div>
+          </nav>
+
+          <!-- Contact Header -->
+          <section class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <h1 class="text-4xl md:text-6xl font-bold mb-6">Get In Touch</h1>
+              <p class="text-xl md:text-2xl mb-8 opacity-90">I'd love to hear from you</p>
+            </div>
+          </section>
+
+          <!-- Contact Content -->
+          <section class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4">
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Contact Form -->
+                <div class="bg-white rounded-2xl shadow-lg p-8">
+                  <h2 class="text-2xl font-bold text-gray-900 mb-6">Send a Message</h2>
+                  <form class="space-y-6">
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                      <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Your name" />
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                      <input type="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="your@email.com" />
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                      <textarea rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Your message"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold">Send Message</button>
+                  </form>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="space-y-8">
+                  <div class="bg-gray-50 rounded-2xl p-8">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Contact Information</h3>
+                    <div class="space-y-4">
+                      <div class="flex items-center">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                          <span class="text-blue-600">📧</span>
+                        </div>
+                        <span class="text-gray-600">hello@myblog.com</span>
+                      </div>
+                      <div class="flex items-center">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                          <span class="text-blue-600">📱</span>
+                        </div>
+                        <span class="text-gray-600">+1 (555) 123-4567</span>
+                      </div>
+                      <div class="flex items-center">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                          <span class="text-blue-600">📍</span>
+                        </div>
+                        <span class="text-gray-600">New York, NY</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-2xl p-8">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Follow Me</h3>
+                    <div class="flex space-x-4">
+                      <button class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">Twitter</button>
+                      <button class="bg-pink-600 text-white px-6 py-3 rounded-lg hover:bg-pink-700 transition-colors">Instagram</button>
+                      <button class="bg-blue-800 text-white px-6 py-3 rounded-lg hover:bg-blue-900 transition-colors">LinkedIn</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
+    // Default fallback
+    return `
+      <div class="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div class="text-center">
+          <h1 class="text-4xl font-bold text-gray-900 mb-4">Page Not Found</h1>
+          <p class="text-gray-600 mb-8">This page is under construction</p>
+          <button data-nav="home" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">Go Home</button>
+        </div>
+      </div>
+    `;
+  }, []);
+
+  // Function to generate template-based content for different pages
   const fetchPageContent = useCallback(
     async (pagePath) => {
       if (!currentTemplate) return;
 
       setLoadingPage(true);
       try {
-        console.log(`🔄 Fetching real page content for: ${pagePath}`);
-
-        // Map page paths to actual Next.js routes
-        const pageRoutes = {
-          home: "/blog/home",
-          about: "/blog/about",
-          blog: "/blog/posts",
-          categories: "/blog/categories",
-          archive: "/blog/archive",
-          contact: "/blog/contact",
-        };
-
-        const route = pageRoutes[pagePath] || "/blog/home";
+        console.log(`🔄 Generating template content for: ${pagePath}`);
 
         if (pagePath === "home") {
           // Use the default home page content
@@ -64,84 +395,41 @@ const GrapesJSEditor = ({
           setCurrentPage("home");
           console.log(`✅ Using home page content`);
         } else {
-          // Fetch the actual page content from the real route
-          const response = await fetch(route);
-          if (response.ok) {
-            const htmlContent = await response.text();
-
-            // Extract body content from full HTML document
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(htmlContent, "text/html");
-            const bodyContent = doc.body ? doc.body.innerHTML : htmlContent;
-
-            // Process the content to add navigation attributes and fix links
-            const processedContent = bodyContent
-              .replace(/href="\/blog\/home"/g, 'data-nav="home" href="#"')
-              .replace(/href="\/blog\/about"/g, 'data-nav="about" href="#"')
-              .replace(/href="\/blog\/posts"/g, 'data-nav="blog" href="#"')
-              .replace(
-                /href="\/blog\/categories"/g,
-                'data-nav="categories" href="#"'
-              )
-              .replace(/href="\/blog\/archive"/g, 'data-nav="archive" href="#"')
-              .replace(/href="\/blog\/contact"/g, 'data-nav="contact" href="#"')
-              .replace(
-                /<a([^>]*?)href="([^"]*?)"([^>]*?)>/g,
-                '<a$1data-nav="$2" href="#"$3>'
-              );
-
-            // Wrap the content in a container div with proper styling
-            const wrappedContent = `
-              <div class="min-h-screen bg-gray-50">
-                <style>
-                  /* Ensure proper styling for fetched content */
-                  .min-h-screen { min-height: 100vh; }
-                  .bg-gray-50 { background-color: #f9fafb; }
-                  
-                  /* Navigation link styles */
-                  a[data-nav] {
-                    cursor: pointer;
-                    transition: all 0.2s ease;
-                  }
-                  
-                  a[data-nav]:hover {
-                    opacity: 0.8;
-                  }
-                  
-                  a[data-nav].active {
-                    background: #3b82f6;
-                    color: white;
-                    padding: 0.25rem 0.5rem;
-                    border-radius: 4px;
-                  }
-                </style>
-                
-                <!-- Page Content -->
-                <div class="page-content">
-                  ${processedContent}
-                </div>
-              </div>
-            `;
-
-            setPageContent(wrappedContent);
-            setCurrentPage(pagePath);
-            console.log(`✅ Real page content loaded for: ${pagePath}`);
-          } else {
-            console.error(`❌ Failed to fetch real page: ${pagePath}`);
-            // Fallback to home page content
-            setPageContent(null);
-            setCurrentPage("home");
-          }
+          // Generate template-based content for other pages
+          const pageContent = generatePageTemplateContent(
+            pagePath,
+            currentTemplate
+          );
+          setPageContent(pageContent);
+          setCurrentPage(pagePath);
+          console.log(`✅ Template content generated for: ${pagePath}`);
         }
+
+        // Mark that we've navigated to a new page
+        setPageNavigated(true);
+
+        // Debug log for page navigation
+        console.log("🔄 Page navigation:", {
+          from: currentPage,
+          to: pagePath,
+          contentModified,
+          modifiedPage,
+        });
       } catch (error) {
-        console.error(`❌ Error fetching real page content:`, error);
+        console.error(`❌ Error generating page content:`, error);
         setPageContent(null);
         setCurrentPage("home");
       } finally {
         setLoadingPage(false);
       }
     },
-    [currentTemplate]
+    [
+      currentTemplate,
+      generatePageTemplateContent,
+      contentModified,
+      currentPage,
+      modifiedPage,
+    ]
   );
 
   // Handle page content changes
@@ -150,8 +438,17 @@ const GrapesJSEditor = ({
       console.log("🔄 Page content changed, updating display");
       // Force content update when pageContent changes
       contentInitialized.current = false;
+      // Only reset content modification flag if we're navigating to a different page
+      // than the one that was modified
+      if (modifiedPage && modifiedPage !== currentPage) {
+        console.log(
+          "🔄 Resetting content modification flag - navigating to different page"
+        );
+        setContentModified(false);
+        setModifiedPage(null);
+      }
     }
-  }, [pageContent]);
+  }, [pageContent, modifiedPage, currentPage]);
 
   // Generate website HTML
   const generateWebsiteHTML = useCallback((website) => {
@@ -1420,18 +1717,37 @@ const GrapesJSEditor = ({
     (field, value, isModified = false) => {
       if (isModified) {
         setContentModified(true);
+        setModifiedPage(currentPage);
         console.log(
-          "📝 Content marked as modified - preventing HTML regeneration"
+          "📝 Content marked as modified - preventing HTML regeneration for page:",
+          currentPage
         );
       }
 
-      if (!editor || !selectedElement) return;
-      if (field === "text") {
-        selectedElement.set("content", value);
-        editor.render();
+      // Apply changes directly to the DOM element regardless of editor state
+      if (selectedElement && selectedElement.element) {
+        if (field === "text") {
+          selectedElement.element.textContent = value;
+          console.log("✅ Content applied directly to DOM element:", value);
+
+          // Force a re-render to ensure changes are visible
+          if (selectedElement.element.parentNode) {
+            selectedElement.element.parentNode.style.display = "none";
+            selectedElement.element.parentNode.offsetHeight; // Trigger reflow
+            selectedElement.element.parentNode.style.display = "";
+          }
+        }
+      }
+
+      // Also try the GrapesJS editor if available
+      if (editor && selectedElement) {
+        if (field === "text") {
+          selectedElement.set("content", value);
+          editor.render();
+        }
       }
     },
-    [editor, selectedElement]
+    [editor, selectedElement, currentPage]
   );
 
   // Loading overlay with better error handling
@@ -1607,6 +1923,46 @@ const GrapesJSEditor = ({
                   <div
                     ref={(containerRef) => {
                       if (containerRef && currentTemplate) {
+                        // Prevent unnecessary re-renders when content is modified
+                        if (
+                          contentModified &&
+                          containerRef.innerHTML &&
+                          containerRef.innerHTML.length > 100
+                        ) {
+                          console.log(
+                            "🚫 Skipping containerRef update - content already modified and has content"
+                          );
+                          // Still ensure editable classes are applied
+                          setTimeout(() => {
+                            const textElements = containerRef.querySelectorAll(
+                              "h1, h2, h3, h4, h5, h6, p, span, a, button, div"
+                            );
+                            textElements.forEach((element) => {
+                              element.classList.add("editable");
+                            });
+                          }, 50);
+                          return;
+                        }
+
+                        // Additional check: if content is modified on current page, don't regenerate at all
+                        if (contentModified && modifiedPage === currentPage) {
+                          console.log(
+                            "🚫 Skipping all content regeneration - content modified by user on current page:",
+                            currentPage
+                          );
+                          return;
+                        }
+
+                        // Debug log to understand the logic flow
+                        console.log("🔍 Content rendering logic:", {
+                          contentModified,
+                          modifiedPage,
+                          currentPage,
+                          pageContent: pageContent ? "has content" : "null",
+                          contentInitialized: contentInitialized.current,
+                          pageNavigated,
+                        });
+
                         // Show loading state
                         if (loadingPage) {
                           containerRef.innerHTML = `
@@ -1630,10 +1986,11 @@ const GrapesJSEditor = ({
                         const contentToShow =
                           pageContent || generateWebsiteHTML(currentTemplate);
 
-                        // Always update content when pageContent changes or when not initialized
+                        // Update content if not initialized or if we've navigated to a new page
+                        // But skip if content has been modified by user
                         if (
-                          pageContent !== null ||
-                          !contentInitialized.current
+                          (!contentInitialized.current || pageNavigated) &&
+                          !contentModified
                         ) {
                           console.log("🔄 Setting HTML content");
                           containerRef.innerHTML = contentToShow;
@@ -1682,10 +2039,153 @@ const GrapesJSEditor = ({
                               currentPageElement.classList.add("text-gray-900");
                             }
                           }, 100);
-                        } else if (contentModified && pageContent === null) {
+                        } else if (contentModified) {
                           console.log(
-                            "🚫 Skipping HTML regeneration - content modified (home page)"
+                            "🚫 Skipping HTML regeneration - content modified by user"
                           );
+                          // Still need to add editable classes and event listeners even when content is modified
+                          setTimeout(() => {
+                            const textElements = containerRef.querySelectorAll(
+                              "h1, h2, h3, h4, h5, h6, p, span, a, button, div"
+                            );
+                            textElements.forEach((element) => {
+                              element.classList.add("editable");
+                            });
+
+                            // Add navigation event listeners for both buttons and links
+                            const navElements =
+                              containerRef.querySelectorAll("[data-nav]");
+                            navElements.forEach((element) => {
+                              element.addEventListener("click", (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                const page = element.getAttribute("data-nav");
+                                console.log("🔄 Navigation clicked:", page);
+                                fetchPageContent(page);
+                              });
+                            });
+
+                            // Update active navigation state
+                            const currentPageElement =
+                              containerRef.querySelector(
+                                `[data-nav="${currentPage}"]`
+                              );
+                            if (currentPageElement) {
+                              // Remove active class from all navigation elements
+                              navElements.forEach((el) => {
+                                el.classList.remove("active");
+                                el.classList.add("text-gray-500");
+                                el.classList.remove("text-gray-900");
+                              });
+
+                              // Add active class to current page element
+                              currentPageElement.classList.add("active");
+                              currentPageElement.classList.remove(
+                                "text-gray-500"
+                              );
+                              currentPageElement.classList.add("text-gray-900");
+                            }
+                          }, 100);
+                        } else if (pageContent !== null && !contentModified) {
+                          console.log(
+                            "🔄 Updating fetched page content - new page navigation"
+                          );
+                          containerRef.innerHTML = contentToShow;
+                          contentInitialized.current = true;
+
+                          // Add editable classes to all interactive elements
+                          setTimeout(() => {
+                            const textElements = containerRef.querySelectorAll(
+                              "h1, h2, h3, h4, h5, h6, p, span, a, button, div"
+                            );
+                            textElements.forEach((element) => {
+                              element.classList.add("editable");
+                            });
+
+                            // Add navigation event listeners for both buttons and links
+                            const navElements =
+                              containerRef.querySelectorAll("[data-nav]");
+                            navElements.forEach((element) => {
+                              element.addEventListener("click", (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                const page = element.getAttribute("data-nav");
+                                console.log("🔄 Navigation clicked:", page);
+                                fetchPageContent(page);
+                              });
+                            });
+
+                            // Update active navigation state
+                            const currentPageElement =
+                              containerRef.querySelector(
+                                `[data-nav="${currentPage}"]`
+                              );
+                            if (currentPageElement) {
+                              // Remove active class from all navigation elements
+                              navElements.forEach((el) => {
+                                el.classList.remove("active");
+                                el.classList.add("text-gray-500");
+                                el.classList.remove("text-gray-900");
+                              });
+
+                              // Add active class to current page element
+                              currentPageElement.classList.add("active");
+                              currentPageElement.classList.remove(
+                                "text-gray-500"
+                              );
+                              currentPageElement.classList.add("text-gray-900");
+                            }
+                          }, 100);
+
+                          // Reset page navigation flag after content is updated
+                          setPageNavigated(false);
+                        } else if (pageContent !== null && contentModified) {
+                          console.log(
+                            "🚫 Skipping page content update - content modified by user"
+                          );
+                          // Still need to add editable classes and event listeners even when content is modified
+                          setTimeout(() => {
+                            const textElements = containerRef.querySelectorAll(
+                              "h1, h2, h3, h4, h5, h6, p, span, a, button, div"
+                            );
+                            textElements.forEach((element) => {
+                              element.classList.add("editable");
+                            });
+
+                            // Add navigation event listeners for both buttons and links
+                            const navElements =
+                              containerRef.querySelectorAll("[data-nav]");
+                            navElements.forEach((element) => {
+                              element.addEventListener("click", (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                const page = element.getAttribute("data-nav");
+                                console.log("🔄 Navigation clicked:", page);
+                                fetchPageContent(page);
+                              });
+                            });
+
+                            // Update active navigation state
+                            const currentPageElement =
+                              containerRef.querySelector(
+                                `[data-nav="${currentPage}"]`
+                              );
+                            if (currentPageElement) {
+                              // Remove active class from all navigation elements
+                              navElements.forEach((el) => {
+                                el.classList.remove("active");
+                                el.classList.add("text-gray-500");
+                                el.classList.remove("text-gray-900");
+                              });
+
+                              // Add active class to current page element
+                              currentPageElement.classList.add("active");
+                              currentPageElement.classList.remove(
+                                "text-gray-500"
+                              );
+                              currentPageElement.classList.add("text-gray-900");
+                            }
+                          }, 100);
                         } else {
                           console.log(
                             "🚫 Skipping HTML regeneration - already initialized"

@@ -442,5 +442,6 @@ export default function handler(req, res) {
 
   res.setHeader("Content-Type", "image/svg+xml");
   res.setHeader("Cache-Control", "public, max-age=31536000");
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.status(200).send(svg);
 }

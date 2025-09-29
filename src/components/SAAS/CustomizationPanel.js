@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Palette, Type, Settings, Image, Layout, Upload } from "lucide-react";
+import NextImage from "next/image";
 
 const CustomizationPanel = ({
   selectedElement,
@@ -116,14 +117,30 @@ const ColorCustomization = ({ component, onUpdateStyle }) => {
     borderColor: "#e5e7eb",
   });
 
+  // Convert RGB/RGBA to hex format
+  const rgbToHex = (rgb) => {
+    if (!rgb || rgb === "rgba(0, 0, 0, 0)" || rgb === "transparent")
+      return "#ffffff";
+    if (rgb.startsWith("#")) return rgb;
+
+    const match = rgb.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+    if (match) {
+      const r = parseInt(match[1]);
+      const g = parseInt(match[2]);
+      const b = parseInt(match[3]);
+      return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    }
+    return "#ffffff";
+  };
+
   // Load current styles when component changes
   useEffect(() => {
     if (component && component.element) {
       const computedStyle = window.getComputedStyle(component.element);
       setColors({
-        backgroundColor: computedStyle.backgroundColor || "#ffffff",
-        color: computedStyle.color || "#1f2937",
-        borderColor: computedStyle.borderColor || "#e5e7eb",
+        backgroundColor: rgbToHex(computedStyle.backgroundColor) || "#ffffff",
+        color: rgbToHex(computedStyle.color) || "#1f2937",
+        borderColor: rgbToHex(computedStyle.borderColor) || "#e5e7eb",
       });
     }
   }, [component]);
@@ -263,7 +280,7 @@ const TypographyCustomization = ({ component, onUpdateStyle }) => {
     if (component && component.element) {
       const computedStyle = window.getComputedStyle(component.element);
       setTypography({
-        fontFamily: computedStyle.fontFamily || "Inter",
+        fontFamily: computedStyle.fontFamily?.replace(/['"]/g, "") || "Inter",
         fontSize: computedStyle.fontSize || "16px",
         fontWeight: computedStyle.fontWeight || "400",
         lineHeight: computedStyle.lineHeight || "1.5",
@@ -448,6 +465,17 @@ const ContentCustomization = ({ component, onUpdateContent }) => {
     console.log("Content changed:", value);
   };
 
+  const handleApplyChanges = () => {
+    if (component && component.element) {
+      component.element.textContent = content;
+      // Mark content as modified to prevent HTML regeneration
+      if (onUpdateContent) {
+        onUpdateContent("text", content, true); // Pass true to indicate content was modified
+      }
+      console.log("Changes applied:", content);
+    }
+  };
+
   return (
     <div className="p-4 space-y-4">
       <div>
@@ -464,7 +492,7 @@ const ContentCustomization = ({ component, onUpdateContent }) => {
       </div>
 
       <button
-        onClick={() => handleContentChange(content)}
+        onClick={handleApplyChanges}
         className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
       >
         Apply Changes
@@ -595,9 +623,11 @@ const MediaCustomization = ({ component, onUpdateStyle }) => {
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Preview
           </label>
-          <img
+          <NextImage
             src={imageUrl}
             alt="Preview"
+            width={400}
+            height={160}
             className="w-full h-40 object-cover rounded border border-gray-300"
           />
         </div>
