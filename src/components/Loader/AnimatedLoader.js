@@ -122,7 +122,7 @@ const FloatingElements = memo(() => {
           position={[-4, 3, -3]}
           color="#3B82F6"
           scale={1.5}
-          args={[1, 64, 64]}
+          args={[1, 32, 32]}
         />
       </Float>
 
@@ -131,7 +131,7 @@ const FloatingElements = memo(() => {
           position={[4, -2, -2]}
           color="#8B5CF6"
           scale={1.2}
-          args={[1, 64, 64]}
+          args={[1, 32, 32]}
         />
       </Float>
 
@@ -144,48 +144,12 @@ const FloatingElements = memo(() => {
         />
       </Float>
 
-      <Float speed={1.5} rotationIntensity={2} floatIntensity={1.5}>
-        <GlowingBox
-          position={[-3, -2, -3]}
-          color="#F59E0B"
-          scale={0.6}
-          args={[0.4, 0.4, 0.4]}
-        />
-      </Float>
-
-      <Float speed={3.5} rotationIntensity={1.2} floatIntensity={3.5}>
-        <GlowingTorus
-          position={[3, 2, -2]}
-          color="#EF4444"
-          scale={0.9}
-          args={[1.2, 0.4, 32, 100]}
-        />
-      </Float>
-
-      <Float speed={2.2} rotationIntensity={1.8} floatIntensity={2.2}>
-        <GlowingTorus
-          position={[-2, 0, -3]}
-          color="#EC4899"
-          scale={0.7}
-          args={[1, 0.3, 32, 100]}
-        />
-      </Float>
-
       <Float speed={2.8} rotationIntensity={1.3} floatIntensity={2.8}>
         <GlowingSphere
           position={[0, -3, -2]}
           color="#06B6D4"
           scale={1.1}
-          args={[1, 64, 64]}
-        />
-      </Float>
-
-      <Float speed={1.8} rotationIntensity={2.5} floatIntensity={1.8}>
-        <GlowingBox
-          position={[2, 1, -4]}
-          color="#F97316"
-          scale={0.5}
-          args={[0.3, 0.3, 0.3]}
+          args={[1, 32, 32]}
         />
       </Float>
     </>
@@ -208,7 +172,7 @@ const CentralLogo = memo(() => {
     <Center position={[0, 0, 0]}>
       <group ref={meshRef}>
         <mesh>
-          <torusGeometry args={[3, 0.3, 32, 100]} />
+          <torusGeometry args={[3, 0.3, 16, 50]} />
           <meshStandardMaterial
             color="#FFFFFF"
             metalness={1}
@@ -218,23 +182,13 @@ const CentralLogo = memo(() => {
           />
         </mesh>
         <mesh position={[0, 0, 0.1]}>
-          <torusGeometry args={[2.5, 0.2, 24, 80]} />
+          <torusGeometry args={[2.5, 0.2, 12, 40]} />
           <meshStandardMaterial
             color="#3B82F6"
             metalness={1}
             roughness={0}
             transparent
             opacity={0.8}
-          />
-        </mesh>
-        <mesh position={[0, 0, 0.2]}>
-          <torusGeometry args={[2, 0.15, 16, 60]} />
-          <meshStandardMaterial
-            color="#8B5CF6"
-            metalness={1}
-            roughness={0}
-            transparent
-            opacity={0.7}
           />
         </mesh>
       </group>
@@ -258,9 +212,13 @@ const AnimatedLoader = memo(() => {
       <div className="absolute inset-0">
         <Canvas
           camera={{ position: [0, 0, 8], fov: 75 }}
-          dpr={[1, 2]}
-          performance={{ min: 0.5 }}
-          gl={{ antialias: true, alpha: true }}
+          dpr={[1, 1.5]}
+          performance={{ min: 0.8 }}
+          gl={{
+            antialias: false,
+            alpha: true,
+            powerPreference: "high-performance",
+          }}
         >
           <ambientLight intensity={0.2} />
           <directionalLight
@@ -283,8 +241,8 @@ const AnimatedLoader = memo(() => {
           <Stars
             radius={100}
             depth={50}
-            count={5000}
-            factor={4}
+            count={1000}
+            factor={2}
             saturation={0}
             fade
           />
@@ -320,7 +278,7 @@ const AnimatedLoader = memo(() => {
             transition={{ duration: 1.5, delay: 0.5 }}
             className="text-7xl md:text-9xl font-bold mb-8 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
           >
-            Website CRM
+            Elevare
           </motion.h1>
 
           {/* Subtitle */}
@@ -330,7 +288,7 @@ const AnimatedLoader = memo(() => {
             transition={{ duration: 1.5, delay: 1 }}
             className="text-3xl md:text-4xl text-white mb-6 font-light"
           >
-            Customize Your Superb Website
+            Elevate Your Online Presence
           </motion.p>
 
           <motion.p
@@ -339,7 +297,7 @@ const AnimatedLoader = memo(() => {
             transition={{ duration: 1.5, delay: 1.2 }}
             className="text-xl md:text-2xl text-white mb-16 font-light opacity-90"
           >
-            In Seconds & Be Online
+            Create Stunning Websites in Seconds
           </motion.p>
 
           {/* Features Grid */}
@@ -390,7 +348,7 @@ const AnimatedLoader = memo(() => {
           >
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <div className="relative flex items-center space-x-3">
-              <span>Enter Website CRM</span>
+              <span>Enter Elevare</span>
               <motion.div
                 animate={{ x: [0, 5, 0] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
@@ -442,7 +400,7 @@ const AnimatedLoader = memo(() => {
 
       {/* Enhanced Background Particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(100)].map((_, i) => (
+        {[...Array(30)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute rounded-full"

@@ -2609,28 +2609,6 @@ const GrapesJSEditor = ({
                   />
                 </div>
               )}
-
-              {/* Debug info */}
-              {process.env.NODE_ENV === "development" && (
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "10px",
-                    left: "10px",
-                    background: "rgba(0,0,0,0.8)",
-                    color: "white",
-                    padding: "10px",
-                    fontSize: "12px",
-                    zIndex: 1000,
-                    borderRadius: "4px",
-                  }}
-                >
-                  <div>Editor: {editor ? "✅" : "❌"}</div>
-                  <div>Loading: {isLoading ? "⏳" : "✅"}</div>
-                  <div>Template: {currentTemplate?.name || "None"}</div>
-                  <div>Mode: Simple HTML Preview</div>
-                </div>
-              )}
             </div>
           </div>
         </div>
