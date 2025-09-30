@@ -20,7 +20,14 @@ const Navigation = memo(() => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const router = useRouter();
-  const { requireAuth, user, signOut, isAuthenticated } = useAuth();
+  const {
+    requireAuth,
+    user,
+    signOut,
+    isAuthenticated,
+    isAdmin,
+    isRegularUser,
+  } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,16 +53,21 @@ const Navigation = memo(() => {
       icon: Palette,
       requiresAuth: false,
     },
-    {
-      name: "Customize",
-      href: "/customize",
-      icon: Settings,
-      requiresAuth: true,
-    },
+    // Only show Publish link for regular users, not admins
+    ...(isRegularUser()
+      ? [
+          {
+            name: "Publish",
+            href: "/publish",
+            icon: Globe,
+            requiresAuth: true,
+          },
+        ]
+      : []),
     {
       name: "Dashboard",
       href: "/user-dashboard",
-      icon: Globe,
+      icon: Settings,
       requiresAuth: true,
     },
     { name: "Monderna", href: "/monderna", icon: Bot, requiresAuth: false },

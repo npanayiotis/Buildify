@@ -22,6 +22,12 @@ export const AuthProvider = ({ children }) => {
         if (savedUser) {
           const userData = JSON.parse(savedUser);
           if (userData.isAuthenticated) {
+            // Ensure role is set for existing users
+            if (!userData.role) {
+              userData.role =
+                userData.email === "admin@elevare.com" ? "admin" : "user";
+              localStorage.setItem("user", JSON.stringify(userData));
+            }
             setUser(userData);
           }
         }
@@ -44,6 +50,7 @@ export const AuthProvider = ({ children }) => {
         name: email.split("@")[0],
         email,
         isAuthenticated: true,
+        role: email === "admin@elevare.com" ? "admin" : "user", // Add role based on email
         createdAt: new Date().toISOString(),
       };
 
@@ -64,6 +71,7 @@ export const AuthProvider = ({ children }) => {
         name,
         email,
         isAuthenticated: true,
+        role: "user", // All signups are regular users
         createdAt: new Date().toISOString(),
       };
 
@@ -95,6 +103,14 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const isAdmin = () => {
+    return user && user.role === "admin";
+  };
+
+  const isRegularUser = () => {
+    return user && user.role === "user";
+  };
+
   const value = {
     user,
     loading,
@@ -103,6 +119,8 @@ export const AuthProvider = ({ children }) => {
     signOut,
     isAuthenticated,
     requireAuth,
+    isAdmin,
+    isRegularUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -2137,6 +2137,7 @@ const GrapesJSEditor = ({
               <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 ${
                   (fullWebsite?.programs &&
+                    Array.isArray(fullWebsite.programs) &&
                     fullWebsite.programs
                       .map(
                         (program) => `
@@ -2149,16 +2150,20 @@ const GrapesJSEditor = ({
                       program.price
                     }</div>
                     <ul class="space-y-2">
-                      ${program.features
-                        .map(
-                          (feature) => `
+                      ${
+                        program.features && Array.isArray(program.features)
+                          ? program.features
+                              .map(
+                                (feature) => `
                         <li class="flex items-center text-sm text-gray-600">
                           <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
                           ${feature}
                         </li>
                       `
-                        )
-                        .join("")}
+                              )
+                              .join("")
+                          : ""
+                      }
                     </ul>
                   </div>
                 `

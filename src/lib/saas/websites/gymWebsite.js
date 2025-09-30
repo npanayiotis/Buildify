@@ -639,7 +639,7 @@ export const gymWebsite = {
         },
       ],
     },
-    programs: {
+    programCategories: {
       title: "Fitness Programs",
       description: "Specialized programs designed for every fitness level",
       categories: [

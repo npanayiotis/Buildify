@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
 import {
   ArrowLeft,
   Eye,
@@ -18,13 +19,40 @@ import {
   Menu,
   RotateCcw,
   Search,
+  Save,
+  Loader,
+  CheckCircle,
 } from "lucide-react";
 import GrapesJSEditor from "../components/SAAS/GrapesJSEditor";
 import WebsitePreview from "../components/SAAS/WebsitePreview";
 import { WEBSITES } from "../lib/saas/websites/websiteData";
 
+// Redux imports
+import {
+  selectWebsiteData,
+  selectHasUnsavedChanges,
+  selectLastSaved,
+  selectSaving,
+  selectSaveError,
+  updateWebsiteData,
+  saveWebsiteCustomization,
+  clearError,
+} from "../store/slices/customizeSlice";
+import { useAuth } from "../contexts/AuthContext";
+
 const CustomizePage = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const { isAuthenticated } = useAuth();
+
+  // Redux state
+  const websiteData = useSelector(selectWebsiteData);
+  const hasUnsavedChanges = useSelector(selectHasUnsavedChanges);
+  const lastSaved = useSelector(selectLastSaved);
+  const saving = useSelector(selectSaving);
+  const saveError = useSelector(selectSaveError);
+
+  // Local state
   const [selectedWebsite, setSelectedWebsite] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showWebsiteSelector, setShowWebsiteSelector] = useState(false);
@@ -37,6 +65,49 @@ const CustomizePage = () => {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Redirect if not authenticated
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      router.push("/auth");
+    }
+  }, [isAuthenticated, router]);
+
+  // Save functionality
+  const handleSave = async () => {
+    if (selectedWebsite && websiteData) {
+      try {
+        await dispatch(
+          saveWebsiteCustomization({
+            websiteId: selectedWebsite.id,
+            customizationData: websiteData,
+          })
+        ).unwrap();
+
+        // Redirect to publish page after successful save
+        router.push(`/publish?websiteId=${selectedWebsite.id}`);
+      } catch (error) {
+        console.error("Save failed:", error);
+      }
+    }
+  };
+
+  // Handle website data changes
+  const handleWebsiteDataChange = (newData) => {
+    dispatch(updateWebsiteData(newData));
+  };
+
+  // Handle publish
+  const handlePublish = async () => {
+    if (selectedWebsite) {
+      // Save changes first
+      if (hasUnsavedChanges) {
+        await handleSave();
+      }
+      // Then redirect to publish
+      router.push(`/publish?websiteId=${selectedWebsite.id}`);
+    }
+  };
 
   useEffect(() => {
     // Only run on client-side after router is ready
@@ -81,12 +152,12 @@ const CustomizePage = () => {
     }
   }, [mounted, router.isReady, router.query]);
 
-  const handleSave = (pageData) => {
+  const handlePageSave = (pageData) => {
     console.log("Page saved:", pageData);
     alert("Website saved successfully!");
   };
 
-  const handlePublish = (pageData) => {
+  const handlePagePublish = (pageData) => {
     console.log("Page published:", pageData);
     alert("Website published successfully!");
     router.push("/dashboard?published=true");
@@ -435,12 +506,40 @@ const CustomizePage = () => {
 
             {/* Right: Actions */}
             <div className="flex-shrink-0 flex items-center space-x-3">
+              {/* Save Status */}
+              {hasUnsavedChanges && (
+                <div className="flex items-center space-x-2 text-yellow-400 text-sm">
+                  <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
+                  <span>Unsaved changes</span>
+                </div>
+              )}
+
+              {lastSaved && (
+                <div className="flex items-center space-x-2 text-green-400 text-sm">
+                  <CheckCircle className="w-4 h-4" />
+                  <span>Saved {new Date(lastSaved).toLocaleTimeString()}</span>
+                </div>
+              )}
+
               <button
                 onClick={() => setShowTemplateSwitcher(true)}
                 className="flex items-center space-x-2 px-4 py-2 bg-white/10 text-white border border-white/20 rounded-lg hover:bg-white/20 transition-colors"
               >
                 <Menu className="w-4 h-4" />
                 <span>Switch Template</span>
+              </button>
+
+              <button
+                onClick={handlePublish}
+                disabled={saving || !hasUnsavedChanges}
+                className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+              >
+                {saving ? (
+                  <Loader className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Save className="w-4 h-4" />
+                )}
+                <span>{saving ? "Saving..." : "Save & Publish"}</span>
               </button>
             </div>
           </div>
@@ -450,6 +549,8 @@ const CustomizePage = () => {
         <div className="flex-1 overflow-hidden">
           <GrapesJSEditor
             templateData={selectedWebsite}
+            websiteData={websiteData}
+            onContentChange={handleWebsiteDataChange}
             onSave={handleSave}
             onPublish={handlePublish}
           />

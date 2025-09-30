@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Check, Crown, Zap, Star } from "lucide-react";
-import { PRICING_PLANS } from "../lib/saas/templates/templateData";
+import {
+  PRICING_PLANS,
+  EXTRA_SERVICES,
+} from "../lib/saas/websites/websiteData";
 
 const PricingPage = () => {
   const [billingCycle, setBillingCycle] = useState("monthly");
@@ -85,43 +88,22 @@ const PricingPage = () => {
               Simple, Transparent Pricing
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-              Choose the perfect plan for your needs. Start free and upgrade
-              anytime.
+              One-time payment for your website + monthly hosting & support. No
+              hidden fees, no surprises.
             </p>
 
-            {/* Billing Toggle */}
-            <div className="flex items-center justify-center space-x-4 mb-8">
-              <span
-                className={`text-sm font-medium ${
-                  !isAnnual ? "text-gray-900" : "text-gray-500"
-                }`}
-              >
-                Monthly
-              </span>
-              <button
-                onClick={handleBillingToggle}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  isAnnual ? "bg-blue-600" : "bg-gray-200"
-                }`}
-              >
-                <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                    isAnnual ? "translate-x-6" : "translate-x-1"
-                  }`}
-                />
-              </button>
-              <span
-                className={`text-sm font-medium ${
-                  isAnnual ? "text-gray-900" : "text-gray-500"
-                }`}
-              >
-                Annual
-              </span>
-              {isAnnual && (
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                  Save 20%
+            {/* Pricing Notice */}
+            <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-lg p-6 mb-8 max-w-2xl mx-auto">
+              <div className="flex items-center justify-center mb-2">
+                <Star className="w-5 h-5 text-green-600 mr-2" />
+                <span className="text-lg font-semibold text-green-800">
+                  Competitive Pricing
                 </span>
-              )}
+              </div>
+              <p className="text-green-700 text-center">
+                Pay once for your website, then just €39.99/month for hosting,
+                support, and updates.
+              </p>
             </div>
           </motion.div>
 
@@ -152,17 +134,17 @@ const PricingPage = () => {
                   {/* Plan Header */}
                   <div className="text-center mb-8">
                     <div className="flex items-center justify-center mb-4">
-                      {plan.id === "free" && (
+                      {plan.id === "starter" && (
                         <Zap className="w-8 h-8 text-yellow-500" />
                       )}
-                      {plan.id === "starter" && (
+                      {plan.id === "professional" && (
                         <Star className="w-8 h-8 text-blue-500" />
                       )}
-                      {plan.id === "advanced" && (
+                      {plan.id === "business" && (
                         <Crown className="w-8 h-8 text-purple-500" />
                       )}
-                      {plan.id === "unlimited" && (
-                        <Crown className="w-8 h-8 text-gold-500" />
+                      {plan.id === "enterprise" && (
+                        <Crown className="w-8 h-8 text-yellow-600" />
                       )}
                     </div>
                     <h3 className="text-2xl font-bold text-gray-900 mb-2">
@@ -172,17 +154,20 @@ const PricingPage = () => {
                       {plan.description}
                     </p>
                     <div className="mb-4">
-                      <span className="text-4xl font-bold text-gray-900">
-                        $
-                        {isAnnual && plan.price > 0
-                          ? Math.round(plan.price * 0.8)
-                          : plan.price}
-                      </span>
-                      {plan.price > 0 && (
-                        <span className="text-gray-600">
-                          /{isAnnual ? "year" : "month"}
+                      <div className="flex items-baseline justify-center">
+                        <span className="text-4xl font-bold text-gray-900">
+                          €{plan.price}
                         </span>
-                      )}
+                        <span className="text-gray-600 ml-1">one-time</span>
+                      </div>
+                      <div className="mt-2">
+                        <span className="text-lg font-semibold text-blue-600">
+                          + €{plan.monthlySupport}/month
+                        </span>
+                        <span className="text-gray-600 text-sm block">
+                          hosting & support
+                        </span>
+                      </div>
                     </div>
                   </div>
 
@@ -192,7 +177,9 @@ const PricingPage = () => {
                       <div key={featureIndex} className="flex items-start">
                         <Check className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" />
                         <span className="text-gray-700 text-sm">
-                          {typeof feature === "string" ? feature : feature.title || feature}
+                          {typeof feature === "string"
+                            ? feature
+                            : feature.title || feature}
                         </span>
                       </div>
                     ))}
@@ -203,17 +190,109 @@ const PricingPage = () => {
                     className={`w-full py-3 px-6 rounded-lg font-medium transition-all duration-300 ${
                       plan.popular
                         ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:shadow-lg hover:scale-105"
-                        : plan.id === "free"
-                        ? "bg-gray-100 text-gray-900 hover:bg-gray-200"
                         : "bg-blue-600 text-white hover:bg-blue-700"
                     }`}
                   >
-                    {plan.id === "free" ? "Start Free" : "Get Started"}
+                    Choose {plan.name}
                   </button>
                 </div>
               </motion.div>
             ))}
           </div>
+
+          {/* Extra Services Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="text-center"
+          >
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Extra Services
+            </h2>
+            <p className="text-xl text-gray-600 mb-12 max-w-3xl mx-auto">
+              Add professional services to enhance your website and save time
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {EXTRA_SERVICES.map((service, index) => (
+                <motion.div
+                  key={service.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className={`relative bg-white rounded-xl shadow-lg border-2 transition-all duration-300 hover:shadow-xl ${
+                    service.popular
+                      ? "border-blue-500"
+                      : "border-gray-200 hover:border-gray-300"
+                  }`}
+                >
+                  {service.popular && (
+                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-500 text-white">
+                        Popular
+                      </span>
+                    </div>
+                  )}
+
+                  <div className="p-6">
+                    {/* Service Header */}
+                    <div className="text-center mb-6">
+                      <h3 className="text-xl font-bold text-gray-900 mb-2">
+                        {service.name}
+                      </h3>
+                      <p className="text-gray-600 text-sm mb-4">
+                        {service.description}
+                      </p>
+                      <div className="mb-4">
+                        <span className="text-3xl font-bold text-gray-900">
+                          €{service.price}
+                        </span>
+                        {service.period && (
+                          <span className="text-gray-600">
+                            /{service.period}
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-sm text-blue-600 font-medium">
+                        {service.estimatedTime}
+                      </div>
+                    </div>
+
+                    {/* Features */}
+                    <div className="space-y-3 mb-6">
+                      {service.features
+                        .slice(0, 4)
+                        .map((feature, featureIndex) => (
+                          <div key={featureIndex} className="flex items-start">
+                            <Check className="w-4 h-4 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                            <span className="text-gray-700 text-sm">
+                              {feature}
+                            </span>
+                          </div>
+                        ))}
+                      {service.features.length > 4 && (
+                        <div className="text-sm text-gray-500 text-center">
+                          +{service.features.length - 4} more features
+                        </div>
+                      )}
+                    </div>
+
+                    {/* CTA Button */}
+                    <button
+                      className={`w-full py-2 px-4 rounded-lg font-medium transition-all duration-300 ${
+                        service.popular
+                          ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:shadow-lg"
+                          : "bg-gray-100 text-gray-900 hover:bg-gray-200"
+                      }`}
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
 
           {/* FAQ Section */}
           <motion.div
@@ -228,20 +307,30 @@ const PricingPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
               <div className="text-left">
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  Can I change my plan anytime?
+                  What&apos;s included in the monthly fee?
                 </h3>
                 <p className="text-gray-600">
-                  Yes, you can upgrade or downgrade your plan at any time.
-                  Changes take effect immediately.
+                  The €39.99/month includes hosting, SSL certificates, regular
+                  backups, security updates, and email support. No hidden fees.
                 </p>
               </div>
               <div className="text-left">
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  Is there a free trial?
+                  Can I cancel the monthly support?
                 </h3>
                 <p className="text-gray-600">
-                  Yes! You can start with our free plan and upgrade when
-                  you&apos;re ready for more features.
+                  Yes, you can cancel anytime. Your website will remain live,
+                  but you&apos;ll lose hosting, updates, and support services.
+                </p>
+              </div>
+              <div className="text-left">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  Do you set up my custom domain?
+                </h3>
+                <p className="text-gray-600">
+                  Yes! Our domain setup service (€49) includes DNS
+                  configuration, SSL setup, and email forwarding. We handle
+                  everything.
                 </p>
               </div>
               <div className="text-left">
@@ -249,11 +338,28 @@ const PricingPage = () => {
                   What payment methods do you accept?
                 </h3>
                 <p className="text-gray-600">
-                  We accept all major credit cards, PayPal, and bank transfers
-                  for annual plans.
+                  We accept all major credit cards, PayPal, SEPA bank transfers,
+                  and cryptocurrency for the one-time payment.
                 </p>
               </div>
-              x§
+              <div className="text-left">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  How long does it take to get my website?
+                </h3>
+                <p className="text-gray-600">
+                  Your website is ready in 24-48 hours after payment. Custom
+                  domains and extra services may take 3-7 business days.
+                </p>
+              </div>
+              <div className="text-left">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  Do you offer refunds?
+                </h3>
+                <p className="text-gray-600">
+                  Yes, we offer a 30-day money-back guarantee. If you&apos;re
+                  not satisfied, we&apos;ll refund your one-time payment.
+                </p>
+              </div>
             </div>
           </motion.div>
 
@@ -265,10 +371,11 @@ const PricingPage = () => {
             className="text-center bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-12 text-white"
           >
             <h2 className="text-3xl font-bold mb-4">
-              Ready to Build Something Amazing?
+              Ready to Get Your Professional Website?
             </h2>
             <p className="text-xl mb-8 opacity-90">
-              Join thousands of creators who are already building with Buildify
+              Join hundreds of businesses who chose our competitive pricing and
+              professional service
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link

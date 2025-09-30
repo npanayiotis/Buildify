@@ -1,17 +1,36 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: #0a0a0a;
   --foreground: #f8fafc;
-  --primary-blue: #3B82F6;
-  --primary-purple: #8B5CF6;
-  --accent-blue: #1D4ED8;
-  --accent-purple: #7C3AED;
-  --gradient-primary: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
-  --gradient-secondary: linear-gradient(135deg, #1D4ED8 0%, #7C3AED 100%);
-  --gradient-dark: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
-  --gradient-silver: linear-gradient(135deg, #374151 0%, #6b7280 50%, #9ca3af 100%);
-  --gradient-black-silver: linear-gradient(135deg, #000000 0%, #1f2937 25%, #374151 50%, #6b7280 75%, #9ca3af 100%);
+  --primary-blue: #3b82f6;
+  --primary-purple: #8b5cf6;
+  --accent-blue: #1d4ed8;
+  --accent-purple: #7c3aed;
+  --gradient-primary: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  --gradient-secondary: linear-gradient(135deg, #1d4ed8 0%, #7c3aed 100%);
+  --gradient-dark: linear-gradient(
+    135deg,
+    #0a0a0a 0%,
+    #1a1a1a 50%,
+    #0a0a0a 100%
+  );
+  --gradient-silver: linear-gradient(
+    135deg,
+    #374151 0%,
+    #6b7280 50%,
+    #9ca3af 100%
+  );
+  --gradient-black-silver: linear-gradient(
+    135deg,
+    #000000 0%,
+    #1f2937 25%,
+    #374151 50%,
+    #6b7280 75%,
+    #9ca3af 100%
+  );
 }
 
 @theme inline {
@@ -74,15 +93,21 @@ body {
 /* Animated gradient borders */
 .animated-border {
   position: relative;
-  background: linear-gradient(45deg, #3B82F6, #8B5CF6, #3B82F6);
+  background: linear-gradient(45deg, #3b82f6, #8b5cf6, #3b82f6);
   background-size: 300% 300%;
   animation: gradient-shift 3s ease infinite;
 }
 
 @keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* Line clamp utilities for better text truncation */
