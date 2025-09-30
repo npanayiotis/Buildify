@@ -13,7 +13,7 @@ const AnimatedLoader = dynamic(
           <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center mx-auto mb-4 animate-pulse">
             <span className="text-white font-bold text-xl">E</span>
           </div>
-          <h1 className="text-2xl font-bold text-white mb-2">Elevare</h1>
+          <h1 className="text-2xl font-bold text-white mb-2">Monderna</h1>
           <p className="text-gray-300">Loading your experience...</p>
           <div className="mt-4 flex justify-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
@@ -28,7 +28,7 @@ const LoaderPage = memo(() => {
   return (
     <>
       <Head>
-        <title>Elevare - Loading...</title>
+        <title>Monderna - Loading...</title>
         <meta
           name="description"
           content="Elevate your online presence with stunning websites created in seconds"

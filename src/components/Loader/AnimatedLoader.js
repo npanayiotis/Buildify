@@ -278,7 +278,7 @@ const AnimatedLoader = memo(() => {
             transition={{ duration: 1.5, delay: 0.5 }}
             className="text-7xl md:text-9xl font-bold mb-8 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
           >
-            Elevare
+            Monderna
           </motion.h1>
 
           {/* Subtitle */}
@@ -348,7 +348,7 @@ const AnimatedLoader = memo(() => {
           >
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <div className="relative flex items-center space-x-3">
-              <span>Enter Elevare</span>
+              <span>Enter Monderna</span>
               <motion.div
                 animate={{ x: [0, 5, 0] }}
                 transition={{ duration: 1.5, repeat: Infinity }}

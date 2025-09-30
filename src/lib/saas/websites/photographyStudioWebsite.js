@@ -380,6 +380,34 @@ export const photographyStudioWebsite = {
       { number: "12+", label: "Years Experience" },
       { number: "200+", label: "Happy Couples" },
     ],
+    navigation: {
+      logo: "Photography Studio",
+      links: [
+        { name: "Home", href: "/" },
+        { name: "Portfolio", href: "/portfolio" },
+        { name: "Services", href: "/services" },
+        { name: "Booking", href: "/booking" },
+        { name: "Blog", href: "/blog" },
+        { name: "Contact", href: "/contact" },
+      ],
+    },
+    footer: {
+      description:
+        "Professional photography studio capturing life's beautiful moments with artistic excellence. Specializing in weddings, portraits, and events.",
+      quickLinks: [
+        { name: "Portfolio", url: "/portfolio" },
+        { name: "Services", url: "/services" },
+        { name: "Booking", url: "/booking" },
+        { name: "Contact", url: "/contact" },
+      ],
+      socialLinks: {
+        instagram: "https://instagram.com/photographystudio",
+        facebook: "https://facebook.com/photographystudio",
+        pinterest: "https://pinterest.com/photographystudio",
+        twitter: "https://twitter.com/photographystudio",
+      },
+      copyright: "© 2024 Photography Studio. All rights reserved.",
+    },
     seo: {
       title: "Professional Photography Studio - Wedding & Portrait Photography",
       description:

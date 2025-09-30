@@ -107,7 +107,7 @@ const Navigation = memo(() => {
                     : "text-white drop-shadow-lg"
                 }`}
               >
-                Elevare
+                Monderna
               </h1>
               <p
                 className={`text-xs -mt-1 ${

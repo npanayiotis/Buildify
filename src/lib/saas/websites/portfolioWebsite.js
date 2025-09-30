@@ -350,6 +350,33 @@ export const portfolioWebsite = {
       { number: "8+", label: "Years Experience" },
       { number: "50+", label: "Happy Clients" },
     ],
+    navigation: {
+      logo: "Creative Portfolio",
+      links: [
+        { name: "Home", href: "/" },
+        { name: "Portfolio", href: "/portfolio" },
+        { name: "About", href: "/about" },
+        { name: "Services", href: "/services" },
+        { name: "Contact", href: "/contact" },
+      ],
+    },
+    footer: {
+      description:
+        "Creative professional specializing in brand identity, web design, and visual storytelling. Let's bring your vision to life.",
+      quickLinks: [
+        { name: "Portfolio", url: "/portfolio" },
+        { name: "About", url: "/about" },
+        { name: "Services", url: "/services" },
+        { name: "Contact", url: "/contact" },
+      ],
+      socialLinks: {
+        instagram: "https://instagram.com/username",
+        behance: "https://behance.net/username",
+        dribbble: "https://dribbble.com/username",
+        linkedin: "https://linkedin.com/in/username",
+      },
+      copyright: "© 2024 Creative Portfolio. All rights reserved.",
+    },
     seo: {
       title: "Creative Portfolio - Professional Designer & Artist",
       description:

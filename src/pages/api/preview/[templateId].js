@@ -1,9 +1,27 @@
 // Template preview API that generates actual website preview images
+// Also redirects to live pages for websites that have them
 export default function handler(req, res) {
   const { templateId } = req.query;
 
   if (!templateId) {
     return res.status(400).json({ error: "Template ID required" });
+  }
+
+  // Map website IDs to their live pages (for redirect)
+  const livePageRoutes = {
+    "professional-blog-website": "/site/blog/home",
+    "elegant-restaurant-website": "/site/restaurant/menu",
+    "fitness-gym-website": "/site/gym/programs",
+    "law-office-website": "/site/law/services",
+    "creative-portfolio-website": "/site/portfolio/portfolio",
+    "real-estate-agency-website": "/site/real-estate/properties",
+    "medical-practice-website": "/site/medical/services",
+    "photography-studio-website": "/site/photography/portfolio",
+  };
+
+  // If requesting redirect parameter, redirect to live page
+  if (req.query.redirect === "true" && livePageRoutes[templateId]) {
+    return res.redirect(307, livePageRoutes[templateId]);
   }
 
   // Template-specific preview data

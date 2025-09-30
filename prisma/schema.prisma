@@ -481,3 +481,48 @@ model ApiUsage {
   @@index([createdAt])
   @@map("api_usage")
 }
+
+// ========================================
+// CONTACT SUBMISSIONS
+// ========================================
+
+model ContactSubmission {
+  id               String   @id @default(cuid())
+  
+  // Contact Details
+  name             String
+  email            String
+  phone            String?
+  subject          String
+  message          String
+  preferredContact String   @default("email")
+  
+  // Website Context
+  websiteType      String   @default("general")
+  websiteId        String?
+  
+  // Status
+  status           ContactStatus @default(NEW)
+  assignedTo       String?
+  notes            String?
+  
+  // Timestamps
+  submittedAt      DateTime @default(now())
+  respondedAt      DateTime?
+  resolvedAt       DateTime?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  
+  @@index([websiteType])
+  @@index([websiteId])
+  @@index([status])
+  @@index([submittedAt])
+  @@map("contact_submissions")
+}
+
+enum ContactStatus {
+  NEW
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}

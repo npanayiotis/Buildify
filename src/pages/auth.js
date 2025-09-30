@@ -120,7 +120,7 @@ const AuthPage = () => {
               </div>
             </div>
             <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">
-              Welcome to Elevare
+              Welcome to Monderna
             </h1>
             <p className="text-white/80 text-lg">
               {isSignUp ? "Create your account" : "Sign in to your account"}
@@ -302,7 +302,7 @@ const AuthPage = () => {
             <div className="mt-4 pt-4 border-t border-white/20">
               <button
                 onClick={async () => {
-                  const result = await signIn("demo@elevare.com", "demo123");
+                  const result = await signIn("demo@monderna.com", "demo123");
                   if (result.success) {
                     router.push("/dashboard");
                   }

@@ -41,7 +41,7 @@ const MondernaPageChat = ({ isOpen, onClose, onMinimize }) => {
   const knowledgeBase = {
     greetings: [
       "Hello! I'm Monderna, your AI website assistant. How can I help you create amazing websites today?",
-      "Hi there! Welcome to Elevare. I'm here to help you build stunning websites. What would you like to know?",
+      "Hi there! Welcome to Monderna. I'm here to help you build stunning websites. What would you like to know?",
       "Hey! I'm Monderna, your personal AI assistant for website creation. How can I assist you?",
     ],
     website_help: {
@@ -53,7 +53,7 @@ const MondernaPageChat = ({ isOpen, onClose, onMinimize }) => {
       "support": "I'm available 24/7 to help you! You can also reach our support team through the contact form on our website.",
     },
     self_promotion: [
-      "I'm Monderna, your AI assistant here at Elevare! I help users create beautiful websites every day. What kind of website are you looking to build?",
+      "I'm Monderna, your AI assistant here at Monderna! I help users create beautiful websites every day. What kind of website are you looking to build?",
       "I love helping people create amazing websites! Whether you need a blog, business site, or portfolio, I can guide you to the perfect template and features.",
       "As your AI assistant, I'm here to make website creation easy and fun! What questions do you have about building your website?",
     ],

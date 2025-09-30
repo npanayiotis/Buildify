@@ -9,7 +9,14 @@ const WebsiteCard = ({ website, viewMode, onSelect, onPreview }) => {
 
   const handlePreview = (e) => {
     e.stopPropagation();
-    requireAuth(() => onPreview(website));
+    // Open live demo in new tab if available
+    if (website.livePages) {
+      const livePage =
+        website.livePages.home || Object.values(website.livePages)[0];
+      window.open(livePage, "_blank");
+    } else {
+      requireAuth(() => onPreview(website));
+    }
   };
 
   const handleCustomize = (e) => {
@@ -53,10 +60,7 @@ const WebsiteCard = ({ website, viewMode, onSelect, onPreview }) => {
                     <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                     4.9
                   </span>
-                  <span>{website.category}</span>
-                  <span className="font-semibold text-green-600">
-                    {website.price === 0 ? "Free" : `$${website.price}`}
-                  </span>
+                  <span className="capitalize">{website.category}</span>
                 </div>
               </div>
             </div>
@@ -68,7 +72,9 @@ const WebsiteCard = ({ website, viewMode, onSelect, onPreview }) => {
                   key={index}
                   className="bg-blue-50 text-blue-700 px-2 py-1 rounded-full text-xs font-medium"
                 >
-                  {typeof feature === "string" ? feature : feature.title || feature}
+                  {typeof feature === "string"
+                    ? feature
+                    : feature.title || feature}
                 </span>
               ))}
               {website.features.length > 4 && (
@@ -121,6 +127,11 @@ const WebsiteCard = ({ website, viewMode, onSelect, onPreview }) => {
             Premium
           </div>
         )}
+        {website.livePages && (
+          <div className="absolute top-3 left-3 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
+            ✅ Live Demo
+          </div>
+        )}
 
         {/* Overlay on hover */}
         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
@@ -148,9 +159,6 @@ const WebsiteCard = ({ website, viewMode, onSelect, onPreview }) => {
           <h3 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
             {website.name}
           </h3>
-          <span className="text-sm font-semibold text-green-600">
-            {website.price === 0 ? "Free" : `$${website.price}`}
-          </span>
         </div>
 
         <p className="text-gray-600 text-sm mb-4 line-clamp-2 flex-grow">
@@ -185,13 +193,27 @@ const WebsiteCard = ({ website, viewMode, onSelect, onPreview }) => {
 
         {/* Actions */}
         <div className="flex gap-2 flex-shrink-0">
-          <button
-            onClick={handlePreview}
-            className="flex-1 flex items-center justify-center gap-2 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
-          >
-            <Eye className="w-4 h-4" />
-            Preview
-          </button>
+          {website.livePages ? (
+            <a
+              href={
+                website.livePages.home || Object.values(website.livePages)[0]
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 flex items-center justify-center gap-2 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium"
+            >
+              <Eye className="w-4 h-4" />
+              Live Demo
+            </a>
+          ) : (
+            <button
+              onClick={handlePreview}
+              className="flex-1 flex items-center justify-center gap-2 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
+            >
+              <Eye className="w-4 h-4" />
+              Preview
+            </button>
+          )}
           <button
             onClick={handleCustomize}
             className="flex-1 flex items-center justify-center gap-2 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"

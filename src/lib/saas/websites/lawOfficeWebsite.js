@@ -382,6 +382,32 @@ export const lawOfficeWebsite = {
       { number: "15+", label: "Practice Areas" },
       { number: "4.9", label: "Client Rating" },
     ],
+    navigation: {
+      logo: "Law Office",
+      links: [
+        { name: "Home", href: "/" },
+        { name: "Services", href: "/services" },
+        { name: "Attorneys", href: "/attorneys" },
+        { name: "Cases", href: "/cases" },
+        { name: "Contact", href: "/contact" },
+      ],
+    },
+    footer: {
+      description:
+        "Professional legal representation with over 25 years of experience. We fight for your rights and deliver results you can trust.",
+      quickLinks: [
+        { name: "Services", url: "/services" },
+        { name: "Attorneys", url: "/attorneys" },
+        { name: "Cases", url: "/cases" },
+        { name: "Contact", url: "/contact" },
+      ],
+      socialLinks: {
+        linkedin: "https://linkedin.com/company/lawoffice",
+        facebook: "https://facebook.com/lawoffice",
+        twitter: "https://twitter.com/lawoffice",
+      },
+      copyright: "© 2024 Law Office. All rights reserved.",
+    },
     seo: {
       title: "Professional Law Firm - Expert Legal Representation",
       description:

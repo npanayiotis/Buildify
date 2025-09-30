@@ -22,7 +22,8 @@ const MondernaPage = () => {
     {
       id: 1,
       type: "bot",
-      content: "Hello! I'm Monderna, your AI website assistant. How can I help you create amazing websites today?",
+      content:
+        "Hello! I'm Monderna, your AI website assistant. How can I help you create amazing websites today?",
       timestamp: new Date(),
     },
   ]);
@@ -56,19 +57,24 @@ const MondernaPage = () => {
   const knowledgeBase = {
     greetings: [
       "Hello! I'm Monderna, your AI website assistant. How can I help you create amazing websites today?",
-      "Hi there! Welcome to Elevare. I'm here to help you build stunning websites. What would you like to know?",
+      "Hi there! Welcome to Monderna. I'm here to help you build stunning websites. What would you like to know?",
       "Hey! I'm Monderna, your personal AI assistant for website creation. How can I assist you?",
     ],
     website_help: {
-      "templates": "We have amazing templates for blogs, restaurants, gyms, law offices, real estate, medical practices, photography studios, and more! Each template is professionally designed and fully customizable. You can browse them in our Templates section.",
-      "customization": "Customizing your website is easy! You can change colors, fonts, layouts, add your own content, images, and more. Our drag-and-drop builder makes it simple.",
-      "pricing": "We offer flexible pricing options. Some templates are free, while premium templates start at $149. We also have enhanced versions with more features.",
-      "features": "Our websites include responsive design, SEO optimization, contact forms, social media integration, analytics, and much more!",
-      "support": "We provide excellent support through our help center, documentation, and community forums. I'm also here to help you 24/7!",
+      templates:
+        "We have amazing templates for blogs, restaurants, gyms, law offices, real estate, medical practices, photography studios, and more! Each template is professionally designed and fully customizable. You can browse them in our Templates section.",
+      customization:
+        "Customizing your website is easy! You can change colors, fonts, layouts, add your own content, images, and more. Our drag-and-drop builder makes it simple.",
+      pricing:
+        "We offer flexible pricing options. Some templates are free, while premium templates start at $149. We also have enhanced versions with more features.",
+      features:
+        "Our websites include responsive design, SEO optimization, contact forms, social media integration, analytics, and much more!",
+      support:
+        "We provide excellent support through our help center, documentation, and community forums. I'm also here to help you 24/7!",
     },
     self_promotion: [
       "I'm Monderna, your AI website assistant! I can help you choose the perfect template, customize your design, and guide you through the entire website creation process.",
-      "Did you know I'm powered by advanced AI? I can answer questions about website building, suggest improvements, and help you create amazing websites with Elevare!",
+      "Did you know I'm powered by advanced AI? I can answer questions about website building, suggest improvements, and help you create amazing websites with Monderna!",
       "I'm always learning and improving to better serve you. Ask me anything about website creation, and I'll do my best to help you succeed!",
     ],
     quickSuggestions: [
@@ -86,26 +92,42 @@ const MondernaPage = () => {
 
   const getBotResponse = (message) => {
     const lowerMessage = message.toLowerCase();
-    
+
     // Check for greetings
-    if (lowerMessage.includes("hello") || lowerMessage.includes("hi") || lowerMessage.includes("hey")) {
-      return knowledgeBase.greetings[Math.floor(Math.random() * knowledgeBase.greetings.length)];
+    if (
+      lowerMessage.includes("hello") ||
+      lowerMessage.includes("hi") ||
+      lowerMessage.includes("hey")
+    ) {
+      return knowledgeBase.greetings[
+        Math.floor(Math.random() * knowledgeBase.greetings.length)
+      ];
     }
-    
+
     // Check for website help keywords
-    for (const [keyword, response] of Object.entries(knowledgeBase.website_help)) {
+    for (const [keyword, response] of Object.entries(
+      knowledgeBase.website_help
+    )) {
       if (lowerMessage.includes(keyword)) {
         return response;
       }
     }
-    
+
     // Check for self-promotion keywords
-    if (lowerMessage.includes("who are you") || lowerMessage.includes("what are you") || lowerMessage.includes("about you")) {
-      return knowledgeBase.self_promotion[Math.floor(Math.random() * knowledgeBase.self_promotion.length)];
+    if (
+      lowerMessage.includes("who are you") ||
+      lowerMessage.includes("what are you") ||
+      lowerMessage.includes("about you")
+    ) {
+      return knowledgeBase.self_promotion[
+        Math.floor(Math.random() * knowledgeBase.self_promotion.length)
+      ];
     }
-    
+
     // Default response
-    return knowledgeBase.default_responses[Math.floor(Math.random() * knowledgeBase.default_responses.length)];
+    return knowledgeBase.default_responses[
+      Math.floor(Math.random() * knowledgeBase.default_responses.length)
+    ];
   };
 
   const handleSendMessage = async (messageText) => {
@@ -117,13 +139,13 @@ const MondernaPage = () => {
       content: messageText,
       timestamp: new Date(),
     };
-    
-    setMessages(prev => [...prev, newUserMessage]);
+
+    setMessages((prev) => [...prev, newUserMessage]);
     setInputMessage("");
     setIsTyping(true);
 
     // Simulate AI processing time
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     const botResponse = getBotResponse(messageText);
     const newBotMessage = {
@@ -132,8 +154,8 @@ const MondernaPage = () => {
       content: botResponse,
       timestamp: new Date(),
     };
-    
-    setMessages(prev => [...prev, newBotMessage]);
+
+    setMessages((prev) => [...prev, newBotMessage]);
     setIsTyping(false);
   };
 
@@ -164,7 +186,7 @@ const MondernaPage = () => {
       icon: <Sparkles className="w-8 h-8" />,
       title: "Personalized Help",
       description:
-        "Tailored guidance based on your specific needs and questions about Elevare.",
+        "Tailored guidance based on your specific needs and questions about Monderna.",
     },
   ];
 
@@ -180,10 +202,10 @@ const MondernaPage = () => {
   return (
     <>
       <Head>
-        <title>Meet Monderna - Your AI Assistant | Elevare</title>
+        <title>Meet Monderna - Your AI Assistant | Monderna</title>
         <meta
           name="description"
-          content="Meet Monderna, your intelligent AI assistant that helps you create amazing websites with Elevare. Get instant help and guidance 24/7."
+          content="Meet Monderna, your intelligent AI assistant that helps you create amazing websites with Monderna. Get instant help and guidance 24/7."
         />
       </Head>
 
@@ -264,7 +286,7 @@ const MondernaPage = () => {
                 className="text-lg text-white/80 mb-12 max-w-2xl mx-auto"
               >
                 Meet Monderna, your intelligent AI companion that helps you
-                create stunning websites with Elevare. Get instant help,
+                create stunning websites with Monderna. Get instant help,
                 guidance, and personalized assistance 24/7.
               </motion.p>
 
@@ -477,8 +499,12 @@ const MondernaPage = () => {
                       <Bot className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-white">Monderna AI</h3>
-                      <p className="text-white/80 text-sm">Your Website Assistant</p>
+                      <h3 className="text-xl font-bold text-white">
+                        Monderna AI
+                      </h3>
+                      <p className="text-white/80 text-sm">
+                        Your Website Assistant
+                      </p>
                     </div>
                   </div>
                   <button
@@ -498,7 +524,9 @@ const MondernaPage = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
-                    className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}
+                    className={`flex ${
+                      message.type === "user" ? "justify-end" : "justify-start"
+                    }`}
                   >
                     <div
                       className={`max-w-[80%] p-4 rounded-2xl ${
@@ -508,15 +536,22 @@ const MondernaPage = () => {
                       }`}
                     >
                       <p className="text-sm">{message.content}</p>
-                      <p className={`text-xs mt-1 ${
-                        message.type === "user" ? "text-white/70" : "text-gray-500"
-                      }`}>
-                        {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      <p
+                        className={`text-xs mt-1 ${
+                          message.type === "user"
+                            ? "text-white/70"
+                            : "text-gray-500"
+                        }`}
+                      >
+                        {message.timestamp.toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
                       </p>
                     </div>
                   </motion.div>
                 ))}
-                
+
                 {isTyping && (
                   <motion.div
                     initial={{ opacity: 0 }}
@@ -525,9 +560,18 @@ const MondernaPage = () => {
                   >
                     <div className="bg-white/80 text-gray-800 rounded-2xl rounded-bl-md p-4">
                       <div className="flex space-x-1">
-                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0s' }}></div>
-                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                        <div
+                          className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                          style={{ animationDelay: "0s" }}
+                        ></div>
+                        <div
+                          className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                          style={{ animationDelay: "0.1s" }}
+                        ></div>
+                        <div
+                          className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                          style={{ animationDelay: "0.2s" }}
+                        ></div>
                       </div>
                     </div>
                   </motion.div>
@@ -558,7 +602,9 @@ const MondernaPage = () => {
                     type="text"
                     value={inputMessage}
                     onChange={(e) => setInputMessage(e.target.value)}
-                    onKeyPress={(e) => e.key === "Enter" && handleSendMessage(inputMessage)}
+                    onKeyPress={(e) =>
+                      e.key === "Enter" && handleSendMessage(inputMessage)
+                    }
                     placeholder="Ask Monderna anything..."
                     className="flex-1 px-4 py-3 bg-white/80 text-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />

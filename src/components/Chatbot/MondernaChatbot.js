@@ -23,12 +23,12 @@ const MondernaChatbot = () => {
   const knowledgeBase = {
     greetings: [
       "Hello! I'm Monderna, your AI assistant! 🤖✨",
-      "Hi there! I'm Monderna, here to help you with anything about Elevare! 🚀",
+      "Hi there! I'm Monderna, here to help you with anything about Monderna! 🚀",
       "Greetings! I'm Monderna, your smart website assistant! 💫",
     ],
     website_help: {
       "how to create website":
-        "Creating a website with Elevare is super easy! Just go to Templates, choose your design, customize it with our drag-and-drop builder, and publish! It takes just minutes! 🎨",
+        "Creating a website with Monderna is super easy! Just go to Templates, choose your design, customize it with our drag-and-drop builder, and publish! It takes just minutes! 🎨",
       "create website":
         "Start by browsing our template library, pick one that fits your business, then customize it with our intuitive builder. No coding required! 🚀",
       templates:
@@ -40,11 +40,11 @@ const MondernaChatbot = () => {
       "customization options":
         "You can customize colors, fonts, layouts, images, text, buttons, forms, and more! Our visual editor makes it super easy! 🎨",
       pricing:
-        "Elevare offers both free and premium templates! Free templates are perfect for getting started, while premium templates unlock advanced features and exclusive designs! 💎",
+        "Monderna offers both free and premium templates! Free templates are perfect for getting started, while premium templates unlock advanced features and exclusive designs! 💎",
       "free vs premium":
         "Free templates include basic customization and hosting. Premium templates add advanced features like custom domains, priority support, and exclusive designs! ✨",
       features:
-        "Elevare includes drag-and-drop builder, mobile-responsive designs, SEO optimization, analytics dashboard, and much more! ⚡",
+        "Monderna includes drag-and-drop builder, mobile-responsive designs, SEO optimization, analytics dashboard, and much more! ⚡",
       "what features":
         "Key features: Visual drag-and-drop builder, 100+ templates, mobile-responsive design, SEO optimization, analytics, custom domains, and 24/7 support! 🌟",
       builder:
@@ -55,7 +55,7 @@ const MondernaChatbot = () => {
         "All our templates are fully responsive and look amazing on mobile devices! Your website will automatically adapt to any screen size. 📱",
       "mobile responsive":
         "Every template automatically adjusts to phones, tablets, and desktops. Your site will look perfect on any device! 📲",
-      seo: "Elevare includes built-in SEO optimization features to help your website rank better in search engines! We handle the technical stuff so you can focus on your content. 🚀",
+      seo: "Monderna includes built-in SEO optimization features to help your website rank better in search engines! We handle the technical stuff so you can focus on your content. 🚀",
       "search engine optimization":
         "We automatically optimize your site for Google, Bing, and other search engines. Includes meta tags, sitemaps, and fast loading speeds! 🔍",
       analytics:
@@ -77,19 +77,19 @@ const MondernaChatbot = () => {
       "step by step":
         "Our guided tutorials will walk you through each step of creating your website, from start to finish! 👣",
       "getting started":
-        "New to Elevare? Start by browsing templates, pick one you love, then use our visual editor to make it yours! It's that simple! 🎯",
+        "New to Monderna? Start by browsing templates, pick one you love, then use our visual editor to make it yours! It's that simple! 🎯",
       "beginner friendly":
-        "Absolutely! Elevare is designed for everyone. No coding or design experience needed - just creativity and a few clicks! 😊",
+        "Absolutely! Monderna is designed for everyone. No coding or design experience needed - just creativity and a few clicks! 😊",
       domain:
-        "You can connect your own custom domain (like yourname.com) or use our free subdomain (yourname.elevare.com). Both options work great! 🌐",
+        "You can connect your own custom domain (like yourname.com) or use our free subdomain (yourname.monderna.com). Both options work great! 🌐",
       hosting:
-        "We provide fast, reliable hosting for all websites built with Elevare. Your site will be secure and load quickly for visitors! ⚡",
+        "We provide fast, reliable hosting for all websites built with Monderna. Your site will be secure and load quickly for visitors! ⚡",
       security:
-        "All Elevare websites include SSL certificates, regular backups, and security monitoring to keep your site safe! 🔒",
+        "All Monderna websites include SSL certificates, regular backups, and security monitoring to keep your site safe! 🔒",
       backup:
         "We automatically backup your website daily, so you never have to worry about losing your work! 💾",
       speed:
-        "Elevare websites are optimized for speed with fast loading times and CDN delivery worldwide! 🏃‍♂️",
+        "Monderna websites are optimized for speed with fast loading times and CDN delivery worldwide! 🏃‍♂️",
       ecommerce:
         "Yes! Our e-commerce templates include shopping cart, payment processing, inventory management, and more! 🛒",
       "online store":
@@ -147,15 +147,15 @@ const MondernaChatbot = () => {
         "Tech company templates showcasing products, services, and innovation! 💻",
     },
     self_promotion: [
-      "I'm Monderna, your AI assistant! I can help you navigate Elevare, answer questions about website building, and guide you through our features! Just ask me anything! 🤖💫",
-      "Did you know I'm powered by advanced AI? I'm here 24/7 to help you with Elevare! Try asking me about templates, customization, or any website questions! 🚀",
-      "I'm Monderna, and I love helping users create amazing websites! I know everything about Elevare's features, templates, and tools. What would you like to know? ✨",
+      "I'm Monderna, your AI assistant! I can help you navigate Monderna, answer questions about website building, and guide you through our features! Just ask me anything! 🤖💫",
+      "Did you know I'm powered by advanced AI? I'm here 24/7 to help you with Monderna! Try asking me about templates, customization, or any website questions! 🚀",
+      "I'm Monderna, and I love helping users create amazing websites! I know everything about Monderna's features, templates, and tools. What would you like to know? ✨",
       "As your AI assistant Monderna, I can help you choose the perfect template, explain customization options, or guide you through our publishing process! Just ask! 🎨",
     ],
     default_responses: [
       "I'm Monderna, your AI assistant! I can help you with website creation, templates, customization, and more. Try asking me about our features! 🤖",
-      "That's interesting! As Monderna, I'm here to help with anything about Elevare. You can ask me about templates, pricing, features, or how to get started! ✨",
-      "I'd love to help! I'm Monderna, and I know everything about Elevare. Try asking about our templates, customization tools, or website building process! 🚀",
+      "That's interesting! As Monderna, I'm here to help with anything about Monderna. You can ask me about templates, pricing, features, or how to get started! ✨",
+      "I'd love to help! I'm Monderna, and I know everything about Monderna. Try asking about our templates, customization tools, or website building process! 🚀",
     ],
   };
 
@@ -173,7 +173,7 @@ const MondernaChatbot = () => {
       setMessages([
         {
           id: 1,
-          text: "👋 Hi! I'm Monderna, your AI assistant! I'm here to help you with everything about Elevare - from choosing templates to customizing your website. What can I help you with today?",
+          text: "👋 Hi! I'm Monderna, your AI assistant! I'm here to help you with everything about Monderna - from choosing templates to customizing your website. What can I help you with today?",
           isBot: true,
           timestamp: new Date(),
         },
@@ -422,7 +422,7 @@ const MondernaChatbot = () => {
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    placeholder="Ask me anything about Elevare..."
+                    placeholder="Ask me anything about Monderna..."
                     className="flex-1 px-3 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-xs text-gray-800 placeholder-gray-500"
                   />
                   <button

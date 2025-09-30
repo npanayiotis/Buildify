@@ -352,6 +352,34 @@ export const medicalPracticeWebsite = {
       { number: "6", label: "Specialized Physicians" },
       { number: "98%", label: "Patient Satisfaction" },
     ],
+    navigation: {
+      logo: "Medical Practice",
+      links: [
+        { name: "Home", href: "/" },
+        { name: "Services", href: "/services" },
+        { name: "Doctors", href: "/doctors" },
+        { name: "Appointments", href: "/appointments" },
+        { name: "Patient Portal", href: "/patient-portal" },
+        { name: "Contact", href: "/contact" },
+      ],
+    },
+    footer: {
+      description:
+        "Comprehensive healthcare services with experienced physicians dedicated to your health and well-being. Quality care you can trust.",
+      quickLinks: [
+        { name: "Services", url: "/services" },
+        { name: "Doctors", url: "/doctors" },
+        { name: "Appointments", url: "/appointments" },
+        { name: "Patient Portal", url: "/patient-portal" },
+        { name: "Contact", url: "/contact" },
+      ],
+      socialLinks: {
+        facebook: "https://facebook.com/medicalpractice",
+        linkedin: "https://linkedin.com/company/medicalpractice",
+        twitter: "https://twitter.com/medicalpractice",
+      },
+      copyright: "© 2024 Medical Practice. All rights reserved.",
+    },
     seo: {
       title: "Medical Practice - Comprehensive Healthcare Services",
       description:

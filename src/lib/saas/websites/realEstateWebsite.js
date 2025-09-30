@@ -390,6 +390,33 @@ export const realEstateWebsite = {
       { number: "25+", label: "Years Experience" },
       { number: "$200M+", label: "Total Sales Volume" },
     ],
+    navigation: {
+      logo: "Real Estate Agency",
+      links: [
+        { name: "Home", href: "/" },
+        { name: "Properties", href: "/properties" },
+        { name: "Agents", href: "/agents" },
+        { name: "Services", href: "/services" },
+        { name: "Contact", href: "/contact" },
+      ],
+    },
+    footer: {
+      description:
+        "Your trusted partner in real estate. Whether buying, selling, or investing, we provide expert guidance to help you achieve your property goals.",
+      quickLinks: [
+        { name: "Properties", url: "/properties" },
+        { name: "Agents", url: "/agents" },
+        { name: "Services", url: "/services" },
+        { name: "Contact", url: "/contact" },
+      ],
+      socialLinks: {
+        facebook: "https://facebook.com/realestate",
+        instagram: "https://instagram.com/realestate",
+        linkedin: "https://linkedin.com/company/realestate",
+        twitter: "https://twitter.com/realestate",
+      },
+      copyright: "© 2024 Real Estate Agency. All rights reserved.",
+    },
     seo: {
       title: "Professional Real Estate Agency - Find Your Dream Home",
       description:

@@ -803,8 +803,8 @@ export default function PublishPage() {
   return (
     <>
       <Head>
-        <title>Publish Website - Elevare</title>
-        <meta name="description" content="Publish your website with Elevare" />
+        <title>Publish Website - Monderna</title>
+        <meta name="description" content="Publish your website with Monderna" />
       </Head>
 
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
