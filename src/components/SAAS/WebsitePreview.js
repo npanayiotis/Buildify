@@ -379,7 +379,7 @@ const WebsitePreview = ({ website }) => {
   );
 
   const renderFeaturesSection = () => {
-    if (!fullWebsite.features) return null;
+    if (!website.features) return null;
 
     return (
       <section className="py-20 bg-gray-50">
@@ -388,7 +388,7 @@ const WebsitePreview = ({ website }) => {
             Why Choose Our Platform
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {fullWebsite.features.map((feature, index) => (
+            {website.features.map((feature, index) => (
               <div
                 key={index}
                 className="bg-white p-8 rounded-2xl shadow-lg text-center hover:shadow-xl transition-shadow"

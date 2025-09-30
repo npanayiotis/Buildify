@@ -14,7 +14,6 @@ import {
   Globe,
 } from "lucide-react";
 import WebsiteCard from "../components/SAAS/WebsiteCard";
-import Layout from "../components/Layout/Layout";
 import { WEBSITES, WEBSITE_CATEGORIES } from "../lib/saas/websites/websiteData";
 
 const TemplatesPage = () => {
@@ -61,13 +60,35 @@ const TemplatesPage = () => {
   };
 
   return (
-    <Layout
-      title="Templates - Elevare"
-      description="Choose from our collection of stunning website templates designed to elevate your online presence"
-    >
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 text-white">
-        <div className="absolute inset-0 bg-black/20"></div>
+      <section className="relative overflow-hidden pt-16">
+        <div className="absolute inset-0">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute rounded-full"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                width: `${Math.random() * 4 + 2}px`,
+                height: `${Math.random() * 4 + 2}px`,
+                background: `hsl(${Math.random() * 60 + 200}, 70%, 70%)`,
+              }}
+              animate={{
+                y: [0, -100, 0],
+                opacity: [0, 1, 0],
+                scale: [0, 1, 0],
+              }}
+              transition={{
+                duration: Math.random() * 3 + 2,
+                repeat: Infinity,
+                delay: Math.random() * 2,
+              }}
+            />
+          ))}
+        </div>
+
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -75,10 +96,10 @@ const TemplatesPage = () => {
             transition={{ duration: 0.8 }}
             className="text-center"
           >
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
               Stunning Templates
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl mb-8 text-white/80 max-w-3xl mx-auto">
               Choose from our collection of professionally designed templates to
               elevate your online presence
             </p>
@@ -86,25 +107,31 @@ const TemplatesPage = () => {
             {/* Features */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
               <div className="text-center">
-                <div className="w-16 h-16 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <Sparkles className="w-8 h-8" />
+                <div className="w-16 h-16 bg-white/10 backdrop-blur-sm rounded-full mx-auto mb-4 flex items-center justify-center border border-white/20">
+                  <Sparkles className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Beautiful Design</h3>
-                <p className="text-blue-100">Stunning, modern templates</p>
+                <h3 className="text-lg font-semibold mb-2 text-white">
+                  Beautiful Design
+                </h3>
+                <p className="text-white/70">Stunning, modern templates</p>
               </div>
               <div className="text-center">
-                <div className="w-16 h-16 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <Zap className="w-8 h-8" />
+                <div className="w-16 h-16 bg-white/10 backdrop-blur-sm rounded-full mx-auto mb-4 flex items-center justify-center border border-white/20">
+                  <Zap className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Lightning Fast</h3>
-                <p className="text-blue-100">Deploy in seconds</p>
+                <h3 className="text-lg font-semibold mb-2 text-white">
+                  Lightning Fast
+                </h3>
+                <p className="text-white/70">Deploy in seconds</p>
               </div>
               <div className="text-center">
-                <div className="w-16 h-16 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <Globe className="w-8 h-8" />
+                <div className="w-16 h-16 bg-white/10 backdrop-blur-sm rounded-full mx-auto mb-4 flex items-center justify-center border border-white/20">
+                  <Globe className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Professional</h3>
-                <p className="text-blue-100">Business ready</p>
+                <h3 className="text-lg font-semibold mb-2 text-white">
+                  Professional
+                </h3>
+                <p className="text-white/70">Business ready</p>
               </div>
             </div>
           </motion.div>
@@ -112,19 +139,19 @@ const TemplatesPage = () => {
       </section>
 
       {/* Filters and Search */}
-      <section className="bg-white border-b border-gray-200">
+      <section className="bg-white/10 backdrop-blur-sm border-b border-white/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Search */}
             <div className="flex-1">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/70 w-5 h-5" />
                 <input
                   type="text"
                   placeholder="Search templates..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-white/50"
                 />
               </div>
             </div>
@@ -135,8 +162,8 @@ const TemplatesPage = () => {
                 onClick={() => setSelectedCategory("all")}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                   selectedCategory === "all"
-                    ? "bg-blue-600 text-white shadow-lg"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
+                    : "bg-white/10 text-white/80 hover:bg-white/20 border border-white/20"
                 }`}
               >
                 All
@@ -147,8 +174,8 @@ const TemplatesPage = () => {
                   onClick={() => setSelectedCategory(category.id)}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                     selectedCategory === category.id
-                      ? "bg-blue-600 text-white shadow-lg"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
+                      : "bg-white/10 text-white/80 hover:bg-white/20 border border-white/20"
                   }`}
                 >
                   {category.name}
@@ -158,16 +185,24 @@ const TemplatesPage = () => {
 
             {/* Sort */}
             <div className="flex items-center gap-2">
-              <Filter className="w-5 h-5 text-gray-400" />
+              <Filter className="w-5 h-5 text-white/70" />
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
               >
-                <option value="popular">Most Popular</option>
-                <option value="name">Name A-Z</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
+                <option value="popular" className="bg-slate-800 text-white">
+                  Most Popular
+                </option>
+                <option value="name" className="bg-slate-800 text-white">
+                  Name A-Z
+                </option>
+                <option value="price-low" className="bg-slate-800 text-white">
+                  Price: Low to High
+                </option>
+                <option value="price-high" className="bg-slate-800 text-white">
+                  Price: High to Low
+                </option>
               </select>
             </div>
           </div>
@@ -178,7 +213,7 @@ const TemplatesPage = () => {
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="text-2xl font-bold text-white">
               {filteredWebsites.length} Templates Found
             </h2>
             <div className="flex items-center gap-2">
@@ -186,8 +221,8 @@ const TemplatesPage = () => {
                 onClick={() => setViewMode("grid")}
                 className={`p-2 rounded-lg transition-all duration-200 ${
                   viewMode === "grid"
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
+                    : "bg-white/10 text-white/80 hover:bg-white/20 border border-white/20"
                 }`}
               >
                 <Palette className="w-5 h-5" />
@@ -196,8 +231,8 @@ const TemplatesPage = () => {
                 onClick={() => setViewMode("list")}
                 className={`p-2 rounded-lg transition-all duration-200 ${
                   viewMode === "list"
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
+                    : "bg-white/10 text-white/80 hover:bg-white/20 border border-white/20"
                 }`}
               >
                 <Eye className="w-5 h-5" />
@@ -238,13 +273,13 @@ const TemplatesPage = () => {
 
           {sortedWebsites.length === 0 && (
             <div className="text-center py-12">
-              <div className="w-24 h-24 bg-gray-100 rounded-full mx-auto mb-6 flex items-center justify-center">
-                <Search className="w-12 h-12 text-gray-400" />
+              <div className="w-24 h-24 bg-white/10 backdrop-blur-sm rounded-full mx-auto mb-6 flex items-center justify-center border border-white/20">
+                <Search className="w-12 h-12 text-white/70" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              <h3 className="text-xl font-semibold text-white mb-2">
                 No templates found
               </h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-white/70 mb-6">
                 Try adjusting your search or filter criteria
               </p>
               <button
@@ -252,7 +287,7 @@ const TemplatesPage = () => {
                   setSearchQuery("");
                   setSelectedCategory("all");
                 }}
-                className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg"
               >
                 Clear Filters
               </button>
@@ -260,7 +295,7 @@ const TemplatesPage = () => {
           )}
         </div>
       </section>
-    </Layout>
+    </div>
   );
 };
 

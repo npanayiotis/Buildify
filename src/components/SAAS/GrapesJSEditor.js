@@ -129,6 +129,388 @@ const GrapesJSEditor = ({
     }
 
     if (pagePath === "about") {
+      // Portfolio website about page
+      if (website.category === "portfolio") {
+        return `
+          <div class="min-h-screen bg-gray-50">
+            <!-- Navigation -->
+            <nav class="bg-white shadow-sm sticky top-0 z-50">
+              <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                  <button data-nav="home" class="text-2xl font-bold text-gray-900">${
+                    fullWebsite?.navigation?.logo || "Creative Portfolio"
+                  }</button>
+                  <div class="hidden md:flex space-x-8">
+                    <button data-nav="home" class="text-gray-500 hover:text-gray-900">Home</button>
+                    <button data-nav="about" class="text-gray-900 font-medium">About</button>
+                    <button data-nav="portfolio" class="text-gray-500 hover:text-gray-900">Portfolio</button>
+                    <button data-nav="services" class="text-gray-500 hover:text-gray-900">Services</button>
+                    <button data-nav="contact" class="text-gray-500 hover:text-gray-900">Contact</button>
+                  </div>
+                </div>
+              </div>
+            </nav>
+            
+            <!-- About Content -->
+            <section class="py-20 bg-white">
+              <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                  <div>
+                    <h1 class="text-4xl font-bold text-gray-900 mb-6">About Me</h1>
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                      ${
+                        fullWebsite?.about?.description ||
+                        "I'm a passionate creative professional with years of experience in design and innovation."
+                      }
+                    </p>
+                    <p class="text-gray-600 mb-8 leading-relaxed">
+                      ${
+                        fullWebsite?.about?.story ||
+                        "I specialize in bringing creative visions to life through innovative design and thoughtful execution. My work spans across various industries and I'm always excited to take on new challenges."
+                      }
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                      <div class="text-center p-4 bg-gray-50 rounded-lg">
+                        <div class="text-3xl font-bold text-purple-600">${
+                          fullWebsite?.about?.stats?.[0]?.number || "50+"
+                        }</div>
+                        <div class="text-gray-600">${
+                          fullWebsite?.about?.stats?.[0]?.label || "Projects"
+                        }</div>
+                      </div>
+                      <div class="text-center p-4 bg-gray-50 rounded-lg">
+                        <div class="text-3xl font-bold text-purple-600">${
+                          fullWebsite?.about?.stats?.[1]?.number || "5+"
+                        }</div>
+                        <div class="text-gray-600">${
+                          fullWebsite?.about?.stats?.[1]?.label ||
+                          "Years Experience"
+                        }</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <img 
+                      src="${
+                        fullWebsite?.about?.image || "/portfolio_about.jpg"
+                      }" 
+                      alt="About" 
+                      class="w-full h-96 object-cover rounded-lg shadow-lg"
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        `;
+      }
+
+      // Law Office about page
+      if (website.category === "law") {
+        return `
+          <div class="min-h-screen bg-gray-50">
+            <!-- Navigation -->
+            <nav class="bg-white shadow-sm sticky top-0 z-50">
+              <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                  <button data-nav="home" class="text-2xl font-bold text-gray-900">${
+                    fullWebsite?.navigation?.logo || "Law Office"
+                  }</button>
+                  <div class="hidden md:flex space-x-8">
+                    <button data-nav="home" class="text-gray-500 hover:text-gray-900">Home</button>
+                    <button data-nav="about" class="text-gray-900 font-medium">About</button>
+                    <button data-nav="practice-areas" class="text-gray-500 hover:text-gray-900">Practice Areas</button>
+                    <button data-nav="attorneys" class="text-gray-500 hover:text-gray-900">Attorneys</button>
+                    <button data-nav="contact" class="text-gray-500 hover:text-gray-900">Contact</button>
+                  </div>
+                </div>
+              </div>
+            </nav>
+            
+            <!-- About Content -->
+            <section class="py-20 bg-white">
+              <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                  <div>
+                    <h1 class="text-4xl font-bold text-gray-900 mb-6">About Our Firm</h1>
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                      ${
+                        fullWebsite?.about?.description ||
+                        "We are a dedicated team of legal professionals committed to providing exceptional legal services with integrity and expertise."
+                      }
+                    </p>
+                    <p class="text-gray-600 mb-8 leading-relaxed">
+                      ${
+                        fullWebsite?.about?.story ||
+                        "With decades of combined experience, our attorneys have successfully represented clients across various practice areas, always prioritizing their best interests."
+                      }
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                      <div class="text-center p-4 bg-gray-50 rounded-lg">
+                        <div class="text-3xl font-bold text-blue-600">${
+                          fullWebsite?.about?.stats?.[0]?.number || "500+"
+                        }</div>
+                        <div class="text-gray-600">${
+                          fullWebsite?.about?.stats?.[0]?.label || "Cases Won"
+                        }</div>
+                      </div>
+                      <div class="text-center p-4 bg-gray-50 rounded-lg">
+                        <div class="text-3xl font-bold text-blue-600">${
+                          fullWebsite?.about?.stats?.[1]?.number || "25+"
+                        }</div>
+                        <div class="text-gray-600">${
+                          fullWebsite?.about?.stats?.[1]?.label ||
+                          "Years Experience"
+                        }</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <img 
+                      src="${fullWebsite?.about?.image || "/law_about.jpg"}" 
+                      alt="About" 
+                      class="w-full h-96 object-cover rounded-lg shadow-lg"
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        `;
+      }
+
+      // Real Estate about page
+      if (website.category === "real-estate") {
+        return `
+          <div class="min-h-screen bg-gray-50">
+            <!-- Navigation -->
+            <nav class="bg-white shadow-sm sticky top-0 z-50">
+              <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                  <button data-nav="home" class="text-2xl font-bold text-gray-900">${
+                    fullWebsite?.navigation?.logo || "Real Estate"
+                  }</button>
+                  <div class="hidden md:flex space-x-8">
+                    <button data-nav="home" class="text-gray-500 hover:text-gray-900">Home</button>
+                    <button data-nav="properties" class="text-gray-500 hover:text-gray-900">Properties</button>
+                    <button data-nav="agents" class="text-gray-500 hover:text-gray-900">Agents</button>
+                    <button data-nav="about" class="text-gray-900 font-medium">About</button>
+                    <button data-nav="contact" class="text-gray-500 hover:text-gray-900">Contact</button>
+                  </div>
+                </div>
+              </div>
+            </nav>
+            
+            <!-- About Content -->
+            <section class="py-20 bg-white">
+              <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                  <div>
+                    <h1 class="text-4xl font-bold text-gray-900 mb-6">About Our Agency</h1>
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                      ${
+                        fullWebsite?.about?.description ||
+                        "We are a premier real estate agency dedicated to helping you find the perfect home or sell your property for the best value."
+                      }
+                    </p>
+                    <p class="text-gray-600 mb-8 leading-relaxed">
+                      ${
+                        fullWebsite?.about?.story ||
+                        "With years of experience in the local market, our team of expert agents provides personalized service and deep market knowledge to ensure your real estate goals are achieved."
+                      }
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                      <div class="text-center p-4 bg-gray-50 rounded-lg">
+                        <div class="text-3xl font-bold text-green-600">${
+                          fullWebsite?.about?.stats?.[0]?.number || "1000+"
+                        }</div>
+                        <div class="text-gray-600">${
+                          fullWebsite?.about?.stats?.[0]?.label ||
+                          "Properties Sold"
+                        }</div>
+                      </div>
+                      <div class="text-center p-4 bg-gray-50 rounded-lg">
+                        <div class="text-3xl font-bold text-green-600">${
+                          fullWebsite?.about?.stats?.[1]?.number || "15+"
+                        }</div>
+                        <div class="text-gray-600">${
+                          fullWebsite?.about?.stats?.[1]?.label ||
+                          "Years Experience"
+                        }</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <img 
+                      src="${
+                        fullWebsite?.about?.image || "/real_estate_about.jpg"
+                      }" 
+                      alt="About" 
+                      class="w-full h-96 object-cover rounded-lg shadow-lg"
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        `;
+      }
+
+      // Medical Practice about page
+      if (website.category === "medical") {
+        return `
+          <div class="min-h-screen bg-gray-50">
+            <!-- Navigation -->
+            <nav class="bg-white shadow-sm sticky top-0 z-50">
+              <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                  <button data-nav="home" class="text-2xl font-bold text-gray-900">${
+                    fullWebsite?.navigation?.logo || "Medical Practice"
+                  }</button>
+                  <div class="hidden md:flex space-x-8">
+                    <button data-nav="home" class="text-gray-500 hover:text-gray-900">Home</button>
+                    <button data-nav="services" class="text-gray-500 hover:text-gray-900">Services</button>
+                    <button data-nav="doctors" class="text-gray-500 hover:text-gray-900">Doctors</button>
+                    <button data-nav="appointments" class="text-gray-500 hover:text-gray-900">Appointments</button>
+                    <button data-nav="contact" class="text-gray-500 hover:text-gray-900">Contact</button>
+                  </div>
+                </div>
+              </div>
+            </nav>
+            
+            <!-- About Content -->
+            <section class="py-20 bg-white">
+              <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                  <div>
+                    <h1 class="text-4xl font-bold text-gray-900 mb-6">About Our Practice</h1>
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                      ${
+                        fullWebsite?.about?.description ||
+                        "We are committed to providing compassionate, high-quality healthcare services to our community with a focus on patient-centered care."
+                      }
+                    </p>
+                    <p class="text-gray-600 mb-8 leading-relaxed">
+                      ${
+                        fullWebsite?.about?.story ||
+                        "Our practice combines advanced medical technology with personalized care to ensure the best possible outcomes for our patients and their families."
+                      }
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                      <div class="text-center p-4 bg-gray-50 rounded-lg">
+                        <div class="text-3xl font-bold text-blue-600">${
+                          fullWebsite?.about?.stats?.[0]?.number || "10,000+"
+                        }</div>
+                        <div class="text-gray-600">${
+                          fullWebsite?.about?.stats?.[0]?.label ||
+                          "Patients Served"
+                        }</div>
+                      </div>
+                      <div class="text-center p-4 bg-gray-50 rounded-lg">
+                        <div class="text-3xl font-bold text-blue-600">${
+                          fullWebsite?.about?.stats?.[1]?.number || "20+"
+                        }</div>
+                        <div class="text-gray-600">${
+                          fullWebsite?.about?.stats?.[1]?.label ||
+                          "Years Experience"
+                        }</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <img 
+                      src="${
+                        fullWebsite?.about?.image || "/medical_about.jpg"
+                      }" 
+                      alt="About" 
+                      class="w-full h-96 object-cover rounded-lg shadow-lg"
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        `;
+      }
+
+      // Photography Studio about page
+      if (website.category === "photography") {
+        return `
+          <div class="min-h-screen bg-gray-50">
+            <!-- Navigation -->
+            <nav class="bg-white shadow-sm sticky top-0 z-50">
+              <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                  <button data-nav="home" class="text-2xl font-bold text-gray-900">${
+                    fullWebsite?.navigation?.logo || "Photography Studio"
+                  }</button>
+                  <div class="hidden md:flex space-x-8">
+                    <button data-nav="home" class="text-gray-500 hover:text-gray-900">Home</button>
+                    <button data-nav="portfolio" class="text-gray-500 hover:text-gray-900">Portfolio</button>
+                    <button data-nav="services" class="text-gray-500 hover:text-gray-900">Services</button>
+                    <button data-nav="about" class="text-gray-900 font-medium">About</button>
+                    <button data-nav="contact" class="text-gray-500 hover:text-gray-900">Contact</button>
+                  </div>
+                </div>
+              </div>
+            </nav>
+            
+            <!-- About Content -->
+            <section class="py-20 bg-white">
+              <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                  <div>
+                    <h1 class="text-4xl font-bold text-gray-900 mb-6">About Our Studio</h1>
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                      ${
+                        fullWebsite?.about?.description ||
+                        "We are passionate photographers dedicated to capturing life's most precious moments with artistic excellence and professional quality."
+                      }
+                    </p>
+                    <p class="text-gray-600 mb-8 leading-relaxed">
+                      ${
+                        fullWebsite?.about?.story ||
+                        "Our studio combines technical expertise with creative vision to deliver stunning photographs that tell your unique story and preserve memories for generations."
+                      }
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                      <div class="text-center p-4 bg-gray-50 rounded-lg">
+                        <div class="text-3xl font-bold text-pink-600">${
+                          fullWebsite?.about?.stats?.[0]?.number || "500+"
+                        }</div>
+                        <div class="text-gray-600">${
+                          fullWebsite?.about?.stats?.[0]?.label ||
+                          "Sessions Completed"
+                        }</div>
+                      </div>
+                      <div class="text-center p-4 bg-gray-50 rounded-lg">
+                        <div class="text-3xl font-bold text-pink-600">${
+                          fullWebsite?.about?.stats?.[1]?.number || "8+"
+                        }</div>
+                        <div class="text-gray-600">${
+                          fullWebsite?.about?.stats?.[1]?.label ||
+                          "Years Experience"
+                        }</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <img 
+                      src="${
+                        fullWebsite?.about?.image || "/photography_about.jpg"
+                      }" 
+                      alt="About" 
+                      class="w-full h-96 object-cover rounded-lg shadow-lg"
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        `;
+      }
+
+      // Default blog about page
       return `
         <div class="min-h-screen bg-gray-50">
           <!-- Navigation -->
@@ -186,36 +568,36 @@ const GrapesJSEditor = ({
                       <div class="text-gray-600">Articles Published</div>
                     </div>
                   </div>
-                </div>
+              </div>
 
                 <div class="space-y-8">
-                  <!-- Interests -->
+              <!-- Interests -->
                   <div>
                     <h3 class="text-2xl font-bold text-gray-900 mb-6">My Interests</h3>
                     <div class="grid grid-cols-2 gap-4">
-                      ${
-                        (fullWebsite?.about?.interests &&
-                          fullWebsite.about.interests
-                            .map(
-                              (interest, index) => `
+                ${
+                  (fullWebsite?.about?.interests &&
+                    fullWebsite.about.interests
+                      .map(
+                        (interest, index) => `
                         <div class="flex items-center p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
                           <div class="text-2xl mr-3">${
                             ["✈️", "📸", "🍳", "📚", "💻"][index] || "⭐"
                           }</div>
                           <span class="font-medium text-gray-900">${interest}</span>
-                        </div>
-                      `
-                            )
-                            .join("")) ||
-                        ""
-                      }
-                    </div>
                   </div>
+                `
+                      )
+                      .join("")) ||
+                  ""
+                }
+              </div>
+                </div>
 
                   <!-- Social Links -->
                   <div>
                     <h3 class="text-2xl font-bold text-gray-900 mb-6">Connect With Me</h3>
-                    <div class="flex space-x-4">
+                  <div class="flex space-x-4">
                       ${
                         fullWebsite?.about?.socialLinks?.twitter
                           ? `<a href="${fullWebsite.about.socialLinks.twitter}" class="p-3 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition-colors">Twitter</a>`
@@ -625,6 +1007,286 @@ const GrapesJSEditor = ({
       `;
     }
 
+    // Portfolio page for portfolio websites
+    if (pagePath === "portfolio" && website.category === "portfolio") {
+      return `
+        <div class="min-h-screen bg-gray-50">
+          <!-- Navigation -->
+          <nav class="bg-white shadow-sm sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="flex justify-between items-center py-4">
+                <button data-nav="home" class="text-2xl font-bold text-gray-900">${
+                  fullWebsite?.navigation?.logo || "Creative Portfolio"
+                }</button>
+                <div class="hidden md:flex space-x-8">
+                  <button data-nav="home" class="text-gray-500 hover:text-gray-900">Home</button>
+                  <button data-nav="about" class="text-gray-500 hover:text-gray-900">About</button>
+                  <button data-nav="portfolio" class="text-gray-900 font-medium">Portfolio</button>
+                  <button data-nav="services" class="text-gray-500 hover:text-gray-900">Services</button>
+                  <button data-nav="contact" class="text-gray-500 hover:text-gray-900">Contact</button>
+                </div>
+              </div>
+            </div>
+          </nav>
+          
+          <!-- Portfolio Content -->
+          <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="text-center mb-16">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">My Portfolio</h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                  A collection of my best work and creative projects
+                </p>
+              </div>
+              <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                ${
+                  (fullWebsite?.portfolio?.items &&
+                    fullWebsite.portfolio.items
+                      .map(
+                        (project) => `
+                  <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                    <img src="${project.image}" alt="${
+                          project.title
+                        }" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                      <h3 class="text-xl font-bold text-gray-900 mb-2">${
+                        project.title
+                      }</h3>
+                      <p class="text-gray-600 mb-4">${project.description}</p>
+                      <div class="flex flex-wrap gap-2">
+                        ${project.tags
+                          .map(
+                            (tag) =>
+                              `<span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">${tag}</span>`
+                          )
+                          .join("")}
+                      </div>
+                    </div>
+                  </div>
+                `
+                      )
+                      .join("")) ||
+                  `
+                  <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                    <img src="/portfolio1.jpg" alt="Project 1" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                      <h3 class="text-xl font-bold text-gray-900 mb-2">Brand Identity Design</h3>
+                      <p class="text-gray-600 mb-4">Complete brand identity for a modern tech startup</p>
+                      <div class="flex flex-wrap gap-2">
+                        <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Branding</span>
+                        <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Logo Design</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                    <img src="/portfolio2.jpg" alt="Project 2" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                      <h3 class="text-xl font-bold text-gray-900 mb-2">E-commerce Website</h3>
+                      <p class="text-gray-600 mb-4">Modern e-commerce platform with seamless user experience</p>
+                      <div class="flex flex-wrap gap-2">
+                        <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Web Design</span>
+                        <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">UI/UX</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                    <img src="/portfolio3.jpg" alt="Project 3" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                      <h3 class="text-xl font-bold text-gray-900 mb-2">Mobile App Design</h3>
+                      <p class="text-gray-600 mb-4">Intuitive mobile app for fitness tracking</p>
+                      <div class="flex flex-wrap gap-2">
+                        <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Mobile</span>
+                        <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">App Design</span>
+                      </div>
+                    </div>
+                  </div>
+                `
+                }
+              </div>
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
+    // Services page for portfolio websites
+    if (pagePath === "services" && website.category === "portfolio") {
+      return `
+        <div class="min-h-screen bg-gray-50">
+          <!-- Navigation -->
+          <nav class="bg-white shadow-sm sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="flex justify-between items-center py-4">
+                <button data-nav="home" class="text-2xl font-bold text-gray-900">${
+                  fullWebsite?.navigation?.logo || "Creative Portfolio"
+                }</button>
+                <div class="hidden md:flex space-x-8">
+                  <button data-nav="home" class="text-gray-500 hover:text-gray-900">Home</button>
+                  <button data-nav="about" class="text-gray-500 hover:text-gray-900">About</button>
+                  <button data-nav="portfolio" class="text-gray-500 hover:text-gray-900">Portfolio</button>
+                  <button data-nav="services" class="text-gray-900 font-medium">Services</button>
+                  <button data-nav="contact" class="text-gray-500 hover:text-gray-900">Contact</button>
+                </div>
+              </div>
+            </div>
+          </nav>
+          
+          <!-- Services Content -->
+          <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="text-center mb-16">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">Services</h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                  Comprehensive creative services to bring your vision to life
+                </p>
+              </div>
+              <div class="grid md:grid-cols-3 gap-8">
+                ${
+                  (fullWebsite?.services?.items &&
+                    fullWebsite.services.items
+                      .map(
+                        (service) => `
+                  <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+                    <div class="text-4xl mb-4">${service.icon}</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">${service.title}</h3>
+                    <p class="text-gray-600 mb-6">${service.description}</p>
+                    <button class="text-purple-600 font-semibold hover:text-purple-800 transition-colors">
+                      Learn More →
+                    </button>
+                  </div>
+                `
+                      )
+                      .join("")) ||
+                  `
+                  <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+                    <div class="text-4xl mb-4">🎨</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Graphic Design</h3>
+                    <p class="text-gray-600 mb-6">Creative visual solutions for your brand and marketing needs</p>
+                    <button class="text-purple-600 font-semibold hover:text-purple-800 transition-colors">
+                      Learn More →
+                    </button>
+                  </div>
+                  <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+                    <div class="text-4xl mb-4">💻</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Web Design</h3>
+                    <p class="text-gray-600 mb-6">Modern, responsive websites that engage and convert visitors</p>
+                    <button class="text-purple-600 font-semibold hover:text-purple-800 transition-colors">
+                      Learn More →
+                    </button>
+                  </div>
+                  <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+                    <div class="text-4xl mb-4">📱</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">UI/UX Design</h3>
+                    <p class="text-gray-600 mb-6">User-centered design that creates exceptional digital experiences</p>
+                    <button class="text-purple-600 font-semibold hover:text-purple-800 transition-colors">
+                      Learn More →
+                    </button>
+                  </div>
+                `
+                }
+              </div>
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
+    // Contact page for portfolio websites
+    if (pagePath === "contact" && website.category === "portfolio") {
+      return `
+        <div class="min-h-screen bg-gray-50">
+          <!-- Navigation -->
+          <nav class="bg-white shadow-sm sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="flex justify-between items-center py-4">
+                <button data-nav="home" class="text-2xl font-bold text-gray-900">${
+                  fullWebsite?.navigation?.logo || "Creative Portfolio"
+                }</button>
+                <div class="hidden md:flex space-x-8">
+                  <button data-nav="home" class="text-gray-500 hover:text-gray-900">Home</button>
+                  <button data-nav="about" class="text-gray-500 hover:text-gray-900">About</button>
+                  <button data-nav="portfolio" class="text-gray-500 hover:text-gray-900">Portfolio</button>
+                  <button data-nav="services" class="text-gray-500 hover:text-gray-900">Services</button>
+                  <button data-nav="contact" class="text-gray-900 font-medium">Contact</button>
+                </div>
+              </div>
+            </div>
+          </nav>
+          
+          <!-- Contact Content -->
+          <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="text-center mb-16">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">Get In Touch</h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                  Ready to start your next project? Let's work together to bring your vision to life.
+                </p>
+              </div>
+              <div class="grid md:grid-cols-2 gap-12">
+                <div>
+                  <h2 class="text-2xl font-bold text-gray-900 mb-6">Contact Information</h2>
+                  <div class="space-y-4">
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                        📧
+                      </div>
+                      <div>
+                        <p class="font-semibold text-gray-900">Email</p>
+                        <p class="text-gray-600">${
+                          fullWebsite?.contact?.email || "hello@portfolio.com"
+                        }</p>
+                      </div>
+                    </div>
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                        📱
+                      </div>
+                      <div>
+                        <p class="font-semibold text-gray-900">Phone</p>
+                        <p class="text-gray-600">${
+                          fullWebsite?.contact?.phone || "+1 (555) 123-4567"
+                        }</p>
+                      </div>
+                    </div>
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                        📍
+                      </div>
+                      <div>
+                        <p class="font-semibold text-gray-900">Location</p>
+                        <p class="text-gray-600">${
+                          fullWebsite?.contact?.address || "New York, NY"
+                        }</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <form class="space-y-6">
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                      <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                      <input type="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                      <textarea rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors">
+                      Send Message
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
     // Default fallback
     return `
       <div class="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -713,7 +1375,7 @@ const GrapesJSEditor = ({
 
     const { fullWebsite } = website;
 
-    // Use the same structure as WebsitePreview for blog websites
+    // Handle different website types
     if (website.category === "blog") {
       return `
         <div class="min-h-screen bg-gray-50">
@@ -1063,11 +1725,11 @@ const GrapesJSEditor = ({
                         fullWebsite.footer.quickLinks
                           .map(
                             (link) => `
-                      <li>
+                    <li>
                         <a href="${link.url}" class="text-gray-400 hover:text-white transition-colors">
                           ${link.name}
-                        </a>
-                      </li>
+                      </a>
+                    </li>
                     `
                           )
                           .join("")) ||
@@ -1133,6 +1795,1442 @@ const GrapesJSEditor = ({
             </div>
           </footer>
           
+        </div>
+      `;
+    }
+
+    // Restaurant website
+    if (website.category === "restaurant") {
+      return `
+        <div class="min-h-screen bg-gray-50">
+          <!-- Navigation -->
+          <nav class="bg-white shadow-sm sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="flex justify-between items-center py-4">
+                <button data-nav="home" class="text-2xl font-bold text-gray-900">${
+                  fullWebsite?.navigation?.logo || "Bella Vista"
+                }</button>
+                <div class="hidden md:flex space-x-8">
+                  <button data-nav="home" class="text-gray-900 font-medium">Home</button>
+                  <button data-nav="about" class="text-gray-500 hover:text-gray-900">About</button>
+                  <button data-nav="menu" class="text-gray-500 hover:text-gray-900">Menu</button>
+                  <button data-nav="reservations" class="text-gray-500 hover:text-gray-900">Reservations</button>
+                  <button data-nav="gallery" class="text-gray-500 hover:text-gray-900">Gallery</button>
+                  <button data-nav="contact" class="text-gray-500 hover:text-gray-900">Contact</button>
+                </div>
+              </div>
+            </div>
+          </nav>
+
+          <!-- Hero Section -->
+          <section class="relative min-h-screen flex items-center justify-center text-white" style="background: linear-gradient(${
+            fullWebsite?.hero?.overlay || "rgba(0, 0, 0, 0.5)"
+          }, ${fullWebsite?.hero?.overlay || "rgba(0, 0, 0, 0.5)"}), url('${
+        fullWebsite?.hero?.backgroundImage || "/restaurant_hero.jpg"
+      }'); background-size: cover; background-position: center;">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+                ${fullWebsite?.hero?.title || "Welcome to Bella Vista"}
+              </h1>
+              <p class="text-xl md:text-2xl mb-12 opacity-95 max-w-3xl mx-auto leading-relaxed">
+                ${
+                  fullWebsite?.hero?.subtitle ||
+                  "Experience culinary excellence in an elegant atmosphere"
+                }
+              </p>
+              <div class="flex gap-6 justify-center flex-wrap">
+                <button class="bg-red-600 hover:bg-red-700 text-white px-10 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                  ${fullWebsite?.hero?.buttonText || "View Menu"}
+                </button>
+                <button class="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-10 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                  ${fullWebsite?.hero?.buttonSecondary || "Make Reservation"}
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- About Section -->
+          <section class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4">
+              <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-6">${
+                  fullWebsite?.about?.title || "Our Story"
+                }</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                  ${
+                    fullWebsite?.about?.content ||
+                    "For over two decades, Bella Vista has been serving exceptional cuisine in the heart of the city."
+                  }
+                </p>
+              </div>
+              
+              <!-- Stats -->
+              <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
+                ${
+                  (fullWebsite?.stats &&
+                    fullWebsite.stats
+                      .map(
+                        (stat) => `
+                  <div class="text-center">
+                    <div class="text-4xl font-bold text-red-600 mb-2">${stat.number}</div>
+                    <div class="text-gray-600">${stat.label}</div>
+                  </div>
+                `
+                      )
+                      .join("")) ||
+                  ""
+                }
+              </div>
+            </div>
+          </section>
+
+          <!-- Menu Preview -->
+          <section class="py-20 bg-gray-50">
+            <div class="max-w-6xl mx-auto px-4">
+              <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Our Menu</h2>
+                <p class="text-xl text-gray-600">Discover our carefully crafted dishes</p>
+              </div>
+              
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                ${
+                  (fullWebsite?.menu?.categories &&
+                    fullWebsite.menu.categories
+                      .slice(0, 3)
+                      .map(
+                        (category) => `
+                  <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">${
+                      category.name
+                    }</h3>
+                    <div class="space-y-3">
+                      ${category.items
+                        .slice(0, 2)
+                        .map(
+                          (item) => `
+                        <div class="flex justify-between items-start">
+                          <div>
+                            <h4 class="font-semibold text-gray-900">${item.name}</h4>
+                            <p class="text-sm text-gray-600">${item.description}</p>
+                          </div>
+                          <span class="text-red-600 font-semibold">${item.price}</span>
+                        </div>
+                      `
+                        )
+                        .join("")}
+                    </div>
+                  </div>
+                `
+                      )
+                      .join("")) ||
+                  ""
+                }
+              </div>
+            </div>
+          </section>
+
+          <!-- Testimonials -->
+          <section class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4">
+              <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">What Our Guests Say</h2>
+                <p class="text-xl text-gray-600">Experience the difference</p>
+              </div>
+              
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                ${
+                  (fullWebsite?.testimonials &&
+                    fullWebsite.testimonials
+                      .map(
+                        (testimonial) => `
+                  <div class="bg-gray-50 p-6 rounded-lg">
+                    <div class="flex items-center mb-4">
+                      <img src="${testimonial.avatar}" alt="${
+                          testimonial.name
+                        }" class="w-12 h-12 rounded-full mr-4">
+                      <div>
+                        <h4 class="font-semibold text-gray-900">${
+                          testimonial.name
+                        }</h4>
+                        <p class="text-sm text-gray-600">${testimonial.role}</p>
+                      </div>
+                    </div>
+                    <p class="text-gray-700 italic">"${testimonial.content}"</p>
+                    <div class="flex text-yellow-400 mt-2">
+                      ${"★".repeat(testimonial.rating)}
+                    </div>
+                  </div>
+                `
+                      )
+                      .join("")) ||
+                  ""
+                }
+              </div>
+            </div>
+          </section>
+
+          <!-- Footer -->
+          <footer class="bg-gray-800 text-white py-12">
+            <div class="max-w-6xl mx-auto px-4">
+              <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                  <h3 class="text-xl font-bold mb-4">${
+                    fullWebsite?.navigation?.logo || "Bella Vista"
+                  }</h3>
+                  <p class="text-gray-400">${
+                    fullWebsite?.footer?.description ||
+                    "Experience culinary excellence at Bella Vista"
+                  }</p>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Quick Links</h4>
+                  <ul class="space-y-2">
+                    ${
+                      (fullWebsite?.footer?.quickLinks &&
+                        fullWebsite.footer.quickLinks
+                          .map(
+                            (link) => `
+                      <li><a href="${link.url}" class="text-gray-400 hover:text-white transition-colors">${link.name}</a></li>
+                    `
+                          )
+                          .join("")) ||
+                      ""
+                    }
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Contact</h4>
+                  <p class="text-gray-400">${
+                    fullWebsite?.reservations?.phone || "+1 (555) 123-4567"
+                  }</p>
+                  <p class="text-gray-400">${
+                    fullWebsite?.reservations?.email ||
+                    "reservations@bellavista.com"
+                  }</p>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Follow Us</h4>
+                  <div class="flex space-x-4">
+                    ${
+                      fullWebsite?.footer?.socialLinks?.instagram
+                        ? `<a href="${fullWebsite.footer.socialLinks.instagram}" class="text-gray-400 hover:text-white transition-colors">Instagram</a>`
+                        : ""
+                    }
+                    ${
+                      fullWebsite?.footer?.socialLinks?.facebook
+                        ? `<a href="${fullWebsite.footer.socialLinks.facebook}" class="text-gray-400 hover:text-white transition-colors">Facebook</a>`
+                        : ""
+                    }
+                    ${
+                      fullWebsite?.footer?.socialLinks?.twitter
+                        ? `<a href="${fullWebsite.footer.socialLinks.twitter}" class="text-gray-400 hover:text-white transition-colors">Twitter</a>`
+                        : ""
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-400">${
+                  fullWebsite?.footer?.copyright ||
+                  "© 2024 Bella Vista Restaurant. All rights reserved."
+                }</p>
+              </div>
+            </div>
+          </footer>
+        </div>
+      `;
+    }
+
+    // Gym website
+    if (website.category === "gym") {
+      return `
+        <div class="min-h-screen bg-gray-50">
+          <!-- Navigation -->
+          <nav class="bg-white shadow-sm sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="flex justify-between items-center py-4">
+                <button data-nav="home" class="text-2xl font-bold text-gray-900">${
+                  fullWebsite?.navigation?.logo || "FitLife"
+                }</button>
+                <div class="hidden md:flex space-x-8">
+                  <button data-nav="home" class="text-gray-900 font-medium">Home</button>
+                  <button data-nav="about" class="text-gray-500 hover:text-gray-900">About</button>
+                  <button data-nav="programs" class="text-gray-500 hover:text-gray-900">Programs</button>
+                  <button data-nav="trainers" class="text-gray-500 hover:text-gray-900">Trainers</button>
+                  <button data-nav="membership" class="text-gray-500 hover:text-gray-900">Membership</button>
+                  <button data-nav="contact" class="text-gray-500 hover:text-gray-900">Contact</button>
+                </div>
+              </div>
+            </div>
+          </nav>
+
+          <!-- Hero Section -->
+          <section class="relative min-h-screen flex items-center justify-center text-white" style="background: linear-gradient(${
+            fullWebsite?.hero?.overlay || "rgba(0, 0, 0, 0.6)"
+          }, ${fullWebsite?.hero?.overlay || "rgba(0, 0, 0, 0.6)"}), url('${
+        fullWebsite?.hero?.backgroundImage || "/gym_hero.jpg"
+      }'); background-size: cover; background-position: center;">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+                ${fullWebsite?.hero?.title || "Transform Your Life"}
+              </h1>
+              <p class="text-xl md:text-2xl mb-12 opacity-95 max-w-3xl mx-auto leading-relaxed">
+                ${
+                  fullWebsite?.hero?.subtitle ||
+                  "Join FitLife Gym and achieve your fitness goals"
+                }
+              </p>
+              <div class="flex gap-6 justify-center flex-wrap">
+                <button class="bg-green-600 hover:bg-green-700 text-white px-10 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                  ${fullWebsite?.hero?.buttonText || "Start Your Journey"}
+                </button>
+                <button class="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-10 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                  ${fullWebsite?.hero?.buttonSecondary || "View Classes"}
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- About Section -->
+          <section class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4">
+              <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-6">${
+                  fullWebsite?.about?.title || "About FitLife"
+                }</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                  ${
+                    fullWebsite?.about?.content ||
+                    "FitLife Gym is more than just a fitness center - it's a community dedicated to helping you achieve your health and wellness goals."
+                  }
+                </p>
+              </div>
+              
+              <!-- Stats -->
+              <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
+                ${
+                  (fullWebsite?.stats &&
+                    fullWebsite.stats
+                      .map(
+                        (stat) => `
+                  <div class="text-center">
+                    <div class="text-4xl font-bold text-green-600 mb-2">${stat.number}</div>
+                    <div class="text-gray-600">${stat.label}</div>
+                  </div>
+                `
+                      )
+                      .join("")) ||
+                  ""
+                }
+              </div>
+            </div>
+          </section>
+
+          <!-- Programs Section -->
+          <section class="py-20 bg-gray-50">
+            <div class="max-w-6xl mx-auto px-4">
+              <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Our Programs</h2>
+                <p class="text-xl text-gray-600">Choose the program that fits your goals</p>
+              </div>
+              
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                ${
+                  (fullWebsite?.programs &&
+                    fullWebsite.programs
+                      .map(
+                        (program) => `
+                  <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">${
+                      program.name
+                    }</h3>
+                    <p class="text-gray-600 mb-4">${program.description}</p>
+                    <div class="text-2xl font-bold text-green-600 mb-4">${
+                      program.price
+                    }</div>
+                    <ul class="space-y-2">
+                      ${program.features
+                        .map(
+                          (feature) => `
+                        <li class="flex items-center text-sm text-gray-600">
+                          <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                          ${feature}
+                        </li>
+                      `
+                        )
+                        .join("")}
+                    </ul>
+                  </div>
+                `
+                      )
+                      .join("")) ||
+                  ""
+                }
+              </div>
+            </div>
+          </section>
+
+          <!-- Trainers Section -->
+          <section class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4">
+              <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Meet Our Trainers</h2>
+                <p class="text-xl text-gray-600">Expert guidance for your fitness journey</p>
+              </div>
+              
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                ${
+                  (fullWebsite?.trainers &&
+                    fullWebsite.trainers
+                      .map(
+                        (trainer) => `
+                  <div class="text-center">
+                    <div class="w-32 h-32 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center">
+                      <span class="text-4xl">👨‍💼</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">${trainer.name}</h3>
+                    <p class="text-green-600 font-semibold mb-2">${trainer.specialty}</p>
+                    <p class="text-gray-600 text-sm mb-2">${trainer.experience} experience</p>
+                    <p class="text-gray-600 text-sm">${trainer.bio}</p>
+                  </div>
+                `
+                      )
+                      .join("")) ||
+                  ""
+                }
+              </div>
+            </div>
+          </section>
+
+          <!-- Testimonials -->
+          <section class="py-20 bg-gray-50">
+            <div class="max-w-6xl mx-auto px-4">
+              <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Success Stories</h2>
+                <p class="text-xl text-gray-600">Real results from real members</p>
+              </div>
+              
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                ${
+                  (fullWebsite?.testimonials &&
+                    fullWebsite.testimonials
+                      .map(
+                        (testimonial) => `
+                  <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-4">
+                      <img src="${testimonial.avatar}" alt="${
+                          testimonial.name
+                        }" class="w-12 h-12 rounded-full mr-4">
+                      <div>
+                        <h4 class="font-semibold text-gray-900">${
+                          testimonial.name
+                        }</h4>
+                        <p class="text-sm text-gray-600">${testimonial.role}</p>
+                      </div>
+                    </div>
+                    <p class="text-gray-700 italic">"${testimonial.content}"</p>
+                    <div class="flex text-yellow-400 mt-2">
+                      ${"★".repeat(testimonial.rating)}
+                    </div>
+                  </div>
+                `
+                      )
+                      .join("")) ||
+                  ""
+                }
+              </div>
+            </div>
+          </section>
+
+          <!-- Footer -->
+          <footer class="bg-gray-800 text-white py-12">
+            <div class="max-w-6xl mx-auto px-4">
+              <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                  <h3 class="text-xl font-bold mb-4">${
+                    fullWebsite?.navigation?.logo || "FitLife"
+                  }</h3>
+                  <p class="text-gray-400">${
+                    fullWebsite?.footer?.description ||
+                    "Join FitLife Gym and become part of a community dedicated to health, fitness, and personal growth."
+                  }</p>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Quick Links</h4>
+                  <ul class="space-y-2">
+                    ${
+                      (fullWebsite?.footer?.quickLinks &&
+                        fullWebsite.footer.quickLinks
+                          .map(
+                            (link) => `
+                      <li><a href="${link.url}" class="text-gray-400 hover:text-white transition-colors">${link.name}</a></li>
+                    `
+                          )
+                          .join("")) ||
+                      ""
+                    }
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Contact</h4>
+                  <p class="text-gray-400">123 Fitness Street</p>
+                  <p class="text-gray-400">+1 (555) 123-4567</p>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Follow Us</h4>
+                  <div class="flex space-x-4">
+                    ${
+                      fullWebsite?.footer?.socialLinks?.instagram
+                        ? `<a href="${fullWebsite.footer.socialLinks.instagram}" class="text-gray-400 hover:text-white transition-colors">Instagram</a>`
+                        : ""
+                    }
+                    ${
+                      fullWebsite?.footer?.socialLinks?.facebook
+                        ? `<a href="${fullWebsite.footer.socialLinks.facebook}" class="text-gray-400 hover:text-white transition-colors">Facebook</a>`
+                        : ""
+                    }
+                    ${
+                      fullWebsite?.footer?.socialLinks?.youtube
+                        ? `<a href="${fullWebsite.footer.socialLinks.youtube}" class="text-gray-400 hover:text-white transition-colors">YouTube</a>`
+                        : ""
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-400">${
+                  fullWebsite?.footer?.copyright ||
+                  "© 2024 FitLife Gym. All rights reserved."
+                }</p>
+              </div>
+            </div>
+          </footer>
+        </div>
+      `;
+    }
+
+    // Portfolio website
+    if (website.category === "portfolio") {
+      return `
+        <div class="min-h-screen bg-gray-50">
+          <!-- Navigation -->
+          <nav class="bg-white shadow-sm sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="flex justify-between items-center py-4">
+                <button data-nav="home" class="text-2xl font-bold text-gray-900">${
+                  fullWebsite?.navigation?.logo || "Creative Portfolio"
+                }</button>
+                <div class="hidden md:flex space-x-8">
+                  <button data-nav="home" class="text-gray-900 font-medium">Home</button>
+                  <button data-nav="about" class="text-gray-500 hover:text-gray-900">About</button>
+                  <button data-nav="portfolio" class="text-gray-500 hover:text-gray-900">Portfolio</button>
+                  <button data-nav="services" class="text-gray-500 hover:text-gray-900">Services</button>
+                  <button data-nav="contact" class="text-gray-500 hover:text-gray-900">Contact</button>
+                </div>
+              </div>
+            </div>
+          </nav>
+
+          <!-- Hero Section -->
+          <section class="relative min-h-screen flex items-center justify-center text-white" style="background: linear-gradient(${
+            fullWebsite?.hero?.overlay || "rgba(0, 0, 0, 0.5)"
+          }, ${fullWebsite?.hero?.overlay || "rgba(0, 0, 0, 0.5)"}), url('${
+        fullWebsite?.hero?.backgroundImage || "/portfolio_hero.jpg"
+      }'); background-size: cover; background-position: center;">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+                ${fullWebsite?.hero?.title || "Creative Portfolio"}
+              </h1>
+              <p class="text-xl md:text-2xl mb-12 opacity-95 max-w-3xl mx-auto leading-relaxed">
+                ${
+                  fullWebsite?.hero?.subtitle ||
+                  "Showcasing creative work and innovative designs"
+                }
+              </p>
+              <div class="flex gap-6 justify-center flex-wrap">
+                <button class="bg-purple-600 hover:bg-purple-700 text-white px-10 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                  ${fullWebsite?.hero?.buttonText || "View Portfolio"}
+                </button>
+                <button class="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-10 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                  ${fullWebsite?.hero?.buttonSecondary || "Get In Touch"}
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- About Section -->
+          <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">About Me</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                  ${
+                    fullWebsite?.about?.description ||
+                    "Passionate creative professional with years of experience in design and innovation."
+                  }
+                </p>
+              </div>
+              <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                  <img 
+                    src="${
+                      fullWebsite?.about?.image || "/portfolio_about.jpg"
+                    }" 
+                    alt="About" 
+                    class="w-full h-96 object-cover rounded-lg shadow-lg"
+                  />
+                </div>
+                <div>
+                  <h3 class="text-2xl font-bold text-gray-900 mb-6">My Story</h3>
+                  <p class="text-gray-600 mb-6 leading-relaxed">
+                    ${
+                      fullWebsite?.about?.story ||
+                      "I'm a creative professional passionate about bringing ideas to life through innovative design and thoughtful execution."
+                    }
+                  </p>
+                  <div class="grid grid-cols-2 gap-4">
+                    <div class="text-center p-4 bg-gray-50 rounded-lg">
+                      <div class="text-3xl font-bold text-purple-600">${
+                        fullWebsite?.about?.stats?.[0]?.number || "50+"
+                      }</div>
+                      <div class="text-gray-600">${
+                        fullWebsite?.about?.stats?.[0]?.label || "Projects"
+                      }</div>
+                    </div>
+                    <div class="text-center p-4 bg-gray-50 rounded-lg">
+                      <div class="text-3xl font-bold text-purple-600">${
+                        fullWebsite?.about?.stats?.[1]?.number || "5+"
+                      }</div>
+                      <div class="text-gray-600">${
+                        fullWebsite?.about?.stats?.[1]?.label ||
+                        "Years Experience"
+                      }</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Services Section -->
+          <section class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Services</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                  ${
+                    fullWebsite?.services?.description ||
+                    "Comprehensive creative services to bring your vision to life"
+                  }
+                </p>
+              </div>
+              <div class="grid md:grid-cols-3 gap-8">
+                ${
+                  (fullWebsite?.services?.items &&
+                    fullWebsite.services.items
+                      .map(
+                        (service) => `
+                  <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="text-4xl mb-4">${service.icon}</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">${service.title}</h3>
+                    <p class="text-gray-600 mb-6">${service.description}</p>
+                    <button class="text-purple-600 font-semibold hover:text-purple-800 transition-colors">
+                      Learn More →
+                    </button>
+                  </div>
+                `
+                      )
+                      .join("")) ||
+                  `
+                  <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="text-4xl mb-4">🎨</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Graphic Design</h3>
+                    <p class="text-gray-600 mb-6">Creative visual solutions for your brand and marketing needs</p>
+                    <button class="text-purple-600 font-semibold hover:text-purple-800 transition-colors">
+                      Learn More →
+                    </button>
+                  </div>
+                  <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="text-4xl mb-4">💻</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Web Design</h3>
+                    <p class="text-gray-600 mb-6">Modern, responsive websites that engage and convert visitors</p>
+                    <button class="text-purple-600 font-semibold hover:text-purple-800 transition-colors">
+                      Learn More →
+                    </button>
+                  </div>
+                  <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="text-4xl mb-4">📱</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">UI/UX Design</h3>
+                    <p class="text-gray-600 mb-6">User-centered design that creates exceptional digital experiences</p>
+                    <button class="text-purple-600 font-semibold hover:text-purple-800 transition-colors">
+                      Learn More →
+                    </button>
+                  </div>
+                `
+                }
+              </div>
+            </div>
+          </section>
+
+          <!-- Footer -->
+          <footer class="bg-gray-900 text-white py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                  <h3 class="text-2xl font-bold mb-4">${
+                    fullWebsite?.footer?.logo || "Creative Portfolio"
+                  }</h3>
+                  <p class="text-gray-400 mb-6">${
+                    fullWebsite?.footer?.description ||
+                    "Bringing creative visions to life through innovative design"
+                  }</p>
+                  <div class="flex space-x-4">
+                    ${
+                      fullWebsite?.footer?.socialLinks?.instagram
+                        ? `<a href="${fullWebsite.footer.socialLinks.instagram}" class="text-gray-400 hover:text-white transition-colors">Instagram</a>`
+                        : ""
+                    }
+                    ${
+                      fullWebsite?.footer?.socialLinks?.linkedin
+                        ? `<a href="${fullWebsite.footer.socialLinks.linkedin}" class="text-gray-400 hover:text-white transition-colors">LinkedIn</a>`
+                        : ""
+                    }
+                    ${
+                      fullWebsite?.footer?.socialLinks?.twitter
+                        ? `<a href="${fullWebsite.footer.socialLinks.twitter}" class="text-gray-400 hover:text-white transition-colors">Twitter</a>`
+                        : ""
+                    }
+                  </div>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Quick Links</h4>
+                  <ul class="space-y-2">
+                    <li><button data-nav="home" class="text-gray-400 hover:text-white transition-colors">Home</button></li>
+                    <li><button data-nav="about" class="text-gray-400 hover:text-white transition-colors">About</button></li>
+                    <li><button data-nav="portfolio" class="text-gray-400 hover:text-white transition-colors">Portfolio</button></li>
+                    <li><button data-nav="contact" class="text-gray-400 hover:text-white transition-colors">Contact</button></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Services</h4>
+                  <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Graphic Design</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Web Design</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">UI/UX Design</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Branding</a></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Contact</h4>
+                  <p class="text-gray-400">${
+                    fullWebsite?.contact?.email || "hello@portfolio.com"
+                  }</p>
+                  <p class="text-gray-400">${
+                    fullWebsite?.contact?.phone || "+1 (555) 123-4567"
+                  }</p>
+                </div>
+              </div>
+              <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p class="text-gray-400">
+                  ${
+                    fullWebsite?.footer?.copyright ||
+                    "© 2024 Creative Portfolio. All rights reserved."
+                  }
+                </p>
+              </div>
+            </div>
+          </footer>
+        </div>
+      `;
+    }
+
+    // Law Office website
+    if (website.category === "law") {
+      return `
+        <div class="min-h-screen bg-gray-50">
+          <!-- Navigation -->
+          <nav class="bg-white shadow-sm sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="flex justify-between items-center py-4">
+                <button data-nav="home" class="text-2xl font-bold text-gray-900">${
+                  fullWebsite?.navigation?.logo || "Law Office"
+                }</button>
+                <div class="hidden md:flex space-x-8">
+                  <button data-nav="home" class="text-gray-900 font-medium">Home</button>
+                  <button data-nav="about" class="text-gray-500 hover:text-gray-900">About</button>
+                  <button data-nav="practice-areas" class="text-gray-500 hover:text-gray-900">Practice Areas</button>
+                  <button data-nav="attorneys" class="text-gray-500 hover:text-gray-900">Attorneys</button>
+                  <button data-nav="contact" class="text-gray-500 hover:text-gray-900">Contact</button>
+                </div>
+              </div>
+            </div>
+          </nav>
+
+          <!-- Hero Section -->
+          <section class="relative min-h-screen flex items-center justify-center text-white" style="background: linear-gradient(${
+            fullWebsite?.hero?.overlay || "rgba(0, 0, 0, 0.6)"
+          }, ${fullWebsite?.hero?.overlay || "rgba(0, 0, 0, 0.6)"}), url('${
+        fullWebsite?.hero?.backgroundImage || "/law_hero.jpg"
+      }'); background-size: cover; background-position: center;">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+                ${fullWebsite?.hero?.title || "Professional Legal Services"}
+              </h1>
+              <p class="text-xl md:text-2xl mb-12 opacity-95 max-w-3xl mx-auto leading-relaxed">
+                ${
+                  fullWebsite?.hero?.subtitle ||
+                  "Experienced attorneys providing comprehensive legal solutions"
+                }
+              </p>
+              <div class="flex gap-6 justify-center flex-wrap">
+                <button class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                  ${fullWebsite?.hero?.buttonText || "Schedule Consultation"}
+                </button>
+                <button class="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-10 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                  ${fullWebsite?.hero?.buttonSecondary || "Learn More"}
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Practice Areas Section -->
+          <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Practice Areas</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                  ${
+                    fullWebsite?.practiceAreas?.description ||
+                    "Comprehensive legal services across various practice areas"
+                  }
+                </p>
+              </div>
+              <div class="grid md:grid-cols-3 gap-8">
+                ${
+                  (fullWebsite?.practiceAreas?.items &&
+                    fullWebsite.practiceAreas.items
+                      .map(
+                        (area) => `
+                  <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+                    <div class="text-4xl mb-4">${area.icon}</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">${area.title}</h3>
+                    <p class="text-gray-600 mb-6">${area.description}</p>
+                    <button class="text-blue-600 font-semibold hover:text-blue-800 transition-colors">
+                      Learn More →
+                    </button>
+                  </div>
+                `
+                      )
+                      .join("")) ||
+                  `
+                  <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+                    <div class="text-4xl mb-4">⚖️</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Corporate Law</h3>
+                    <p class="text-gray-600 mb-6">Business formation, contracts, and corporate governance</p>
+                    <button class="text-blue-600 font-semibold hover:text-blue-800 transition-colors">
+                      Learn More →
+                    </button>
+                  </div>
+                  <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+                    <div class="text-4xl mb-4">🏠</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Real Estate Law</h3>
+                    <p class="text-gray-600 mb-6">Property transactions, disputes, and development</p>
+                    <button class="text-blue-600 font-semibold hover:text-blue-800 transition-colors">
+                      Learn More →
+                    </button>
+                  </div>
+                  <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+                    <div class="text-4xl mb-4">👨‍👩‍👧‍👦</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Family Law</h3>
+                    <p class="text-gray-600 mb-6">Divorce, custody, and family legal matters</p>
+                    <button class="text-blue-600 font-semibold hover:text-blue-800 transition-colors">
+                      Learn More →
+                    </button>
+                  </div>
+                `
+                }
+              </div>
+            </div>
+          </section>
+
+          <!-- Footer -->
+          <footer class="bg-gray-900 text-white py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                  <h3 class="text-2xl font-bold mb-4">${
+                    fullWebsite?.footer?.logo || "Law Office"
+                  }</h3>
+                  <p class="text-gray-400 mb-6">${
+                    fullWebsite?.footer?.description ||
+                    "Professional legal services with integrity and expertise"
+                  }</p>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Quick Links</h4>
+                  <ul class="space-y-2">
+                    <li><button data-nav="home" class="text-gray-400 hover:text-white transition-colors">Home</button></li>
+                    <li><button data-nav="about" class="text-gray-400 hover:text-white transition-colors">About</button></li>
+                    <li><button data-nav="practice-areas" class="text-gray-400 hover:text-white transition-colors">Practice Areas</button></li>
+                    <li><button data-nav="contact" class="text-gray-400 hover:text-white transition-colors">Contact</button></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Practice Areas</h4>
+                  <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Corporate Law</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Real Estate</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Family Law</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Criminal Defense</a></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Contact</h4>
+                  <p class="text-gray-400">${
+                    fullWebsite?.contact?.email || "info@lawoffice.com"
+                  }</p>
+                  <p class="text-gray-400">${
+                    fullWebsite?.contact?.phone || "+1 (555) 123-4567"
+                  }</p>
+                </div>
+              </div>
+              <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p class="text-gray-400">
+                  ${
+                    fullWebsite?.footer?.copyright ||
+                    "© 2024 Law Office. All rights reserved."
+                  }
+                </p>
+              </div>
+            </div>
+          </footer>
+        </div>
+      `;
+    }
+
+    // Real Estate website
+    if (website.category === "real-estate") {
+      return `
+        <div class="min-h-screen bg-gray-50">
+          <!-- Navigation -->
+          <nav class="bg-white shadow-sm sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="flex justify-between items-center py-4">
+                <button data-nav="home" class="text-2xl font-bold text-gray-900">${
+                  fullWebsite?.navigation?.logo || "Real Estate"
+                }</button>
+                <div class="hidden md:flex space-x-8">
+                  <button data-nav="home" class="text-gray-900 font-medium">Home</button>
+                  <button data-nav="properties" class="text-gray-500 hover:text-gray-900">Properties</button>
+                  <button data-nav="agents" class="text-gray-500 hover:text-gray-900">Agents</button>
+                  <button data-nav="about" class="text-gray-500 hover:text-gray-900">About</button>
+                  <button data-nav="contact" class="text-gray-500 hover:text-gray-900">Contact</button>
+                </div>
+              </div>
+            </div>
+          </nav>
+
+          <!-- Hero Section -->
+          <section class="relative min-h-screen flex items-center justify-center text-white" style="background: linear-gradient(${
+            fullWebsite?.hero?.overlay || "rgba(0, 0, 0, 0.5)"
+          }, ${fullWebsite?.hero?.overlay || "rgba(0, 0, 0, 0.5)"}), url('${
+        fullWebsite?.hero?.backgroundImage || "/real_estate_hero.jpg"
+      }'); background-size: cover; background-position: center;">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+                ${fullWebsite?.hero?.title || "Find Your Dream Home"}
+              </h1>
+              <p class="text-xl md:text-2xl mb-12 opacity-95 max-w-3xl mx-auto leading-relaxed">
+                ${
+                  fullWebsite?.hero?.subtitle ||
+                  "Premier real estate services for buyers, sellers, and investors"
+                }
+              </p>
+              <div class="flex gap-6 justify-center flex-wrap">
+                <button class="bg-green-600 hover:bg-green-700 text-white px-10 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                  ${fullWebsite?.hero?.buttonText || "Search Properties"}
+                </button>
+                <button class="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-10 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                  ${fullWebsite?.hero?.buttonSecondary || "List Property"}
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Featured Properties Section -->
+          <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Featured Properties</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                  ${
+                    fullWebsite?.properties?.description ||
+                    "Discover exceptional homes in prime locations"
+                  }
+                </p>
+              </div>
+              <div class="grid md:grid-cols-3 gap-8">
+                ${
+                  (fullWebsite?.properties?.featured &&
+                    fullWebsite.properties.featured
+                      .map(
+                        (property) => `
+                  <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                    <img src="${property.image}" alt="${property.title}" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                      <h3 class="text-xl font-bold text-gray-900 mb-2">${property.title}</h3>
+                      <p class="text-gray-600 mb-2">${property.address}</p>
+                      <p class="text-2xl font-bold text-green-600 mb-4">${property.price}</p>
+                      <div class="flex items-center text-gray-500 text-sm mb-4">
+                        <span class="mr-4">${property.bedrooms} beds</span>
+                        <span class="mr-4">${property.bathrooms} baths</span>
+                        <span>${property.sqft} sqft</span>
+                      </div>
+                      <button class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors">
+                        View Details
+                      </button>
+                    </div>
+                  </div>
+                `
+                      )
+                      .join("")) ||
+                  `
+                  <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                    <img src="/property1.jpg" alt="Modern Family Home" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                      <h3 class="text-xl font-bold text-gray-900 mb-2">Modern Family Home</h3>
+                      <p class="text-gray-600 mb-2">123 Oak Street, Suburb</p>
+                      <p class="text-2xl font-bold text-green-600 mb-4">$750,000</p>
+                      <div class="flex items-center text-gray-500 text-sm mb-4">
+                        <span class="mr-4">4 beds</span>
+                        <span class="mr-4">3 baths</span>
+                        <span>2,400 sqft</span>
+                      </div>
+                      <button class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors">
+                        View Details
+                      </button>
+                    </div>
+                  </div>
+                  <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                    <img src="/property2.jpg" alt="Luxury Condo" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                      <h3 class="text-xl font-bold text-gray-900 mb-2">Luxury Condo</h3>
+                      <p class="text-gray-600 mb-2">456 Downtown Ave, City Center</p>
+                      <p class="text-2xl font-bold text-green-600 mb-4">$950,000</p>
+                      <div class="flex items-center text-gray-500 text-sm mb-4">
+                        <span class="mr-4">3 beds</span>
+                        <span class="mr-4">2 baths</span>
+                        <span>1,800 sqft</span>
+                      </div>
+                      <button class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors">
+                        View Details
+                      </button>
+                    </div>
+                  </div>
+                  <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                    <img src="/property3.jpg" alt="Suburban Villa" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                      <h3 class="text-xl font-bold text-gray-900 mb-2">Suburban Villa</h3>
+                      <p class="text-gray-600 mb-2">789 Garden Lane, Suburb</p>
+                      <p class="text-2xl font-bold text-green-600 mb-4">$1,200,000</p>
+                      <div class="flex items-center text-gray-500 text-sm mb-4">
+                        <span class="mr-4">5 beds</span>
+                        <span class="mr-4">4 baths</span>
+                        <span>3,200 sqft</span>
+                      </div>
+                      <button class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors">
+                        View Details
+                      </button>
+                    </div>
+                  </div>
+                `
+                }
+              </div>
+            </div>
+          </section>
+
+          <!-- Footer -->
+          <footer class="bg-gray-900 text-white py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                  <h3 class="text-2xl font-bold mb-4">${
+                    fullWebsite?.footer?.logo || "Real Estate"
+                  }</h3>
+                  <p class="text-gray-400 mb-6">${
+                    fullWebsite?.footer?.description ||
+                    "Your trusted partner in real estate"
+                  }</p>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Quick Links</h4>
+                  <ul class="space-y-2">
+                    <li><button data-nav="home" class="text-gray-400 hover:text-white transition-colors">Home</button></li>
+                    <li><button data-nav="properties" class="text-gray-400 hover:text-white transition-colors">Properties</button></li>
+                    <li><button data-nav="agents" class="text-gray-400 hover:text-white transition-colors">Agents</button></li>
+                    <li><button data-nav="contact" class="text-gray-400 hover:text-white transition-colors">Contact</button></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Services</h4>
+                  <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Buy a Home</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Sell a Home</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Property Management</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Investment</a></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Contact</h4>
+                  <p class="text-gray-400">${
+                    fullWebsite?.contact?.email || "info@realestate.com"
+                  }</p>
+                  <p class="text-gray-400">${
+                    fullWebsite?.contact?.phone || "+1 (555) 123-4567"
+                  }</p>
+                </div>
+              </div>
+              <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p class="text-gray-400">
+                  ${
+                    fullWebsite?.footer?.copyright ||
+                    "© 2024 Real Estate. All rights reserved."
+                  }
+                </p>
+              </div>
+            </div>
+          </footer>
+        </div>
+      `;
+    }
+
+    // Medical Practice website
+    if (website.category === "medical") {
+      return `
+        <div class="min-h-screen bg-gray-50">
+          <!-- Navigation -->
+          <nav class="bg-white shadow-sm sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="flex justify-between items-center py-4">
+                <button data-nav="home" class="text-2xl font-bold text-gray-900">${
+                  fullWebsite?.navigation?.logo || "Medical Practice"
+                }</button>
+                <div class="hidden md:flex space-x-8">
+                  <button data-nav="home" class="text-gray-900 font-medium">Home</button>
+                  <button data-nav="services" class="text-gray-500 hover:text-gray-900">Services</button>
+                  <button data-nav="doctors" class="text-gray-500 hover:text-gray-900">Doctors</button>
+                  <button data-nav="appointments" class="text-gray-500 hover:text-gray-900">Appointments</button>
+                  <button data-nav="contact" class="text-gray-500 hover:text-gray-900">Contact</button>
+                </div>
+              </div>
+            </div>
+          </nav>
+
+          <!-- Hero Section -->
+          <section class="relative min-h-screen flex items-center justify-center text-white" style="background: linear-gradient(${
+            fullWebsite?.hero?.overlay || "rgba(0, 0, 0, 0.6)"
+          }, ${fullWebsite?.hero?.overlay || "rgba(0, 0, 0, 0.6)"}), url('${
+        fullWebsite?.hero?.backgroundImage || "/medical_hero.jpg"
+      }'); background-size: cover; background-position: center;">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+                ${fullWebsite?.hero?.title || "Compassionate Healthcare"}
+              </h1>
+              <p class="text-xl md:text-2xl mb-12 opacity-95 max-w-3xl mx-auto leading-relaxed">
+                ${
+                  fullWebsite?.hero?.subtitle ||
+                  "Quality medical care with a personal touch"
+                }
+              </p>
+              <div class="flex gap-6 justify-center flex-wrap">
+                <button class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                  ${fullWebsite?.hero?.buttonText || "Book Appointment"}
+                </button>
+                <button class="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-10 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                  ${fullWebsite?.hero?.buttonSecondary || "Learn More"}
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Services Section -->
+          <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Our Services</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                  ${
+                    fullWebsite?.services?.description ||
+                    "Comprehensive medical services for all your healthcare needs"
+                  }
+                </p>
+              </div>
+              <div class="grid md:grid-cols-3 gap-8">
+                ${
+                  (fullWebsite?.services?.items &&
+                    fullWebsite.services.items
+                      .map(
+                        (service) => `
+                  <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+                    <div class="text-4xl mb-4">${service.icon}</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">${service.title}</h3>
+                    <p class="text-gray-600 mb-6">${service.description}</p>
+                    <button class="text-blue-600 font-semibold hover:text-blue-800 transition-colors">
+                      Learn More →
+                    </button>
+                  </div>
+                `
+                      )
+                      .join("")) ||
+                  `
+                  <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+                    <div class="text-4xl mb-4">🩺</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Primary Care</h3>
+                    <p class="text-gray-600 mb-6">Comprehensive primary healthcare services for all ages</p>
+                    <button class="text-blue-600 font-semibold hover:text-blue-800 transition-colors">
+                      Learn More →
+                    </button>
+                  </div>
+                  <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+                    <div class="text-4xl mb-4">🦷</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Dental Care</h3>
+                    <p class="text-gray-600 mb-6">Complete dental services including preventive and cosmetic care</p>
+                    <button class="text-blue-600 font-semibold hover:text-blue-800 transition-colors">
+                      Learn More →
+                    </button>
+                  </div>
+                  <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+                    <div class="text-4xl mb-4">👁️</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Eye Care</h3>
+                    <p class="text-gray-600 mb-6">Professional eye examinations and vision correction services</p>
+                    <button class="text-blue-600 font-semibold hover:text-blue-800 transition-colors">
+                      Learn More →
+                    </button>
+                  </div>
+                `
+                }
+              </div>
+            </div>
+          </section>
+
+          <!-- Footer -->
+          <footer class="bg-gray-900 text-white py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                  <h3 class="text-2xl font-bold mb-4">${
+                    fullWebsite?.footer?.logo || "Medical Practice"
+                  }</h3>
+                  <p class="text-gray-400 mb-6">${
+                    fullWebsite?.footer?.description ||
+                    "Compassionate healthcare for you and your family"
+                  }</p>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Quick Links</h4>
+                  <ul class="space-y-2">
+                    <li><button data-nav="home" class="text-gray-400 hover:text-white transition-colors">Home</button></li>
+                    <li><button data-nav="services" class="text-gray-400 hover:text-white transition-colors">Services</button></li>
+                    <li><button data-nav="doctors" class="text-gray-400 hover:text-white transition-colors">Doctors</button></li>
+                    <li><button data-nav="contact" class="text-gray-400 hover:text-white transition-colors">Contact</button></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Services</h4>
+                  <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Primary Care</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Dental Care</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Eye Care</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Emergency Care</a></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Contact</h4>
+                  <p class="text-gray-400">${
+                    fullWebsite?.contact?.email || "info@medicalpractice.com"
+                  }</p>
+                  <p class="text-gray-400">${
+                    fullWebsite?.contact?.phone || "+1 (555) 123-4567"
+                  }</p>
+                  <p class="text-gray-400">Emergency: ${
+                    fullWebsite?.contact?.emergency || "+1 (555) 911-0000"
+                  }</p>
+                </div>
+              </div>
+              <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p class="text-gray-400">
+                  ${
+                    fullWebsite?.footer?.copyright ||
+                    "© 2024 Medical Practice. All rights reserved."
+                  }
+                </p>
+              </div>
+            </div>
+          </footer>
+        </div>
+      `;
+    }
+
+    // Photography Studio website
+    if (website.category === "photography") {
+      return `
+        <div class="min-h-screen bg-gray-50">
+          <!-- Navigation -->
+          <nav class="bg-white shadow-sm sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="flex justify-between items-center py-4">
+                <button data-nav="home" class="text-2xl font-bold text-gray-900">${
+                  fullWebsite?.navigation?.logo || "Photography Studio"
+                }</button>
+                <div class="hidden md:flex space-x-8">
+                  <button data-nav="home" class="text-gray-900 font-medium">Home</button>
+                  <button data-nav="portfolio" class="text-gray-500 hover:text-gray-900">Portfolio</button>
+                  <button data-nav="services" class="text-gray-500 hover:text-gray-900">Services</button>
+                  <button data-nav="about" class="text-gray-500 hover:text-gray-900">About</button>
+                  <button data-nav="contact" class="text-gray-500 hover:text-gray-900">Contact</button>
+                </div>
+              </div>
+            </div>
+          </nav>
+
+          <!-- Hero Section -->
+          <section class="relative min-h-screen flex items-center justify-center text-white" style="background: linear-gradient(${
+            fullWebsite?.hero?.overlay || "rgba(0, 0, 0, 0.5)"
+          }, ${fullWebsite?.hero?.overlay || "rgba(0, 0, 0, 0.5)"}), url('${
+        fullWebsite?.hero?.backgroundImage || "/photography_hero.jpg"
+      }'); background-size: cover; background-position: center;">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+                ${fullWebsite?.hero?.title || "Capture Your Moments"}
+              </h1>
+              <p class="text-xl md:text-2xl mb-12 opacity-95 max-w-3xl mx-auto leading-relaxed">
+                ${
+                  fullWebsite?.hero?.subtitle ||
+                  "Professional photography services for weddings, portraits, and events"
+                }
+              </p>
+              <div class="flex gap-6 justify-center flex-wrap">
+                <button class="bg-pink-600 hover:bg-pink-700 text-white px-10 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                  ${fullWebsite?.hero?.buttonText || "Book Session"}
+                </button>
+                <button class="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-10 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                  ${fullWebsite?.hero?.buttonSecondary || "View Portfolio"}
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Services Section -->
+          <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Photography Services</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                  ${
+                    fullWebsite?.services?.description ||
+                    "Professional photography for all your special moments"
+                  }
+                </p>
+              </div>
+              <div class="grid md:grid-cols-3 gap-8">
+                ${
+                  (fullWebsite?.services?.items &&
+                    fullWebsite.services.items
+                      .map(
+                        (service) => `
+                  <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+                    <div class="text-4xl mb-4">${service.icon}</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">${service.title}</h3>
+                    <p class="text-gray-600 mb-6">${service.description}</p>
+                    <button class="text-pink-600 font-semibold hover:text-pink-800 transition-colors">
+                      Learn More →
+                    </button>
+                  </div>
+                `
+                      )
+                      .join("")) ||
+                  `
+                  <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+                    <div class="text-4xl mb-4">💒</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Wedding Photography</h3>
+                    <p class="text-gray-600 mb-6">Capture your special day with beautiful, timeless wedding photography</p>
+                    <button class="text-pink-600 font-semibold hover:text-pink-800 transition-colors">
+                      Learn More →
+                    </button>
+                  </div>
+                  <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+                    <div class="text-4xl mb-4">👨‍👩‍👧‍👦</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Portrait Sessions</h3>
+                    <p class="text-gray-600 mb-6">Professional portrait photography for individuals, families, and children</p>
+                    <button class="text-pink-600 font-semibold hover:text-pink-800 transition-colors">
+                      Learn More →
+                    </button>
+                  </div>
+                  <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+                    <div class="text-4xl mb-4">🎉</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Event Photography</h3>
+                    <p class="text-gray-600 mb-6">Document your corporate events, parties, and special occasions</p>
+                    <button class="text-pink-600 font-semibold hover:text-pink-800 transition-colors">
+                      Learn More →
+                    </button>
+                  </div>
+                `
+                }
+              </div>
+            </div>
+          </section>
+
+          <!-- Footer -->
+          <footer class="bg-gray-900 text-white py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                  <h3 class="text-2xl font-bold mb-4">${
+                    fullWebsite?.footer?.logo || "Photography Studio"
+                  }</h3>
+                  <p class="text-gray-400 mb-6">${
+                    fullWebsite?.footer?.description ||
+                    "Capturing life's precious moments with artistic excellence"
+                  }</p>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Quick Links</h4>
+                  <ul class="space-y-2">
+                    <li><button data-nav="home" class="text-gray-400 hover:text-white transition-colors">Home</button></li>
+                    <li><button data-nav="portfolio" class="text-gray-400 hover:text-white transition-colors">Portfolio</button></li>
+                    <li><button data-nav="services" class="text-gray-400 hover:text-white transition-colors">Services</button></li>
+                    <li><button data-nav="contact" class="text-gray-400 hover:text-white transition-colors">Contact</button></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Services</h4>
+                  <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Wedding Photography</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Portrait Sessions</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Event Photography</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Commercial Photography</a></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-4">Contact</h4>
+                  <p class="text-gray-400">${
+                    fullWebsite?.contact?.email || "info@photographystudio.com"
+                  }</p>
+                  <p class="text-gray-400">${
+                    fullWebsite?.contact?.phone || "+1 (555) 123-4567"
+                  }</p>
+                </div>
+              </div>
+              <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p class="text-gray-400">
+                  ${
+                    fullWebsite?.footer?.copyright ||
+                    "© 2024 Photography Studio. All rights reserved."
+                  }
+                </p>
+              </div>
+            </div>
+          </footer>
         </div>
       `;
     }

@@ -191,7 +191,9 @@ const PricingPage = () => {
                     {plan.features.map((feature, featureIndex) => (
                       <div key={featureIndex} className="flex items-start">
                         <Check className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" />
-                        <span className="text-gray-700 text-sm">{feature}</span>
+                        <span className="text-gray-700 text-sm">
+                          {typeof feature === "string" ? feature : feature.title || feature}
+                        </span>
                       </div>
                     ))}
                   </div>

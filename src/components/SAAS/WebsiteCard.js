@@ -2,23 +2,26 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Eye, Settings, Star, Crown, ExternalLink } from "lucide-react";
 import Image from "next/image";
+import { useAuth } from "@/contexts/AuthContext";
 
 const WebsiteCard = ({ website, viewMode, onSelect, onPreview }) => {
+  const { requireAuth } = useAuth();
+
   const handlePreview = (e) => {
     e.stopPropagation();
-    onPreview(website);
+    requireAuth(() => onPreview(website));
   };
 
   const handleCustomize = (e) => {
     e.stopPropagation();
-    onSelect(website);
+    requireAuth(() => onSelect(website));
   };
 
   if (viewMode === "list") {
     return (
       <motion.div
         whileHover={{ y: -2 }}
-        className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200/50 overflow-hidden hover:shadow-xl transition-all duration-300"
+        className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200/50 overflow-hidden hover:shadow-xl transition-all duration-300 h-full"
       >
         <div className="flex">
           {/* Image */}
@@ -65,7 +68,7 @@ const WebsiteCard = ({ website, viewMode, onSelect, onPreview }) => {
                   key={index}
                   className="bg-blue-50 text-blue-700 px-2 py-1 rounded-full text-xs font-medium"
                 >
-                  {feature}
+                  {typeof feature === "string" ? feature : feature.title || feature}
                 </span>
               ))}
               {website.features.length > 4 && (
@@ -102,10 +105,10 @@ const WebsiteCard = ({ website, viewMode, onSelect, onPreview }) => {
   return (
     <motion.div
       whileHover={{ y: -4 }}
-      className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200/50 overflow-hidden hover:shadow-xl transition-all duration-300 group"
+      className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200/50 overflow-hidden hover:shadow-xl transition-all duration-300 group h-full flex flex-col"
     >
       {/* Image */}
-      <div className="relative h-48 overflow-hidden">
+      <div className="relative h-48 overflow-hidden flex-shrink-0">
         <Image
           src={website.preview || "/api/preview/placeholder"}
           alt={website.name}
@@ -140,7 +143,7 @@ const WebsiteCard = ({ website, viewMode, onSelect, onPreview }) => {
       </div>
 
       {/* Content */}
-      <div className="p-6">
+      <div className="p-6 flex flex-col flex-grow">
         <div className="flex items-start justify-between mb-3">
           <h3 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
             {website.name}
@@ -150,18 +153,18 @@ const WebsiteCard = ({ website, viewMode, onSelect, onPreview }) => {
           </span>
         </div>
 
-        <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+        <p className="text-gray-600 text-sm mb-4 line-clamp-2 flex-grow">
           {website.description}
         </p>
 
         {/* Features */}
-        <div className="flex flex-wrap gap-1 mb-4">
+        <div className="flex flex-wrap gap-1 mb-4 flex-shrink-0">
           {website.features.slice(0, 3).map((feature, index) => (
             <span
               key={index}
               className="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs font-medium"
             >
-              {feature}
+              {typeof feature === "string" ? feature : feature.title || feature}
             </span>
           ))}
           {website.features.length > 3 && (
@@ -172,7 +175,7 @@ const WebsiteCard = ({ website, viewMode, onSelect, onPreview }) => {
         </div>
 
         {/* Stats */}
-        <div className="flex items-center justify-between text-xs text-gray-500 mb-4">
+        <div className="flex items-center justify-between text-xs text-gray-500 mb-4 flex-shrink-0">
           <span className="flex items-center gap-1">
             <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
             4.9
@@ -181,7 +184,7 @@ const WebsiteCard = ({ website, viewMode, onSelect, onPreview }) => {
         </div>
 
         {/* Actions */}
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-shrink-0">
           <button
             onClick={handlePreview}
             className="flex-1 flex items-center justify-center gap-2 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
